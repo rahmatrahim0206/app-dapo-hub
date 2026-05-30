@@ -73,10 +73,10 @@
 
       <!-- Bilah Aksi Kanan -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Tombol PWA Install Pintar (Selalu Muncul sebagai Fallback Cerdas di Windows & Android) -->
+        <!-- Tombol PWA Install Pintar (Dapat berubah ukuran secara dinamis via JS) -->
         <div id="pwa-install-container">
-          <button onclick="installPWA()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] sm:text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/10 transition-all duration-200">
-            <i class="fa-solid fa-download"></i> Pasang Aplikasi
+          <button id="pwa-install-btn" onclick="installPWA()" class="p-2 bg-white hover:bg-slate-100 text-slate-500 hover:text-sky-600 border border-slate-200 rounded-lg shadow-sm transition-all flex items-center justify-center gap-1.5" title="Panduan Pasang DAPO-HUB">
+            <i class="fa-solid fa-circle-info text-sm"></i>
           </button>
         </div>
 
@@ -472,10 +472,10 @@
       <p class="text-xs text-slate-500 mb-6">Apakah Anda yakin ingin menghapus tautan kustom ini? Tindakan ini tidak dapat dibatalkan.</p>
       
       <div class="flex gap-3">
-        <button onclick="toggleModal('deleteConfirmModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition animate-all">
+        <button onclick="toggleModal('deleteConfirmModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition">
           Batal
         </button>
-        <button id="confirm-delete-btn" class="flex-1 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-lg text-xs transition animate-all">
+        <button id="confirm-delete-btn" class="flex-1 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-lg text-xs transition">
           Hapus Permanen
         </button>
       </div>
@@ -545,7 +545,7 @@
         </ul>
         <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 shadow-inner">
           <span class="block text-[10px] font-bold text-slate-500 mb-1">Status Caching Mandiri:</span>
-          <p id="cache-tech-status" class="text-emerald-600 font-mono">Inisiasi cache latar belakang aktif...</p>
+          <p id="cache-tech-status" class="text-emerald-600 font-mono">Penyimpanan Offline Service Worker Aktif Berkelanjutan.</p>
         </div>
       </div>
     </div>
@@ -561,10 +561,10 @@
       <p class="text-xs text-slate-500 mb-6">Apakah Anda yakin ingin mengembalikan seluruh daftar tautan ke setelan bawaan? Seluruh tautan kustom yang telah Anda buat akan dihapus.</p>
       
       <div class="flex gap-3">
-        <button onclick="toggleModal('resetConfirmModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition animate-all">
+        <button onclick="toggleModal('resetConfirmModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition">
           Batal
         </button>
-        <button onclick="executeResetLinks()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg text-xs transition animate-all">
+        <button onclick="executeResetLinks()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg text-xs transition">
           Ya, Reset
         </button>
       </div>
@@ -581,17 +581,17 @@
       <p class="text-xs text-slate-500 mb-6 leading-relaxed">Tindakan ini akan mematikan fitur pengunci layar dan mereset passkey saat ini agar Anda dapat masuk kembali ke portal. Seluruh data tautan kustom dan catatan Anda tetap utuh.</p>
       
       <div class="flex gap-3">
-        <button onclick="toggleModal('emergencyResetModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition animate-all">
+        <button onclick="toggleModal('emergencyResetModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition">
           Batal
         </button>
-        <button onclick="executeEmergencyResetSession()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg text-xs transition animate-all">
+        <button onclick="executeEmergencyResetSession()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg text-xs transition">
           Ya, Reset Sesi
         </button>
       </div>
     </div>
   </div>
 
-  <!-- PWA Panduan Instalasi Manual Modal (BARU - Memperbaiki Tombol Pasang di Windows & Perangkat Klien) -->
+  <!-- PWA Panduan Instalasi Manual Modal -->
   <div id="pwaManualGuideModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl text-center">
       <div class="w-14 h-14 bg-emerald-500/10 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -894,12 +894,20 @@
         motto: "Sedikit bicara banyak kerjaannya"
       };
 
-      const nama = localStorage.getItem('dapo_profile_nama') || defaults.nama;
-      const npsn = localStorage.getItem('dapo_profile_npsn') || defaults.npsn;
-      const status = localStorage.getItem('dapo_profile_status') || defaults.status;
-      const op = localStorage.getItem('dapo_profile_operator') || defaults.operator;
-      const akreditasi = localStorage.getItem('dapo_profile_akreditasi') || defaults.akreditasi;
-      const motto = localStorage.getItem('dapo_profile_motto') || defaults.motto;
+      // PERBAIKAN SINKRONISASI: Menjamin default ditulis ke localStorage jika kunci belum terinisialisasi
+      if (!localStorage.getItem('dapo_profile_nama')) localStorage.setItem('dapo_profile_nama', defaults.nama);
+      if (!localStorage.getItem('dapo_profile_npsn')) localStorage.setItem('dapo_profile_npsn', defaults.npsn);
+      if (!localStorage.getItem('dapo_profile_status')) localStorage.setItem('dapo_profile_status', defaults.status);
+      if (!localStorage.getItem('dapo_profile_operator')) localStorage.setItem('dapo_profile_operator', defaults.operator);
+      if (!localStorage.getItem('dapo_profile_akreditasi')) localStorage.setItem('dapo_profile_akreditasi', defaults.akreditasi);
+      if (!localStorage.getItem('dapo_profile_motto')) localStorage.setItem('dapo_profile_motto', defaults.motto);
+
+      const nama = localStorage.getItem('dapo_profile_nama');
+      const npsn = localStorage.getItem('dapo_profile_npsn');
+      const status = localStorage.getItem('dapo_profile_status');
+      const op = localStorage.getItem('dapo_profile_operator');
+      const akreditasi = localStorage.getItem('dapo_profile_akreditasi');
+      const motto = localStorage.getItem('dapo_profile_motto');
 
       document.getElementById('view-nama-sekolah').textContent = nama;
       document.getElementById('view-npsn').textContent = `NPSN: ${npsn} • ${status}`;
@@ -1411,7 +1419,6 @@
       renderAgenda();
     }
 
-    // Hapus tugas agenda
     function deleteAgendaItem(idx) {
       agenda.splice(idx, 1);
       localStorage.setItem('dapo_agenda', JSON.stringify(agenda));
@@ -1547,21 +1554,34 @@
     window.addEventListener('beforeinstallprompt', (event) => {
       event.preventDefault();
       deferredPrompt = event;
-      // Native prompt dideteksi, ubah teks tombol jika diperlukan
+      
+      // PERBAIKAN PWA: Tombol otomatis memanjang jika sistem mendeteksi kesiapan instalasi native
+      const installBtn = document.getElementById('pwa-install-btn');
+      if (installBtn) {
+        installBtn.className = "px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] sm:text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/10 transition-all duration-200";
+        installBtn.innerHTML = '<i class="fa-solid fa-download"></i> Pasang Aplikasi';
+        installBtn.title = "Pasang aplikasi DAPO-HUB di perangkat ini";
+      }
     });
 
     function installPWA() {
       if (deferredPrompt) {
-        // PWA Native Installer didukung di browser ini
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
             showToast("Dapo-Hub berhasil dipasang pada perangkat!");
+            
+            // Kembalikan tombol ke ikon info setelah berhasil diinstal
+            const installBtn = document.getElementById('pwa-install-btn');
+            if (installBtn) {
+              installBtn.className = "p-2 bg-white hover:bg-slate-100 text-slate-500 hover:text-sky-600 border border-slate-200 rounded-lg shadow-sm transition-all flex items-center justify-center";
+              installBtn.innerHTML = '<i class="fa-solid fa-circle-info text-sm"></i>';
+              installBtn.title = "Panduan Pasang DAPO-HUB";
+            }
           }
           deferredPrompt = null;
         });
       } else {
-        // Tampilkan modal panduan manual jika native installer diblokir/tidak didukung Windows
         toggleModal('pwaManualGuideModal', true);
       }
     }
@@ -1602,7 +1622,6 @@
     window.addEventListener('online', updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
 
-    // Escape Key Listener untuk Menutup Modal secara Instan
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         toggleModal('profileModal', false);
@@ -1616,7 +1635,6 @@
       }
     });
 
-    // Ekspos fungsi global untuk interaksi DOM
     window.editProfile = editProfile;
     window.saveProfile = saveProfile;
     window.toggleModal = toggleModal;
