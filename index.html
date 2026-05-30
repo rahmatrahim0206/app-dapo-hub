@@ -43,9 +43,9 @@
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen selection:bg-sky-500 selection:text-white">
 
-  <!-- ==================== HEADER UTAMA ==================== -->
+  <!-- ==================== HEADER UTAMA (Lebar Maksimal Dioptimalkan ke 1600px) ==================== -->
   <header class="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-40 transition-colors duration-300 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 h-16 flex items-center justify-between">
       
       <!-- Brand Logo & Status Koneksi -->
       <div class="flex items-center gap-3">
@@ -73,10 +73,10 @@
 
       <!-- Bilah Aksi Kanan -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Banner PWA Install -->
-        <div id="pwa-install-container" class="hidden">
+        <!-- Tombol PWA Install Pintar (Selalu Muncul sebagai Fallback Cerdas di Windows & Android) -->
+        <div id="pwa-install-container">
           <button onclick="installPWA()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] sm:text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/10 transition-all duration-200">
-            <i class="fa-solid fa-download"></i> Pasang
+            <i class="fa-solid fa-download"></i> Pasang Aplikasi
           </button>
         </div>
 
@@ -103,8 +103,8 @@
     </div>
   </header>
 
-  <!-- ==================== KONTEN UTAMA ==================== -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
+  <!-- ==================== KONTEN UTAMA (Dilebarkan ke 1600px untuk Tablet 12 Inci) ==================== -->
+  <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-8 flex flex-col gap-8">
     
     <!-- Profil Sekolah Banner (Dinamis via LocalStorage) -->
     <section class="relative bg-gradient-to-r from-sky-50/40 via-white to-indigo-50/40 border border-slate-200 rounded-2xl p-6 sm:p-8 overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-md">
@@ -112,7 +112,7 @@
       <div class="absolute -right-24 -bottom-24 w-72 h-72 rounded-full bg-sky-500/10 blur-3xl pointer-events-none"></div>
       <div class="absolute -left-24 -top-24 w-72 h-72 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none"></div>
 
-      <!-- Detail Kiri: Profil Sekolah & Operator (Dipercantik) -->
+      <!-- Detail Kiri: Profil Sekolah & Operator -->
       <div class="flex items-center gap-5 relative z-10 flex-1">
         <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 p-0.5 shadow-md flex-shrink-0">
           <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
@@ -134,7 +134,7 @@
         </div>
       </div>
 
-      <!-- Detail Kanan: Status Akreditasi & Slogan Pelayanan -->
+      <!-- Detail Kanan: Status Akreditasi & Slogan Pelayanan (Tidak Dipotong) -->
       <div class="flex flex-wrap items-center gap-4 relative z-10 md:text-right shrink-0">
         <div class="bg-white/70 backdrop-blur-sm border border-slate-200 rounded-xl px-4 py-2 shadow-sm min-w-[150px]">
           <span class="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Status Akreditasi</span>
@@ -283,7 +283,7 @@
 
   <!-- ==================== FOOTER (PENGEMBANG PERMANEN - TIDAK BISA DIHAPUS) ==================== -->
   <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p>&copy; 2026 <span class="font-bold text-slate-600">DAPO-HUB</span>. Dikembangkan oleh <span class="font-bold text-slate-700">Rahmat Rahim (OPS SMP Negeri 3 Makassar)</span> khusus untuk efisiensi integrasi data Operator Sekolah.</p>
       <div class="flex gap-4">
         <a href="https://dapo.kemendikdasmen.go.id" target="_blank" class="hover:text-sky-600 transition">Beranda Dapodik Kemendikdasmen</a>
@@ -591,6 +591,32 @@
     </div>
   </div>
 
+  <!-- PWA Panduan Instalasi Manual Modal (BARU - Memperbaiki Tombol Pasang di Windows & Perangkat Klien) -->
+  <div id="pwaManualGuideModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl text-center">
+      <div class="w-14 h-14 bg-emerald-500/10 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fa-solid fa-laptop text-2xl"></i>
+      </div>
+      <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest mb-2">Pasang DAPO-HUB</h3>
+      <p class="text-xs text-slate-500 mb-6 leading-relaxed">Nikmati akses luring penuh (*offline*) dengan memasang portal ini ke perangkat Windows atau Android Anda.</p>
+      
+      <div class="text-left bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6 text-xs flex flex-col gap-3">
+        <div class="flex gap-3 items-start">
+          <span class="w-5 h-5 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-[10px] shrink-0">1</span>
+          <p class="text-slate-600">Klik ikon **Pasang / Install** (berbentuk layar dengan panah ke bawah) yang muncul di sebelah kanan **Address Bar** browser Chrome/Edge Anda.</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="w-5 h-5 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-[10px] shrink-0">2</span>
+          <p class="text-slate-600">Jika Anda menggunakan perangkat Android, ketuk tombol opsi (titik tiga) di pojok kanan atas browser, lalu ketuk **Tambahkan ke Layar Utama** (*Add to Home screen*).</p>
+        </div>
+      </div>
+      
+      <button onclick="toggleModal('pwaManualGuideModal', false)" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+        Saya Mengerti, Tutup Panduan
+      </button>
+    </div>
+  </div>
+
   <!-- Pemberitahuan Berjangka (Sistem Toast Elegan) -->
   <div id="toast" class="opacity-0 translate-y-4 pointer-events-none fixed bottom-6 right-6 bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-800 flex items-center gap-2.5 shadow-2xl transition-all duration-300 z-50">
     <span id="toast-icon" class="text-sky-500"><i class="fa-solid fa-circle-check"></i></span>
@@ -797,7 +823,6 @@
       const isLocked = localStorage.getItem(SESSION_LOCK_KEY);
       if (isLocked === "true" || isLocked === null) {
         document.getElementById('sessionLockModal').classList.remove('hidden');
-        // Arahkan kursor ke input secara otomatis saat terkunci demi kenyamanan UX
         setTimeout(() => {
           const passInput = document.getElementById('session-passkey');
           if (passInput) passInput.focus();
@@ -842,12 +867,10 @@
       }
     }
 
-    // Prosedur Membuka Dialog Darurat Lupa Passkey Layar Kunci
     function requestEmergencyResetSession() {
       toggleModal('emergencyResetModal', true);
     }
 
-    // Eksekusi Reset Sesi Tanpa Hilang Data Link & Tugas Kustom
     function executeEmergencyResetSession() {
       localStorage.setItem('dapo_use_passkey', 'false');
       localStorage.setItem(SESSION_LOCK_KEY, 'false');
@@ -978,9 +1001,9 @@
       showToast("Profil sekolah berhasil disimpan!");
     }
 
-    // ==========================================
+    // ==========================================================
     // BAGIAN 5: INTEGRASI LAYANAN / MANAJEMEN TAUTAN PORTAL
-    // ==========================================
+    // ==========================================================
     function renderLinks(filteredLinks = null) {
       const target = document.getElementById('links-container');
       if (!target) return;
@@ -998,7 +1021,6 @@
         return;
       }
 
-      // Daftar 8 Kategori Lengkap yang Terstruktur Baru
       const categories = ["Utama", "Verifikasi", "Keuangan", "Sertifikasi", "Kepegawaian", "Ujian", "Daerah", "Utilitas"];
       
       categories.forEach(cat => {
@@ -1389,6 +1411,7 @@
       renderAgenda();
     }
 
+    // Hapus tugas agenda
     function deleteAgendaItem(idx) {
       agenda.splice(idx, 1);
       localStorage.setItem('dapo_agenda', JSON.stringify(agenda));
@@ -1492,12 +1515,17 @@
       const manifestObj = {
         name: "DAPO-HUB Portal Integrasi Operator",
         short_name: "DAPO-HUB",
-        start_url: ".",
+        start_url: "./index.html",
         display: "standalone",
         background_color: "#f8fafc",
         theme_color: "#ffffff",
         description: "Portal integrasi tautan operator dapodik sekolah dengan dukungan offline penuh.",
         icons: [
+          {
+            src: "https://cdn-icons-png.flaticon.com/512/2210/2210143.png",
+            sizes: "192x192",
+            type: "image/png"
+          },
           {
             src: "https://cdn-icons-png.flaticon.com/512/2210/2210143.png",
             sizes: "512x512",
@@ -1516,62 +1544,31 @@
     }
 
     let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      const installContainer = document.getElementById('pwa-install-container');
-      if (installContainer) installContainer.classList.remove('hidden');
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      deferredPrompt = event;
+      // Native prompt dideteksi, ubah teks tombol jika diperlukan
     });
 
     function installPWA() {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          showToast("Dapo-Hub berhasil dipasang pada perangkat!");
-        }
-        const installContainer = document.getElementById('pwa-install-container');
-        if (installContainer) installContainer.classList.add('hidden');
-        deferredPrompt = null;
-      });
+      if (deferredPrompt) {
+        // PWA Native Installer didukung di browser ini
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            showToast("Dapo-Hub berhasil dipasang pada perangkat!");
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        // Tampilkan modal panduan manual jika native installer diblokir/tidak didukung Windows
+        toggleModal('pwaManualGuideModal', true);
+      }
     }
 
     function registerServiceWorker() {
       if ('serviceWorker' in navigator) {
-        const currentPath = window.location.pathname;
-        const swBlobCode = `
-          const CACHE_NAME = 'dapohub-cache-v1';
-          const ASSETS = [
-            '${currentPath}',
-            'https://cdn.tailwindcss.com',
-            'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800%26display=swap',
-            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-            'https://cdn-icons-png.flaticon.com/512/2210/2210143.png'
-          ];
-
-          self.addEventListener('install', (e) => {
-            e.waitUntil(
-              caches.open(CACHE_NAME).then((cache) => {
-                return cache.addAll(ASSETS);
-              })
-            );
-          });
-
-          self.addEventListener('fetch', (e) => {
-            e.respondWith(
-              caches.match(e.request).then((cachedResponse) => {
-                return cachedResponse || fetch(e.request).catch(() => {
-                  // Safe fallback offline
-                });
-              })
-            );
-          });
-        `;
-
-        const blob = new Blob([swBlobCode], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(blob);
-
-        navigator.serviceWorker.register(swUrl)
+        navigator.serviceWorker.register('./sw.js')
           .then(() => {
             const techStatus = document.getElementById('cache-tech-status');
             if (techStatus) techStatus.textContent = "Penyimpanan Offline Service Worker Aktif Berkelanjutan.";
@@ -1615,6 +1612,7 @@
         toggleModal('techInfoModal', false);
         toggleModal('resetConfirmModal', false);
         toggleModal('emergencyResetModal', false);
+        toggleModal('pwaManualGuideModal', false);
       }
     });
 
