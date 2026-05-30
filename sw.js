@@ -8,7 +8,6 @@
 const CACHE_NAME = 'dapohub-spentig-cache-v3';
 
 // Daftar aset utama yang wajib disimpan di dalam cache untuk akses offline penuh tanpa interupsi
-// UPDATE: Menyertakan 'manifest.json' agar terdeteksi secara valid oleh Chrome Windows
 const ASSETS_TO_CACHE = [
   'index.html',
   'manifest.json',
@@ -24,7 +23,7 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // PERBAIKAN BUG UTAMA: Melakukan caching secara individual agar jika salah satu aset eksternal/internal gagal (404),
+      // Melakukan caching secara individual agar jika salah satu aset gagal (404),
       // Service Worker tetap sukses terinstall dan tombol PWA Chrome Windows tidak terblokir!
       const cachePromises = ASSETS_TO_CACHE.map((asset) => {
         return cache.add(asset).catch((err) => {
@@ -58,19 +57,18 @@ self.addEventListener('activate', (event) => {
 
 // Event: Fetch (Strategi Gabungan Cerdas: Stale-While-Revalidate untuk PWA Tercepat)
 self.addEventListener('fetch', (event) => {
-  // Hanya proses permintaan dengan metode GET
   if (event.request.method !== 'GET') return;
 
   const requestUrl = new URL(event.request.url);
 
-  // Batasi hanya memproses request dengan protokol HTTP/HTTPS
   if (!event.request.url.startsWith('http')) return;
 
   // Intersepsi khusus untuk permintaan Navigasi Utama (Offline Fallback ke index.html)
+  // PERBAIKAN: Menggunakan pencocokan dinamis yang bersahabat dengan sub-folder GitHub Pages
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() => {
-        return caches.match('index.html') || caches.match('index.html');
+        return caches.match('index.html', { ignoreSearch: true }) || caches.match(event.request);
       })
     );
     return;
@@ -78,10 +76,10 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = await cache.match(event.request);
+      // PERBAIKAN: Pencarian cache yang mengabaikan parameter pencarian URL (?query) agar lebih akurat di Windows Chrome
+      const cachedResponse = await cache.match(event.request, { ignoreSearch: true });
       
       const fetchPromise = fetch(event.request).then((networkResponse) => {
-        // Hanya simpan respons valid (status 200) ke dalam cache untuk pembaruan data di latar belakang
         if (networkResponse && networkResponse.status === 200) {
           cache.put(event.request, networkResponse.clone());
         }
@@ -90,9 +88,14 @@ self.addEventListener('fetch', (event) => {
         // Abaikan error fetch untuk aset non-navigasi saat offline
       });
 
-      // Kembalikan aset cache lokal secara instan (0ms) jika ada, 
-      // dan perbarui data di latar belakang via fetchPromise secara asinkron
       return cachedResponse || fetchPromise;
     })
   );
+});
+
+// PERBAIKAN: Menambahkan listener pesan untuk memaksa Service Worker langsung aktif tanpa menunggu halaman dimuat ulang
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
 });
