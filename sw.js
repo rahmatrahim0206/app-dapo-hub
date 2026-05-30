@@ -2,13 +2,15 @@
  * DAPO-HUB Service Worker
  * Dikembangkan oleh Rahmat Rahim (OPS SMP Negeri 3 Makassar)
  * Berkas ini menangani caching aset statis dan fungsionalitas offline PWA secara presisi.
- * Optimal untuk server lokal (localhost) maupun sub-direktori GitHub Pages.
+ * Dioptimalkan khusus untuk Domain Produksi: app.dapohub.web.id
  */
 
 const CACHE_NAME = 'dapohub-spentig-cache-v3';
 
 // Daftar aset utama yang wajib disimpan di dalam cache untuk akses offline penuh tanpa interupsi
+// PERBAIKAN: Menambahkan '/' karena aplikasi sekarang berjalan pada root domain kustom app.dapohub.web.id
 const ASSETS_TO_CACHE = [
+  '/',
   'index.html',
   'manifest.json',
   'https://cdn-icons-png.flaticon.com/512/2210/2210143.png',
@@ -64,11 +66,13 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith('http')) return;
 
   // Intersepsi khusus untuk permintaan Navigasi Utama (Offline Fallback ke index.html)
-  // PERBAIKAN: Menggunakan pencocokan dinamis yang bersahabat dengan sub-folder GitHub Pages
+  // PERBAIKAN: Dioptimalkan untuk navigasi root domain app.dapohub.web.id
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() => {
-        return caches.match('index.html', { ignoreSearch: true }) || caches.match(event.request);
+        return caches.match('index.html', { ignoreSearch: true }) || 
+               caches.match('/', { ignoreSearch: true }) || 
+               caches.match(event.request);
       })
     );
     return;
@@ -76,7 +80,7 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
-      // PERBAIKAN: Pencarian cache yang mengabaikan parameter pencarian URL (?query) agar lebih akurat di Windows Chrome
+      // Pencarian cache yang mengabaikan parameter pencarian URL (?query) agar lebih akurat
       const cachedResponse = await cache.match(event.request, { ignoreSearch: true });
       
       const fetchPromise = fetch(event.request).then((networkResponse) => {
@@ -93,7 +97,7 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// PERBAIKAN: Menambahkan listener pesan untuk memaksa Service Worker langsung aktif tanpa menunggu halaman dimuat ulang
+// Menambahkan listener pesan untuk memaksa Service Worker langsung aktif tanpa menunggu halaman dimuat ulang
 self.addEventListener('message', (event) => {
   if (event.data && event.data.action === 'skipWaiting') {
     self.skipWaiting();
