@@ -1,12 +1,12 @@
 {
-  "name": "DAPO-HUB Portal Integrasi Operator",
+  "name": "DAPO-HUB Portal Integrasi",
   "short_name": "DAPO-HUB",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f8fafc",
   "theme_color": "#0ea5e9",
   "orientation": "any",
-  "description": "Portal integrasi layanan IT dan Dapodik khusus untuk efisiensi data Operator Sekolah.",
+  "description": "Portal integrasi layanan IT dan Dapodik universal untuk efisiensi data Operator Sekolah.",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/2210/2210143.png",
