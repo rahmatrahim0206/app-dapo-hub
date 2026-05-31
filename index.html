@@ -123,7 +123,7 @@
         </div>
         <div class="min-w-0">
           <div class="flex items-center gap-2">
-            <h2 id="view-nama-sekolah" class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight truncate">Nama Sekolah Anda</h2>
+            <h2 id="view-nama-sekolah" class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight truncate">DAPO-HUB Portal Integrasi</h2>
             <button onclick="editProfile()" class="p-1 hover:bg-slate-200 rounded-md text-slate-400 hover:text-sky-600 transition flex-shrink-0" title="Edit Profil">
               <i class="fa-solid fa-pen text-xs"></i>
             </button>
@@ -324,7 +324,7 @@
         </button>
         
         <!-- Opsi Pemulihan Sesi Mandiri secara Visual -->
-        <button onclick="requestEmergencyResetSession()" class="text-[11px] text-slate-400 hover:text-rose-600 hover:underline mt-2 transition" title="Pulihkan Sesi">
+        <button onclick="requestEmergencyResetSession()" class="text-[11px] text-slate-400 hover:text-rose-600 hover:underline mt-2 transition animate-all">
           Lupa Passkey Sesi? Reset Portal
         </button>
       </div>
@@ -332,12 +332,12 @@
     </div>
   </div>
 
-  <!-- 2. Modal Profil Sekolah -->
+  <!-- 2. Modal Profil Sekolah (Diatur Berdampingan NPSN & Akreditasi) -->
   <div id="profileModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest">
-          <i class="fa-solid fa-school text-sky-500 mr-1.5"></i> Profil Sekolah
+          <i class="fa-solid fa-school text-sky-500 mr-1.5"></i> Profil Sekolah / Lembaga
         </h3>
         <button onclick="toggleModal('profileModal', false)" class="text-slate-400 hover:text-slate-800 transition">
           <i class="fa-solid fa-xmark"></i>
@@ -345,13 +345,22 @@
       </div>
       <form onsubmit="saveProfile(event)" class="flex flex-col gap-4">
         <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Sekolah</label>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Sekolah / Portal</label>
           <input type="text" id="input-nama-sekolah" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
         </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">NPSN</label>
-          <input type="text" id="input-npsn" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
+        
+        <!-- PERBAIKAN LOGIKA TAMPILAN: NPSN dan Akreditasi diposisikan berdampingan agar kompak -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">NPSN</label>
+            <input type="text" id="input-npsn" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Akreditasi</label>
+            <input type="text" id="input-akreditasi" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
+          </div>
         </div>
+
         <div>
           <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Satuan Pendidikan</label>
           <select id="input-status-sekolah" class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all">
@@ -360,12 +369,14 @@
           </select>
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Operator</label>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Operator / Admin</label>
           <input type="text" id="input-operator" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
         </div>
+        
+        <!-- KOLOM DINAMIS LINK E-RAPOR -->
         <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Akreditasi</label>
-          <input type="text" id="input-akreditasi" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Link E-Rapor Sekolah</label>
+          <input type="url" id="input-erapor" placeholder="https://..." class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
         </div>
         
         <!-- Opsi Tambahan & Form Pembuatan Passkey Manual -->
@@ -630,65 +641,64 @@
       // 1. UTAMA (Dapodik & Aplikasi Dasar)
       { category: "Utama", title: "Aplikasi Dapodik Lokal", url: "http://localhost:5774", icon: "fa-solid fa-laptop" },
       { category: "Utama", title: "Beranda Dapodik", url: "https://dapo.kemendikdasmen.go.id", icon: "fa-solid fa-globe" },
-      { category: "Utama", title: "SP Datadik Satuan Pendidikan", url: "https://sp.datadik.kemendikdasmen.go.id/", icon: "fa-solid fa-school-flag" },
-      { category: "Utama", title: "PTK Datadik", url: "https://ptk.datadik.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
-      { category: "Utama", title: "Unduh Prefill Dapodik", url: "https://prefill2.kemendikdasmen.go.id/", icon: "fa-solid fa-database" },
-      { category: "Utama", title: "Unduhan Aplikasi Dapodik", url: "https://dapo.kemendikdasmen.go.id/unduhan", icon: "fa-solid fa-database" },
-      { category: "Utama", title: "E-Rapor SMP", url: "#", icon: "fa-solid fa-school-flag" },
-      { category: "Utama", title: "Rapor Pendidikan Kemendikdasmen", url: "https://raporpendidikan.kemendikdasmen.go.id", icon: "fa-solid fa-globe" },
-      { category: "Utama", title: "Pendaftaran Lomba (BPTI)", url: "https://daftar-bpti.kemendikdasmen.go.id", icon: "fa-solid fa-trophy" },
       { category: "Utama", title: "DIGI-DitSMP Kemendikdasmen", url: "https://digi-ditsmp.kemendikdasmen.go.id/", icon: "fa-solid fa-desktop" },
       { category: "Utama", title: "JDIH Kemendikdasmen", url: "https://jdih.kemendikdasmen.go.id/", icon: "fa-solid fa-gavel" },
+      { category: "Utama", title: "Pendaftaran Lomba (BPTI)", url: "https://daftar-bpti.kemendikdasmen.go.id", icon: "fa-solid fa-trophy" },
+      { category: "Utama", title: "PTK Datadik", url: "https://ptk.datadik.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
       { category: "Utama", title: "Pusat Kurikulum", url: "https://kurikulum.kemendikdasmen.go.id/", icon: "fa-solid fa-book-open" },
+      { category: "Utama", title: "Rapor Pendidikan Kemendikdasmen", url: "https://raporpendidikan.kemendikdasmen.go.id", icon: "fa-solid fa-globe" },
+      { category: "Utama", title: "SP Datadik Satuan Pendidikan", url: "https://sp.datadik.kemendikdasmen.go.id/", icon: "fa-solid fa-school-flag" },
+      { category: "Utama", title: "Unduh Prefill Dapodik", url: "https://prefill2.kemendikdasmen.go.id/", icon: "fa-solid fa-database" },
+      { category: "Utama", title: "Unduhan Aplikasi Dapodik", url: "https://dapo.kemendikdasmen.go.id/unduhan", icon: "fa-solid fa-database" },
 
       // 2. VERIFIKASI (Layanan Verval / Pusdatin)
-      { category: "Verifikasi", title: "SDM Data Kemendikdasmen", url: "https://sdm.data.kemendikdasmen.go.id/", icon: "fa-solid fa-user-shield" },
       { category: "Verifikasi", title: "Cek NISN Mandiri", url: "https://nisn.data.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
       { category: "Verifikasi", title: "Cek NUPTK GTK", url: "https://gtk.data.kemendikdasmen.go.id/", icon: "fa-solid fa-id-card" },
       { category: "Verifikasi", title: "Manajemen / Verval Ijazah (SIVIL)", url: "https://ijazah.data.kemendikdasmen.go.id/manajemen/#/sign-in", icon: "fa-solid fa-graduation-cap" },
-      { category: "Verifikasi", title: "Verval PTK", url: "https://vervalptk.data.kemendikdasmen.go.id/site/login", icon: "fa-solid fa-id-card" },
+      { category: "Verifikasi", title: "Pusdatin PD", url: "https://pd.data.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
+      { category: "Verifikasi", title: "SDM Data Kemendikdasmen", url: "https://sdm.data.kemendikdasmen.go.id/", icon: "fa-solid fa-user-shield" },
       { category: "Verifikasi", title: "Verval PD (Peserta Didik)", url: "https://vervalpd.data.kemendikdasmen.go.id/", icon: "fa-solid fa-id-card" },
+      { category: "Verifikasi", title: "Verval PTK", url: "https://vervalptk.data.kemendikdasmen.go.id/site/login", icon: "fa-solid fa-id-card" },
       { category: "Verifikasi", title: "Verval SP (Satuan Pendidikan)", url: "https://vervalsp.data.kemdikbud.go.id/verval/index.php/cberanda/index/", icon: "fa-solid fa-globe" },
       { category: "Verifikasi", title: "Verval TIK", url: "https://vervaltio.data.kemendikdasmen.go.id", icon: "fa-solid fa-computer" },
-      { category: "Verifikasi", title: "Pusdatin PD", url: "https://pd.data.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
 
       // 3. KEUANGAN (ARKAS, Pajak, SIPLah & Penyaluran)
-      { category: "Keuangan", title: "Sipintar PIP", url: "https://pip.kemendikdasmen.go.id/home_v1", icon: "fa-solid fa-wallet" },
       { category: "Keuangan", title: "ARKAS Kemendikdasmen", url: "https://arkas.kemendikdasmen.go.id", icon: "fa-solid fa-wallet" },
-      { category: "Keuangan", title: "SIPLah", url: "https://siplah.blibli.com/", icon: "fa-solid fa-cart-shopping" },
       { category: "Keuangan", title: "BOSP Salur", url: "https://bosp.kemendikdasmen.go.id", icon: "fa-solid fa-wallet" },
       { category: "Keuangan", title: "Coretax DJP Pajak", url: "https://coretaxdjp.pajak.go.id/identityproviderportal/Account/Login", icon: "fa-solid fa-receipt" },
+      { category: "Keuangan", title: "Sipintar PIP", url: "https://pip.kemendikdasmen.go.id/home_v1", icon: "fa-solid fa-wallet" },
+      { category: "Keuangan", title: "SIPLah", url: "https://siplah.blibli.com/", icon: "fa-solid fa-cart-shopping" },
 
       // 4. SERTIFIKASI (Pendidik / GTK)
-      { category: "Sertifikasi", title: "Info GTK", url: "https://info.gtk.kemendikdasmen.go.id/", icon: "fa-solid fa-chalkboard-user" },
-      { category: "Sertifikasi", title: "SIMPKB Login", url: "https://paspor-gtk.simpkb.id/casgpo/login?service=https%3A%2F%2Fapp.simpkb.id%2Fauth%2Flogin", icon: "fa-solid fa-chalkboard-user" },
-      { category: "Sertifikasi", title: "Ruang GTK", url: "https://akun.pendidikan.go.id/login?flow=fa87d033-975e-48c1-8315-b75b0be1dfb2", icon: "fa-solid fa-chalkboard-user" },
       { category: "Sertifikasi", title: "Akun Belajar.id", url: "https://belajar.id", icon: "fa-solid fa-chalkboard-user" },
-      { category: "Sertifikasi", title: "Rumah Belajar", url: "https://rumah.pendidikan.go.id/", icon: "fa-solid fa-school-flag" },
+      { category: "Sertifikasi", title: "Info GTK", url: "https://info.gtk.kemendikdasmen.go.id/", icon: "fa-solid fa-chalkboard-user" },
       { category: "Sertifikasi", title: "KBBI Daring Kemendikdasmen", url: "https://kbbi.kemendikdasmen.go.id/", icon: "fa-solid fa-spell-check" },
+      { category: "Sertifikasi", title: "Ruang GTK", url: "https://akun.pendidikan.go.id/login?flow=fa87d033-975e-48c1-8315-b75b0be1dfb2", icon: "fa-solid fa-chalkboard-user" },
+      { category: "Sertifikasi", title: "Rumah Belajar", url: "https://rumah.pendidikan.go.id/", icon: "fa-solid fa-school-flag" },
+      { category: "Sertifikasi", title: "SIMPKB Login", url: "https://paspor-gtk.simpkb.id/casgpo/login?service=https%3A%2F%2Fapp.simpkb.id%2Fauth%2Flogin", icon: "fa-solid fa-chalkboard-user" },
 
       // 5. KEPEGAWAIAN
-      { category: "Kepegawaian", title: "MyASN BKN", url: "https://myasn.bkn.go.id", icon: "fa-solid fa-id-card" },
       { category: "Kepegawaian", title: "e-Kinerja BKN", url: "https://kinerja.bkn.go.id", icon: "fa-solid fa-chalkboard-user" },
-      { category: "Kepegawaian", title: "SIPP Makassar", url: "https://sipp.makassar.go.id", icon: "fa-solid fa-city" },
       { category: "Kepegawaian", title: "e-Sakti Makassar", url: "https://esakti.makassar.go.id", icon: "fa-solid fa-network-wired" },
+      { category: "Kepegawaian", title: "MyASN BKN", url: "https://myasn.bkn.go.id", icon: "fa-solid fa-id-card" },
       { category: "Kepegawaian", title: "SIMPEG Kemendikdasmen", url: "https://simpeg.bkpsdmd.makassarkota.go.id/", icon: "fa-solid fa-id-card" },
+      { category: "Kepegawaian", title: "SIPP Makassar", url: "https://sipp.makassar.go.id", icon: "fa-solid fa-city" },
 
       // 6. UJIAN (Asesmen Nasional / ANBK)
-      { category: "Ujian", title: "Portal Web ANBK", url: "https://anbk.kemendikdasmen.go.id", icon: "fa-solid fa-computer" },
       { category: "Ujian", title: "Bio-AN SMP", url: "https://bioansmp.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
       { category: "Ujian", title: "Portal TKA & Asesmen Bakat", url: "https://tka.kemendikdasmen.go.id/", icon: "fa-solid fa-computer" },
+      { category: "Ujian", title: "Portal Web ANBK", url: "https://anbk.kemendikdasmen.go.id", icon: "fa-solid fa-computer" },
 
       // 7. DAERAH (Dinas & Program Daerah)
       { category: "Daerah", title: "Dinas Pendidikan Makassar", url: "https://disdik.makassarkota.go.id", icon: "fa-solid fa-city" },
-      { category: "Daerah", title: "Portal PPDB Makassar", url: "https://spmb.makassarkota.go.id/cloginsekolahx", icon: "fa-solid fa-city" },
       { category: "Daerah", title: "Makan Bergizi Gratis (MBG)", url: "https://mbg.pdm.kemendikdasmen.go.id/portal", icon: "fa-solid fa-utensils" },
+      { category: "Daerah", title: "Portal PPDB Makassar", url: "https://spmb.makassarkota.go.id/cloginsekolahx", icon: "fa-solid fa-city" },
 
       // 8. UTILITAS (Utilitas & Server Pendukung)
-      { category: "Utilitas", title: "WhatsApp Web", url: "https://web.whatsapp.com/", icon: "fa-solid fa-comments" },
-      { category: "Utilitas", title: "TinyPNG", url: "https://tinypng.com/", icon: "fa-solid fa-image" },
       { category: "Utilitas", title: "cekip.com", url: "https://cekip.com/", icon: "fa-solid fa-globe" },
-      { category: "Utilitas", title: "Speedtest", url: "https://www.speedtest.net/", icon: "fa-solid fa-gauge" }
+      { category: "Utilitas", title: "Speedtest", url: "https://www.speedtest.net/", icon: "fa-solid fa-gauge" },
+      { category: "Utilitas", title: "TinyPNG", url: "https://tinypng.com/", icon: "fa-solid fa-image" },
+      { category: "Utilitas", title: "WhatsApp Web", url: "https://web.whatsapp.com/", icon: "fa-solid fa-comments" }
     ];
 
     const availableIcons = [
@@ -884,11 +894,11 @@
     // ==========================================================
     function loadProfileData() {
       const defaults = {
-        nama: "SMP Negeri Percontohan",
-        npsn: "10293847",
+        nama: "DAPO-HUB Portal Integrasi",
+        npsn: "00000000",
         status: "Negeri",
-        operator: "Operator Hebat",
-        akreditasi: "A (Unggul)"
+        operator: "Admin Dapodik",
+        akreditasi: "A"
       };
 
       // Sinkronisasi data ke penyimpanan lokal peramban
@@ -897,6 +907,17 @@
       if (!localStorage.getItem('dapo_profile_status')) localStorage.setItem('dapo_profile_status', defaults.status);
       if (!localStorage.getItem('dapo_profile_operator')) localStorage.setItem('dapo_profile_operator', defaults.operator);
       if (!localStorage.getItem('dapo_profile_akreditasi')) localStorage.setItem('dapo_profile_akreditasi', defaults.akreditasi);
+      
+      // Bersihkan sisa rujukan lama di dalam LocalStorage agar luring 100% steril
+      const savedErapor = localStorage.getItem('dapo_profile_erapor');
+      if (!savedErapor || savedErapor === "https://rapor.smpn3mks.sch.id") {
+        localStorage.setItem('dapo_profile_erapor', "https://rapor.sekolahpercontohan.sch.id");
+      }
+
+      const savedNamaSekolah = localStorage.getItem('dapo_profile_nama');
+      if (savedNamaSekolah === "SMP Negeri 3 Makassar" || savedNamaSekolah === "SMP Negeri Percontohan") {
+        localStorage.setItem('dapo_profile_nama', defaults.nama);
+      }
 
       const nama = localStorage.getItem('dapo_profile_nama');
       const npsn = localStorage.getItem('dapo_profile_npsn');
@@ -931,11 +952,11 @@
 
     function editProfile() {
       const defaults = {
-        nama: "SMP Negeri Percontohan",
-        npsn: "10293847",
+        nama: "DAPO-HUB Portal Integrasi",
+        npsn: "00000000",
         status: "Negeri",
-        operator: "Operator Hebat",
-        akreditasi: "A (Unggul)"
+        operator: "Admin Dapodik",
+        akreditasi: "A"
       };
 
       document.getElementById('input-nama-sekolah').value = localStorage.getItem('dapo_profile_nama') || defaults.nama;
@@ -943,6 +964,9 @@
       document.getElementById('input-status-sekolah').value = localStorage.getItem('dapo_profile_status') || defaults.status;
       document.getElementById('input-operator').value = localStorage.getItem('dapo_profile_operator') || defaults.operator;
       document.getElementById('input-akreditasi').value = localStorage.getItem('dapo_profile_akreditasi') || defaults.akreditasi;
+      
+      // Ambil nilai Link E-Rapor ke form modal
+      document.getElementById('input-erapor').value = localStorage.getItem('dapo_profile_erapor') || "https://rapor.sekolahpercontohan.sch.id";
       
       const usePasskey = localStorage.getItem('dapo_use_passkey') === 'true';
       document.getElementById('input-use-passkey').checked = usePasskey;
@@ -971,6 +995,7 @@
       const status = document.getElementById('input-status-sekolah').value;
       const op = document.getElementById('input-operator').value;
       const akreditasi = document.getElementById('input-akreditasi').value;
+      const erapor = document.getElementById('input-erapor').value.trim();
       const usePasskey = document.getElementById('input-use-passkey').checked;
       const passkeyVal = document.getElementById('input-passkey-val').value.trim();
 
@@ -984,6 +1009,7 @@
       localStorage.setItem('dapo_profile_status', status);
       localStorage.setItem('dapo_profile_operator', op);
       localStorage.setItem('dapo_profile_akreditasi', akreditasi);
+      localStorage.setItem('dapo_profile_erapor', erapor);
       localStorage.setItem('dapo_use_passkey', usePasskey ? 'true' : 'false');
 
       if (usePasskey && passkeyVal) {
@@ -995,6 +1021,7 @@
       }
 
       loadProfileData();
+      renderLinks(); // Render ulang link setelah ada kemungkinan perubahan URL E-Rapor
       toggleModal('profileModal', false);
       showToast("Profil sekolah berhasil disimpan!");
     }
@@ -1022,8 +1049,28 @@
       const categories = ["Utama", "Verifikasi", "Keuangan", "Sertifikasi", "Kepegawaian", "Ujian", "Daerah", "Utilitas"];
       
       categories.forEach(cat => {
-        const catLinks = activeLinks.filter(item => item.category === cat);
-        if (catLinks.length > 0) {
+        let catLinks = activeLinks.filter(item => item.category === cat);
+        
+        // SUNTIKAN DINAMIS: Tambahkan link E-Rapor secara otomatis dari Profile ke kategori Utama
+        if (cat === "Utama") {
+          const eraporUrl = localStorage.getItem('dapo_profile_erapor') || "https://rapor.sekolahpercontohan.sch.id";
+          if (eraporUrl) {
+            const eraporExists = catLinks.some(l => l.title === "E-Rapor Sekolah");
+            if (!eraporExists) {
+              catLinks.unshift({
+                category: "Utama",
+                title: "E-Rapor Sekolah",
+                url: eraporUrl,
+                icon: "fa-solid fa-school-flag"
+              });
+            }
+          }
+        }
+
+        // Pengurutan alfabetis yang aman dari efek mutasi objek langsung
+        const sortedCatLinks = [...catLinks].sort((a, b) => a.title.localeCompare(b.title, 'id'));
+
+        if (sortedCatLinks.length > 0) {
           const catHeader = document.createElement('div');
           catHeader.className = "col-span-full mt-6 first:mt-0 text-[11px] font-extrabold text-sky-600 tracking-wider uppercase flex items-center gap-2";
           
@@ -1035,9 +1082,9 @@
           catHeader.innerHTML = `<span>${displayLabel}</span><span class="h-px bg-slate-200 flex-1"></span>`;
           target.appendChild(catHeader);
 
-          catLinks.forEach(link => {
+          sortedCatLinks.forEach(link => {
             const index = links.findIndex(l => l.url === link.url);
-            const isDefault = defaultLinks.some(dl => dl.url === link.url);
+            const isDefault = defaultLinks.some(dl => dl.url === link.url) || link.title === "E-Rapor Sekolah";
 
             const card = document.createElement('div');
             card.className = "bg-white border border-slate-200 hover:border-sky-400/80 rounded-xl p-4 flex items-start gap-4 transition-all duration-300 relative group shadow-sm hover:shadow-md";
@@ -1421,11 +1468,12 @@
     // ==========================================
     function exportBackupData() {
       const dataToBackup = {
-        namaSekolah: localStorage.getItem('dapo_profile_nama') || "SMP Negeri Percontohan",
-        npsn: localStorage.getItem('dapo_profile_npsn') || "10293847",
+        namaSekolah: localStorage.getItem('dapo_profile_nama') || "DAPO-HUB Portal Integrasi",
+        npsn: localStorage.getItem('dapo_profile_npsn') || "00000000",
         status: localStorage.getItem('dapo_profile_status') || "Negeri",
-        operator: localStorage.getItem('dapo_profile_operator') || "Operator Hebat",
-        akreditasi: localStorage.getItem('dapo_profile_akreditasi') || "A (Unggul)",
+        operator: localStorage.getItem('dapo_profile_operator') || "Admin Dapodik",
+        akreditasi: localStorage.getItem('dapo_profile_akreditasi') || "A",
+        erapor: localStorage.getItem('dapo_profile_erapor') || "https://rapor.sekolahpercontohan.sch.id",
         usePasskey: localStorage.getItem('dapo_use_passkey') === 'true',
         links: JSON.parse(localStorage.getItem('dapo_links')) || [...defaultLinks],
         agenda: JSON.parse(localStorage.getItem('dapo_agenda')) || [],
@@ -1456,11 +1504,12 @@
             throw new Error("Struktur berkas tidak valid.");
           }
 
-          localStorage.setItem('dapo_profile_nama', importedData.namaSekolah || "SMP Negeri Percontohan");
-          localStorage.setItem('dapo_profile_npsn', importedData.npsn || "10293847");
+          localStorage.setItem('dapo_profile_nama', importedData.namaSekolah || "DAPO-HUB Portal Integrasi");
+          localStorage.setItem('dapo_profile_npsn', importedData.npsn || "00000000");
           localStorage.setItem('dapo_profile_status', importedData.status || "Negeri");
-          localStorage.setItem('dapo_profile_operator', importedData.operator || "Operator Hebat");
-          localStorage.setItem('dapo_profile_akreditasi', importedData.akreditasi || "A (Unggul)");
+          localStorage.setItem('dapo_profile_operator', importedData.operator || "Admin Dapodik");
+          localStorage.setItem('dapo_profile_akreditasi', importedData.akreditasi || "A");
+          localStorage.setItem('dapo_profile_erapor', importedData.erapor || "https://rapor.sekolahpercontohan.sch.id");
           localStorage.setItem('dapo_use_passkey', importedData.usePasskey === true ? 'true' : 'false');
           localStorage.setItem('dapo_links', JSON.stringify(importedData.links));
           localStorage.setItem('dapo_agenda', JSON.stringify(importedData.agenda || []));
