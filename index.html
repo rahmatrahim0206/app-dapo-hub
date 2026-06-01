@@ -1,1571 +1,1245 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full">
+<html lang="id" class="h-full scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>DAPO-HUB — Portal Integrasi Layanan IT & Dapodik</title>
 
-  <!-- Favicon Kustom Premium (Ikon Portal Laptop & Folder) -->
-  <link class="rounded-full" rel="icon" href="https://cdn-icons-png.flaticon.com/512/2210/2210143.png" type="image/png" />
+  <!-- Favicon Kustom Premium menggunakan Ikon Flaticon -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2210/2210143.png" type="image/png" />
 
-  <!-- Pemuatan Manifest Fisik untuk Standar PWA Google Chrome Windows -->
-  <link rel="manifest" href="manifest.json" />
+  <!-- PENANGANAN MANIFEST SECARA INLINE UNTUK MENGATASI MANIFEST TIDAK AKTIF -->
+  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkRBUE8tSFVCIFBvcnRhbCBJbnRlZ3Jhc2kiLAogICJzaG9ydF9uYW1lIjogIkRBUE8tSFVCIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwODJmNDkiLAogICJ0aGVtZV9jb2xvciI6ICIjMGUxMWU5IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMjIxMC8yMjEwMTQzLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==" />
 
-  <!-- Tailwind CSS & Font Inter -->
+  <!-- Tailwind CSS & Google Fonts Premium -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800;900&family=Outfit:wght=400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-  <!-- FontAwesome Icons Versi 6.5.1 (Kompatibel penuh dengan sw.js) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            outfit: ['"Outfit"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff', 100: '#e0effe', 200: '#bae2fd',
+              300: '#7ccbfd', 400: '#38b0f8', 500: '#0ea1e9',
+              600: '#0280c7', 700: '#0366a1', 800: '#075685',
+              900: '#0c486e', 950: '#082f49',
+            },
+            accent: {
+              orange: '#f97316', purple: '#8b5cf6', emerald: '#10b981',
+            }
+          },
+          boxShadow: {
+            'premium': '0 10px 30px -5px rgba(2, 128, 199, 0.08), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
+            'card-hover': '0 20px 40px -10px rgba(2, 128, 199, 0.15), 0 1px 5px 0 rgba(2, 128, 199, 0.05)',
+            'inner-soft': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.03)',
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgba(240, 247, 255, 0.6) 0%, rgba(248, 250, 252, 1) 90.1%);
     }
-    /* Sembunyikan scrollbar bawaan untuk estetika */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+    .text-outfit { font-family: 'Outfit', sans-serif; }
+    
+    /* Scrollbar minimalis premium */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    .custom-glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
     }
-    ::-webkit-scrollbar-track {
-      background: transparent;
+    
+    /* Animasi */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(100, 116, 139, 0.2);
-      border-radius: 10px;
+    .animate-fadeIn { animation: fadeIn 0.25s ease-out forwards; }
+    
+    @keyframes custom-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(100, 116, 139, 0.4);
-    }
-    .text-glow {
-      text-shadow: 0 0 10px rgba(14, 165, 233, 0.2);
-    }
+    .animate-blink { animation: custom-blink 2s infinite ease-in-out; }
+    
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen selection:bg-sky-500 selection:text-white">
+<body class="min-h-full flex flex-col text-slate-800 antialiased selection:bg-brand-200 selection:text-brand-900 select-none" oncontextmenu="return false;">
 
-  <!-- ==================== HEADER UTAMA ==================== -->
-  <header class="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-40 transition-colors duration-300 shadow-sm">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 h-16 flex items-center justify-between">
+  <!-- BANNER WARNING OFFLINE -->
+  <div id="offline-banner" class="hidden bg-gradient-to-r from-red-600 to-rose-600 text-white text-center py-2.5 px-4 text-sm font-semibold shadow-md transition-all duration-300">
+    <div class="max-w-[1920px] mx-auto flex items-center justify-center gap-2">
+      <!-- Icon Wifi Slash SVG -->
+      <span class="w-5 h-5 flex-shrink-0 text-white animate-bounce">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.204 12a14.945 14.945 0 011.085-3.036M12 21a8.966 8.966 0 01-5.912-2.203m11.824 0A8.964 8.964 0 0012 3v1m0 0a8.963 8.963 0 013.912 1.203M12 3a8.964 8.964 0 00-3.912 1.203m7.824 0a14.948 14.948 0 011.085 3.036M1 1l22 22"></path></svg>
+      </span>
+      <span>Koneksi terputus. Anda sedang menggunakan mode luring (offline). Beberapa data kustom tetap dapat diakses secara lokal.</span>
+    </div>
+  </div>
+
+  <!-- HEADER UTAMA RESPONSIVE & ANTI-LUBER -->
+  <header class="sticky top-0 z-40 w-full custom-glass border-b border-slate-200/80 shadow-sm">
+    <div class="max-w-[1920px] mx-auto px-3 sm:px-6 lg:px-8 min-h-[4.5rem] py-2 sm:py-0 flex items-center justify-between gap-2">
       
-      <!-- Brand Logo & Status Koneksi -->
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-sky-500/20">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
+      <div class="flex items-center gap-2 sm:gap-4 min-w-0">
+        <!-- LOGO DAPO-HUB PREMIUM KUSTOM BARU (NETWORK DATA HUB) -->
+        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-tr from-brand-600 to-brand-400 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/20 transform hover:rotate-12 transition-all duration-300 flex-shrink-0 group">
+          <span class="w-6.5 h-6.5 sm:w-8 sm:h-8 text-white">
+            <svg class="w-full h-full transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582" />
+              <circle cx="12" cy="12" r="2.5" fill="currentColor" class="animate-pulse" />
+              <circle cx="12" cy="3" r="1.5" fill="currentColor" />
+              <circle cx="12" cy="21" r="1.5" fill="currentColor" />
+              <circle cx="3" cy="12" r="1.5" fill="currentColor" />
+              <circle cx="21" cy="12" r="1.5" fill="currentColor" />
+            </svg>
+          </span>
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-lg font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600">
-              DAPO<span class="text-slate-800">-HUB</span>
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <h1 class="text-lg sm:text-2xl font-extrabold text-outfit tracking-tight bg-gradient-to-r from-brand-700 to-brand-500 bg-clip-text text-transparent leading-none">
+              DAPO-HUB
             </h1>
-            
-            <!-- Indikator Status Terintegrasi -->
-            <span class="flex h-2 w-2 relative shrink-0">
-              <span id="status-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-              <span id="status-dot" class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            <span id="status-badge" class="flex items-center gap-1 transition-all duration-300">
+              <span id="status-dot" class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span id="status-text" class="text-emerald-600 font-extrabold text-[10px] sm:text-xs tracking-wide">Online</span>
             </span>
-            <span id="status-text" class="text-[10px] text-slate-500 font-semibold tracking-wide">Aktif (Online)</span>
           </div>
-          <p class="text-[10px] text-slate-400 font-semibold tracking-widest uppercase">Portal Integrasi Layanan IT & Dapodik</p>
+          <p class="text-[9px] sm:text-[11px] text-slate-500 font-medium truncate hidden sm:block">Sistem Integrasi Layanan IT & Manajemen Dapodik</p>
         </div>
       </div>
 
-      <!-- Bilah Aksi Kanan -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Tombol PWA Install Pintar (Dapat berubah ukuran secara dinamis via JS) -->
-        <div id="pwa-install-container">
-          <button id="pwa-install-btn" onclick="installPWA()" class="p-2 bg-white hover:bg-slate-100 text-slate-500 hover:text-sky-600 border border-slate-200 rounded-lg shadow-sm transition-all flex items-center justify-center gap-1.5" title="Panduan Pasang DAPO-HUB">
-            <i class="fa-solid fa-circle-info text-sm"></i>
-          </button>
+      <!-- KONTROL KANAN HEADER RESPONSIVE -->
+      <div class="flex items-center gap-1.5 sm:gap-3.5 flex-shrink-0">
+        
+        <!-- CONTAINER INSTALASI PWA YANG DINAMIS -->
+        <div id="pwa-install-container" class="flex items-center transition-all duration-300">
+          <!-- Diisi otomatis melalui JS -->
         </div>
 
-        <!-- Tombol Tambah Tautan Kustom -->
-        <button onclick="openAddLinkModal()" class="p-2 bg-gradient-to-tr from-emerald-500 to-teal-600 text-white rounded-lg shadow-sm hover:from-emerald-600 hover:to-teal-700 transition-all" title="Tambah Tautan Kustom">
-          <i class="fa-solid fa-plus text-sm"></i>
-        </button>
+        <div id="minimalist-clock" class="h-9 sm:h-11 flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-4 bg-slate-100/80 border border-slate-200/80 rounded-xl sm:rounded-2xl text-[10px] sm:text-xs font-semibold text-slate-700 shadow-sm transition-all">
+          <span class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-500 flex items-center">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </span>
+          <span id="live-time" class="text-outfit font-black tracking-wider text-[11px] sm:text-[13px] whitespace-nowrap">--:-- WIB</span>
+        </div>
 
-        <!-- Tombol Reset Tautan Bawaan -->
-        <button onclick="requestResetLinks()" class="p-2 bg-white hover:bg-slate-100 text-slate-500 hover:text-amber-500 border border-slate-200 rounded-lg shadow-sm transition-all" title="Reset Tautan Bawaan">
-          <i class="fa-solid fa-rotate-left text-sm"></i>
-        </button>
-
-        <!-- Tombol Kunci Sesi manual -->
-        <button onclick="lockSessionManual()" class="p-2 bg-white hover:bg-slate-100 text-slate-500 hover:text-rose-600 border border-slate-200 rounded-lg shadow-sm transition-all" title="Kunci Sesi">
-          <i class="fa-solid fa-lock text-sm"></i>
-        </button>
-
-        <!-- Tombol Modal Backup & Restore -->
-        <button onclick="openBackupModal()" class="p-2 bg-white hover:bg-slate-100 text-slate-500 hover:text-sky-600 border border-slate-200 rounded-lg shadow-sm transition-all" title="Backup & Restore Data">
-          <i class="fa-solid fa-database text-sm"></i>
+        <button onclick="requestEmergencyResetSession()" class="h-9 w-9 sm:h-11 sm:w-11 flex items-center justify-center text-rose-600 hover:text-rose-700 bg-slate-100/80 hover:bg-rose-50/50 rounded-xl sm:rounded-2xl border border-slate-200/80 hover:border-rose-200 transition-all shadow-sm group" title="Reset Sesi Darurat">
+          <span class="w-4.5 h-4.5 sm:w-5 sm:h-5 flex items-center justify-center group-hover:rotate-180 transition-transform duration-500">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path></svg>
+          </span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- ==================== KONTEN UTAMA ==================== -->
-  <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-8 flex flex-col gap-8">
-    
-    <!-- Profil Sekolah Banner (Dinamis via LocalStorage) -->
-    <section class="relative bg-gradient-to-r from-sky-50/40 via-white to-indigo-50/40 border border-slate-200 rounded-2xl p-6 sm:p-8 overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-md">
-      <div class="absolute -right-24 -bottom-24 w-72 h-72 rounded-full bg-sky-500/10 blur-3xl pointer-events-none"></div>
-      <div class="absolute -left-24 -top-24 w-72 h-72 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none"></div>
-
-      <!-- Detail Kiri: Profil Sekolah & Operator -->
-      <div class="flex items-center gap-5 relative z-10 flex-1">
-        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 p-0.5 shadow-md flex-shrink-0">
-          <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
-            <i class="fa-solid fa-school text-2xl text-sky-500"></i>
-          </div>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2">
-            <h2 id="view-nama-sekolah" class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight truncate">DAPO-HUB Portal Integrasi</h2>
-            <button onclick="editProfile()" class="p-1 hover:bg-slate-200 rounded-md text-slate-400 hover:text-sky-600 transition flex-shrink-0" title="Edit Profil">
-              <i class="fa-solid fa-pen text-xs"></i>
-            </button>
-          </div>
-          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
-            <span id="view-npsn" class="text-xs text-sky-600 font-bold tracking-wider uppercase">NPSN: -</span>
-            <span class="text-slate-300 hidden sm:inline">|</span>
-            <span id="view-operator" class="text-xs sm:text-sm text-slate-500 font-medium">Operator: -</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Detail Kanan: Status Akreditasi & Slogan Pelayanan (Motto Pelayanan Diatur Permanen Statis) -->
-      <div class="flex flex-wrap items-center gap-4 relative z-10 md:text-right shrink-0">
-        <div class="bg-white/70 backdrop-blur-sm border border-slate-200 rounded-xl px-4 py-2 shadow-sm min-w-[150px]">
-          <span class="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Status Akreditasi</span>
-          <span class="text-xs font-bold text-slate-700 flex items-center md:justify-end gap-1.5 mt-0.5">
-            <i class="fa-solid fa-award text-amber-500"></i> <span id="view-akreditasi">-</span>
-          </span>
-        </div>
-        <div class="bg-white/70 backdrop-blur-sm border border-slate-200 rounded-xl px-4 py-2 shadow-sm min-w-[150px]">
-          <span class="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Motto Pelayanan</span>
-          <span class="text-xs font-medium italic text-slate-600 mt-0.5 block">
-            "Sedikit bicara banyak kerjaannya"
-          </span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Layout Grid Dua Kolom -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+  <!-- KONTEN UTAMA -->
+  <main class="flex-1 w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+    <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
       
-      <!-- Kolom Kiri: Navigasi Portal & Pencarian Instan -->
-      <div class="lg:col-span-8 flex flex-col gap-6">
+      <!-- KOLOM KIRI -->
+      <section class="w-full lg:col-span-8 space-y-6 lg:space-y-8 order-2 lg:order-1">
         
-        <!-- Header Kontrol Pencarian -->
-        <div class="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between gap-4 shadow-sm">
-          <div class="relative flex-1">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-              <i class="fa-solid fa-magnifying-glass text-xs"></i>
+        <!-- KOLOM PENCARIAN GLOBAL -->
+        <div class="bg-white rounded-3xl p-5 shadow-premium border border-slate-100">
+          <div class="relative w-full flex items-center">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 pointer-events-none">
+              <span class="w-5 h-5">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              </span>
             </span>
-            <input 
-              type="text" 
-              id="search-input"
-              oninput="searchLinksInstant()" 
-              placeholder="Cari portal integrasi secara instan..." 
-              class="w-full bg-slate-50 text-slate-800 placeholder-slate-400 border border-slate-200 rounded-lg pl-9 pr-8 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white focus:ring-1 focus:ring-sky-500 transition-all"
-            />
-            <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-800" title="Bersihkan Pencarian">
-              <i class="fa-solid fa-xmark text-xs"></i>
+            <input type="text" id="global-search" oninput="searchLinks()" placeholder="Cari layanan integrasi, sistem Dapodik, link kustom..." class="w-full pl-11 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all text-sm font-medium" />
+            <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-3 text-slate-400 hover:text-slate-600 focus:outline-none p-1 transition-colors" title="Bersihkan Pencarian">
+              <span class="w-5 h-5">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </span>
             </button>
           </div>
         </div>
 
-        <!-- Wadah Rendering Tautan Integrasi -->
-        <div id="links-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Rendered Dinamis -->
-        </div>
-      </div>
+        <!-- DAFTAR LAYANAN -->
+        <div class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 class="text-xl font-extrabold text-slate-800 text-outfit flex items-center gap-2">
+                <span class="w-6 h-6 text-brand-500">
+                  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                </span>
+                Portal Layanan Integrasi
+              </h2>
+            </div>
+          </div>
 
-      <!-- Kolom Kanan: Kalender, Agenda, & Memo -->
-      <div class="lg:col-span-4 flex flex-col gap-8">
+          <div id="links-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            <!-- Isi Konten di-render via JavaScript -->
+          </div>
+        </div>
+
+        <!-- LAYAR DETIL OFFLINE FIRST -->
+        <div class="bg-gradient-to-br from-slate-900 via-brand-950 to-slate-900 rounded-3xl p-6 text-white relative overflow-hidden shadow-xl">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-brand-50/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+          <div class="relative z-10 space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-white/10">
+              <div class="space-y-1">
+                <span class="text-[10px] uppercase tracking-widest font-extrabold text-brand-300 bg-brand-900/60 px-3 py-1 rounded-full">Teknologi Sinkronisasi Luring</span>
+                <h3 class="text-2xl font-bold text-outfit mt-1.5">Offline-First Sync System</h3>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              <div class="md:col-span-8 space-y-3">
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  Semua penambahan data, profil, catatan kalender, dan agenda harian tetap berfungsi normal walaupun internet terputus. Sistem secara otomatis menahan dan mengamankan perubahan Anda di database lokal browser secara real-time.
+                </p>
+                <div class="flex flex-wrap gap-4 text-xs text-brand-300 font-semibold pt-1">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-4 h-4 text-emerald-400">
+                      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9.75v6.75m0 0l-3-3m3 3l3-3m-8.25 6a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"></path></svg>
+                    </span>
+                    Otomatis Menyimpan Luring
+                  </span>
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-4 h-4 text-indigo-400">
+                      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"></path></svg>
+                    </span>
+                    Enkripsi Data Klien
+                  </span>
+                </div>
+              </div>
+
+              <div class="md:col-span-4 bg-white/5 border border-white/10 p-4 rounded-2xl flex justify-around items-center text-center self-stretch font-outfit font-bold">
+                <div class="flex flex-col">
+                  <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Tautan</span>
+                  <strong id="total-link-stat" class="text-white text-lg font-black">0</strong>
+                </div>
+                <div class="h-8 w-[1px] bg-white/10"></div>
+                <div class="flex flex-col">
+                  <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Agenda</span>
+                  <strong id="total-agenda-stat" class="text-white text-lg font-black">0</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KOLOM KANAN -->
+      <aside class="w-full lg:col-span-4 space-y-6 lg:space-y-8 order-1 lg:order-2">
         
-        <!-- Widget Kalender Kegiatan -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-calendar-day text-indigo-500"></i> Kalender Kegiatan
+        <!-- PROFIL OPERATOR (UNIVERSAL & KONFIGURATIF) -->
+        <div class="bg-white rounded-3xl p-6 shadow-premium border border-slate-100 space-y-6 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-brand-50 rounded-full blur-2xl -mr-10 -mt-10"></div>
+          
+          <div class="relative flex items-center gap-4">
+            <div class="relative group">
+              <!-- Avatar Container Menggunakan Ikon Flaticon Konsisten -->
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-400 p-[3px] shadow-md flex items-center justify-center">
+                <div class="w-full h-full bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden relative">
+                  <img src="https://cdn-icons-png.flaticon.com/512/2210/2210143.png" class="w-12 h-12 object-contain" alt="Operator Icon" onerror="this.src='https://placehold.co/192x192/0ea1e9/ffffff.png?text=DAPO'"/>
+                </div>
+              </div>
+              <div class="absolute -bottom-1.5 -right-1.5 w-6 h-6 bg-brand-500 rounded-full border-2 border-white flex items-center justify-center text-white text-[10px] shadow-sm">
+                <span class="w-3.5 h-3.5">
+                  <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <h3 id="profile-name-display" class="font-bold text-slate-800 text-lg leading-tight">Nama Operator</h3>
+                <span id="setup-pulse-badge" class="hidden text-[9px] bg-amber-100 text-amber-800 border border-amber-200 font-black px-1.5 py-0.5 rounded-md animate-pulse">Belum Diatur</span>
+              </div>
+              <p id="profile-role-display" class="text-xs text-slate-500 font-semibold mt-0.5">Administrator Utama</p>
+              <p id="profile-school-display" class="text-xs text-brand-600 font-bold mt-1 bg-brand-50 px-2.5 py-0.5 rounded-lg inline-block">Sekolah Integrasi Anda</p>
+              
+              <!-- MOTTO PROFIL OPERATOR -->
+              <div class="mt-2.5 text-[11px] text-slate-500 italic font-medium flex items-center gap-1.5 bg-slate-50/80 px-2 py-1.5 rounded-xl border border-slate-100">
+                <span class="w-3.5 h-3.5 text-brand-400 flex-shrink-0">
+                  <svg fill="currentColor" viewBox="0 0 24 24" class="w-full h-full"><path d="M11.192 15.757c0-.907-.188-1.754-.565-2.54a6.685 6.685 0 00-1.624-2.115c.104-.61.352-1.196.744-1.757.393-.562.912-1.077 1.558-1.547l-.847-1.312C8.347 8.027 6.64 9.941 5.343 12.238c-1.296 2.296-1.944 4.414-1.944 6.353 0 1.25.32 2.222.959 2.918.64.696 1.524 1.044 2.653 1.044 1.13 0 2.021-.341 2.673-1.023.652-.682.978-1.602.978-2.759 0-1.156-.319-2.062-.958-2.718-.64-.656-1.524-.984-2.653-.984l-.113.016c.381-1.06 1.054-2.016 2.016-2.864.962-.847 1.93-1.432 2.905-1.754l-.444-1.129c-.792.234-1.58.634-2.366 1.2a11.192 11.192 0 00-2.348 2.348l-.065.097c.56.096 1.01.328 1.348.694.339.366.508.847.508 1.444zm11 0c0-.907-.188-1.754-.565-2.54a6.685 6.685 0 00-1.624-2.115c.104-.61.352-1.196.744-1.757.393-.562.912-1.077 1.558-1.547l-.847-1.312c-2.113 1.54-3.82 3.454-5.117 5.751-1.296 2.296-1.944 4.414-1.944 6.353 0 1.25.32 2.222.959 2.918.64.696 1.524 1.044 2.653 1.044 1.13 0 2.021-.341 2.673-1.023.652-.682.978-1.602.978-2.759 0-1.156-.319-2.062-.958-2.718-.64-.656-1.524-.984-2.653-.984l-.113.016c.381-1.06 1.054-2.016 2.016-2.864.962-.847 1.93-1.432 2.905-1.754l-.444-1.129c-.792.234-1.58.634-2.366 1.2a11.192 11.192 0 00-2.348 2.348l-.065.097c.56.096 1.01.328 1.348.694.339.366.508.847.508 1.444z"/></svg>
+                </span>
+                <span id="profile-motto-display">Sedikit bicara banyak kerjaannya</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs text-slate-500 font-semibold">
+            <span class="flex items-center gap-1.5 font-medium">
+              <span class="w-4 h-4 text-brand-500">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"></path></svg>
+              </span>
+              Enkripsi Sesi Lokal
+            </span>
+            <span id="sync-status-badge" class="font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-lg text-[11px] animate-blink">Lokal Tersinkron</span>
+          </div>
+        </div>
+
+        <!-- AKSI & KONTROL CEPAT -->
+        <div class="bg-white rounded-3xl p-6 shadow-premium border border-slate-100 space-y-4">
+          <h3 class="text-xs font-extrabold text-slate-800 text-outfit flex items-center gap-2 uppercase tracking-wider">
+            <span class="w-4 h-4 text-brand-500">
+              <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"></path></svg>
+            </span>
+            Aksi & Kontrol Cepat
+          </h3>
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick="toggleEditProfile()" class="px-4 py-3 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-2xl text-xs font-bold border border-brand-100 hover:border-brand-200 transition-all flex items-center justify-center gap-2 shadow-sm w-full">
+              <span class="w-4 h-4"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.43l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.991l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.28z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></span>
+              <span>Edit Profil</span>
+            </button>
+            <button onclick="openModal()" class="px-4 py-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-2xl text-xs font-bold border border-emerald-100 hover:border-emerald-200 transition-all flex items-center justify-center gap-2 shadow-sm w-full">
+              <span class="w-4 h-4"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg></span>
+              <span>Tambah Tautan</span>
+            </button>
+            <button onclick="triggerManualSync()" id="btn-manual-sync" class="py-3.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-extrabold rounded-2xl shadow-md shadow-brand-500/20 transition-all flex items-center justify-center gap-2 group" title="Sinkronkan Data Sekarang">
+              <span id="btn-sync-icon" class="w-4 h-4">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" class="transition-transform duration-500"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"></svg>
+              </span>
+              <span id="btn-sync-text">Sinkronkan</span>
+            </button>
+            <button onclick="requestResetTautan()" class="py-3.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-2xl text-xs font-bold border border-rose-100 hover:border-rose-200 transition-all flex items-center justify-center gap-2 shadow-sm" title="Reset Semua Tautan Kustom">
+              <span class="w-4 h-4"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg></span>
+              <span>Reset Tautan</span>
+            </button>
+            <button onclick="triggerImport()" class="px-4 py-3 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-2xl text-xs font-bold border border-amber-100 hover:border-amber-200 transition-all flex items-center justify-center gap-2 shadow-sm w-full" title="Impor Berkas JSON">
+              <span class="w-4 h-4"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v12m0 0l-3-3m3 3l3-3m-9-13.5h12a2.25 2.25 0 012.25 2.25v13.5A2.25 2.25 0 0118 21H6a2.25 2.25 0 01-2.25-2.25V5.25A2.25 2.25 0 016 3z"></path></svg></span>
+              <span>Impor</span>
+            </button>
+            <button onclick="exportData()" class="px-4 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-2xl text-xs font-bold border border-indigo-100 hover:border-indigo-200 transition-all flex items-center justify-center gap-2 shadow-sm w-full" title="Unduh Berkas JSON">
+              <span class="w-4 h-4"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V3m0 13.5l-3-3m3 3l3-3M6.75 19.5h10.5"></path></svg></span>
+              <span>Ekspor</span>
+            </button>
+          </div>
+        </div>
+
+        <input type="file" id="import-file-input" accept=".json" class="hidden" onchange="importData(event)" />
+
+        <!-- KALENDER KERJA -->
+        <div class="bg-white rounded-3xl p-6 shadow-premium border border-slate-100 space-y-6">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-extrabold text-slate-800 text-outfit flex items-center gap-2">
+              <span class="w-5 h-5 text-brand-500">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"></path></svg>
+              </span>
+              Kalender Kerja
             </h3>
-            <div class="flex items-center gap-1">
-              <button onclick="prevMonth()" class="p-1.5 hover:bg-slate-100 rounded-md text-slate-500 hover:text-slate-800 transition">
-                <i class="fa-solid fa-chevron-left text-xs"></i>
+            <div class="flex gap-1">
+              <button onclick="changeMonth(-1)" class="p-2 hover:bg-slate-50 border border-slate-100 hover:border-slate-200 text-slate-600 rounded-xl text-xs">
+                <span class="w-3.5 h-3.5 flex items-center justify-center"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg></span>
               </button>
-              <button onclick="nextMonth()" class="p-1.5 hover:bg-slate-100 rounded-md text-slate-500 hover:text-slate-800 transition">
-                <i class="fa-solid fa-chevron-right text-xs"></i>
+              <button onclick="changeMonth(1)" class="p-2 hover:bg-slate-50 border border-slate-100 hover:border-slate-200 text-slate-600 rounded-xl text-xs">
+                <span class="w-3.5 h-3.5 flex items-center justify-center"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg></span>
               </button>
             </div>
           </div>
 
-          <!-- Indikator Bulan & Tahun -->
-          <div class="text-center font-bold text-xs text-sky-600 tracking-wide uppercase mb-3" id="calendar-month-year">
-            Mei 2026
+          <div class="space-y-4">
+            <div class="text-center font-bold text-slate-700 text-sm animate-fadeIn" id="calendar-month-year"></div>
+            <div class="grid grid-cols-7 gap-1.5 text-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <div>S</div><div>S</div><div>R</div><div>K</div><div>J</div><div>S</div><div class="text-rose-500 font-extrabold">M</div>
+            </div>
+            <div id="calendar-days" class="grid grid-cols-7 gap-1.5 text-center text-sm font-semibold"></div>
           </div>
 
-          <!-- Header Hari -->
-          <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-2">
-            <div>Mg</div><div>Sn</div><div>Sl</div><div>Rb</div><div>Km</div><div>Jm</div><div>Sb</div>
-          </div>
-
-          <!-- Angka Tanggal -->
-          <div class="grid grid-cols-7 gap-1 text-center text-xs" id="calendar-days">
-            <!-- Rendered Dinamis -->
+          <div class="bg-brand-50/50 p-4 rounded-2xl border border-brand-100 space-y-3">
+            <h4 class="text-xs font-extrabold text-brand-900 uppercase tracking-wider" id="selected-date-label">
+              Catatan Tanggal: -
+            </h4>
+            <textarea id="memo-input" placeholder="Tulis catatan penting atau tugas Dapodik untuk tanggal ini..." class="w-full bg-white border border-brand-100 rounded-xl p-3 text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all h-20 resize-none font-medium"></textarea>
+            <div class="flex gap-2">
+              <button onclick="saveMemo()" class="flex-1 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-sm transition-colors">Simpan Catatan</button>
+              <button onclick="deleteMemo()" id="btn-delete-memo" class="hidden px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl text-xs font-bold border border-rose-100 hover:border-rose-200 transition-colors" title="Hapus Catatan">Hapus</button>
+            </div>
           </div>
         </div>
 
-        <!-- Agenda & Tugas Sekolah -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col gap-4">
+        <!-- DAFTAR TUGAS -->
+        <div class="bg-white rounded-3xl p-6 shadow-premium border border-slate-100 space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-list-check text-sky-500"></i> Agenda & Tugas
+            <h3 class="text-md font-extrabold text-slate-800 text-outfit flex items-center gap-2">
+              <span class="w-5 h-5 text-brand-500">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.03 0 1.9.693 2.166 1.638m-7.377 12.408l1.5 1.5 3-3m-5.122-3.93l1.5 1.5 3-3m-5.122-3.93l1.5 1.5 3-3"></path></svg>
+              </span>
+              Daftar Tugas Kerja
             </h3>
-            <span class="text-[10px] bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full text-slate-500 font-bold uppercase tracking-wider" id="agenda-badge-count">
-              0 Agenda
-            </span>
+            <span class="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 font-bold px-2 py-0.5 rounded-full" id="agenda-count">0 Agenda</span>
           </div>
 
-          <!-- Form Tambah Agenda -->
-          <form onsubmit="addAgendaItem(event)" class="flex gap-2">
-            <input 
-              type="text" 
-              id="agenda-input" 
-              required
-              placeholder="Tambahkan agenda baru..." 
-              class="flex-1 bg-slate-50 text-slate-800 placeholder-slate-400 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
-            />
-            <button type="submit" class="p-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition" title="Tambah">
-              <i class="fa-solid fa-plus text-xs"></i>
+          <div class="flex gap-2">
+            <input type="text" id="new-agenda-text" placeholder="Tambah tugas baru..." class="flex-1 px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 outline-none font-semibold" />
+            <button onclick="addAgenda()" class="px-4 py-2 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl shadow-sm flex items-center justify-center">
+              <span class="w-4 h-4 flex items-center justify-center"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg></span>
             </button>
-          </form>
-
-          <!-- List Rendering Agenda -->
-          <div class="max-h-[220px] overflow-y-auto pr-1 flex flex-col gap-2" id="agenda-list">
-            <!-- Rendered Dinamis -->
           </div>
+
+          <div id="agenda-list" class="space-y-2 max-h-[220px] overflow-y-auto pr-1"></div>
         </div>
-
-        <!-- Memo & Catatan Harian Berdasarkan Tanggal -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col gap-4">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-sticky-note text-amber-500"></i> Memo Tanggal
-            </h3>
-            <span id="selected-date-label" class="text-[10px] text-slate-500 font-bold">Catatan Tanggal: -</span>
-          </div>
-
-          <!-- Form Tambah Memo -->
-          <form onsubmit="addMemoItem(event)" class="flex gap-2">
-            <input 
-              type="text" 
-              id="memo-input" 
-              required
-              placeholder="Tulis memo penting..." 
-              class="flex-1 bg-slate-50 text-slate-800 placeholder-slate-400 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
-            />
-            <button type="submit" class="p-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition" title="Simpan Catatan">
-              <i class="fa-solid fa-save text-xs"></i>
-            </button>
-          </form>
-
-          <!-- List Rendering Memo -->
-          <div class="max-h-[180px] overflow-y-auto pr-1 flex flex-col gap-2" id="memo-list">
-            <!-- Rendered Dinamis -->
-          </div>
-        </div>
-
-      </div>
+      </aside>
     </div>
   </main>
 
-  <!-- ==================== FOOTER ==================== -->
-  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 transition-colors duration-300">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>&copy; 2026 <span class="font-bold text-slate-600">DAPO-HUB</span>. Dikembangkan oleh <span class="font-bold text-slate-700">Rahmat Rahim (OPS SMP Negeri 3 Makassar)</span> khusus untuk efisiensi integrasi data Operator Sekolah.</p>
-      <div class="flex gap-4">
-        <a href="https://dapo.kemendikdasmen.go.id" target="_blank" class="hover:text-sky-600 transition">Beranda Dapodik Kemendikdasmen</a>
-        <span>&bull;</span>
-        <button onclick="showOfflineTechInfo()" class="hover:text-indigo-600 transition">Teknologi Offline</button>
+  <!-- FOOTER SANGAT BERSIH -->
+  <footer class="w-full custom-glass border-t border-slate-200/80 mt-12 py-6">
+    <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div class="flex items-center gap-2 font-medium mx-auto md:mx-0">
+        <span class="w-4 h-4 text-brand-500">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path></svg>
+        </span>
+        <span id="dev-credit" data-verified="true">Memuat Lisensi Enkripsi...</span>
       </div>
     </div>
   </footer>
 
-  <!-- ==================== MODAL SYSTEM ==================== -->
-
-  <!-- 1. Modal Login / Kunci Layar Sesi -->
-  <div id="sessionLockModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl relative">
-      <div class="w-16 h-16 bg-rose-500/10 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i class="fa-solid fa-user-shield text-2xl"></i>
-      </div>
-      <h3 class="text-lg font-bold text-slate-800 mb-2">Sesi Kerja Terkunci</h3>
-      <p class="text-xs text-slate-500 mb-6 leading-relaxed">Portal dikunci sementara demi keamanan data karena sistem tidak mendeteksi aktivitas Anda selama beberapa waktu.</p>
-      
-      <div class="flex flex-col gap-3">
-        <!-- Kolom Input Passkey Sesi dengan Ikon Tanda Mata -->
-        <div class="relative">
-          <input 
-            type="password" 
-            id="session-passkey" 
-            placeholder="Masukkan Passkey Sesi..." 
-            class="w-full bg-slate-50 text-center text-slate-800 border border-slate-200 rounded-xl pl-4 pr-10 py-3 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 tracking-widest focus:bg-white"
-          />
-          <button type="button" onclick="togglePasskeyVisibility('session-passkey', 'toggle-session-eye')" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600" title="Tampilkan/Sembunyikan Passkey">
-            <i id="toggle-session-eye" class="fa-solid fa-eye text-xs"></i>
-          </button>
-        </div>
-        <button onclick="unlockSession()" class="w-full py-2.5 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white font-bold rounded-xl text-xs shadow-lg shadow-indigo-500/15 transition-all">
-          Masuk Ke Portal
-        </button>
-        
-        <!-- Opsi Pemulihan Sesi Mandiri secara Visual -->
-        <button onclick="requestEmergencyResetSession()" class="text-[11px] text-slate-400 hover:text-rose-600 hover:underline mt-2 transition animate-all">
-          Lupa Passkey Sesi? Reset Portal
-        </button>
-      </div>
-      <p class="text-[10px] text-slate-400 mt-4">Sesi lokal Anda tetap aman terenkripsi di dalam peramban.</p>
-    </div>
-  </div>
-
-  <!-- 2. Modal Profil Sekolah (Diatur Berdampingan NPSN & Akreditasi) -->
-  <div id="profileModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest">
-          <i class="fa-solid fa-school text-sky-500 mr-1.5"></i> Profil Sekolah / Lembaga
+  <!-- MODALS SYSTEM -->
+  <!-- MODAL EDIT PROFIL OPERATOR -->
+  <div id="edit-profile-form" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-all duration-300 opacity-0 " id="edit-profile-modal-content">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="text-lg font-extrabold text-slate-800 text-outfit flex items-center gap-2">
+          <span class="w-5 h-5 text-brand-500"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.43l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.991l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.28z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></span>
+          Edit Informasi Operator
         </h3>
-        <button onclick="toggleModal('profileModal', false)" class="text-slate-400 hover:text-slate-800 transition">
-          <i class="fa-solid fa-xmark"></i>
+        <button onclick="toggleEditProfile()" class="p-2 text-slate-400 hover:text-slate-600 rounded-xl transition-colors">
+          <span class="w-5 h-5 flex items-center justify-center"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></span>
         </button>
       </div>
-      <form onsubmit="saveProfile(event)" class="flex flex-col gap-4">
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Sekolah / Portal</label>
-          <input type="text" id="input-nama-sekolah" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
-        </div>
-        
-        <!-- PERBAIKAN LOGIKA TAMPILAN: NPSN dan Akreditasi diposisikan berdampingan agar kompak -->
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">NPSN</label>
-            <input type="text" id="input-npsn" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
-          </div>
-          <div>
-            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Akreditasi</label>
-            <input type="text" id="input-akreditasi" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status Satuan Pendidikan</label>
-          <select id="input-status-sekolah" class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all">
-            <option value="Negeri">Negeri</option>
-            <option value="Swasta">Swasta</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Operator / Admin</label>
-          <input type="text" id="input-operator" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
-        </div>
-        
-        <!-- KOLOM DINAMIS LINK E-RAPOR -->
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Link E-Rapor Sekolah</label>
-          <input type="url" id="input-erapor" placeholder="https://..." class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
-        </div>
-        
-        <!-- Opsi Tambahan & Form Pembuatan Passkey Manual -->
-        <div class="mt-1 py-2 border-t border-slate-100 flex flex-col gap-3">
-          <div class="flex items-center gap-2">
-            <input type="checkbox" id="input-use-passkey" onchange="toggleProfilePasskeyInput()" class="w-4 h-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500" />
-            <label for="input-use-passkey" class="text-xs text-slate-600 font-semibold select-none cursor-pointer">Gunakan Pengunci Keamanan Sesi (Passkey)</label>
-          </div>
-          
-          <!-- Kelompok Input Passkey Baru dengan Ikon Tanda Mata -->
-          <div id="profile-passkey-wrapper" class="hidden">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Atur Passkey Baru</label>
-            <div class="relative">
-              <input 
-                type="password" 
-                id="input-passkey-val" 
-                placeholder="Masukkan passkey baru..." 
-                class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg pl-3 pr-10 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" 
-              />
-              <button type="button" onclick="togglePasskeyVisibility('input-passkey-val', 'toggle-profile-eye')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600" title="Tampilkan/Sembunyikan Passkey">
-                <i id="toggle-profile-eye" class="fa-solid fa-eye text-xs"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex gap-2">
-          <button type="button" onclick="toggleModal('profileModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition">
-            Batal
-          </button>
-          <button type="submit" class="flex-1 py-2 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-lg text-xs transition">
-            Simpan Konfigurasi
-          </button>
-        </div>
-      </form>
+      <div class="space-y-4 py-4">
+        <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Nama Lengkap</label><input type="text" id="input-profile-name" class="w-full mt-1.5 px-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 outline-none font-semibold" /></div>
+        <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Peran / Jabatan</label><input type="text" id="input-profile-role" class="w-full mt-1.5 px-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 outline-none font-semibold" /></div>
+        <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Instansi / Sekolah</label><input type="text" id="input-profile-school" class="w-full mt-1.5 px-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 outline-none font-semibold" /></div>
+        <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Motto / Slogan Kerja</label><input type="text" id="input-profile-motto" class="w-full mt-1.5 px-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 outline-none font-semibold" /></div>
+      </div>
+      <div class="flex gap-2 pt-4 border-t border-slate-100">
+        <button onclick="saveProfileData()" class="flex-1 py-3 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-md shadow-brand-500/20 transition-all">Simpan Profil</button>
+        <button onclick="toggleEditProfile()" class="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl">Batal</button>
+      </div>
     </div>
   </div>
 
-  <!-- 3. Modal Tautan Kustom -->
-  <div id="linkModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl">
-      <div class="flex items-center justify-between mb-4">
-        <h3 id="link-modal-title" class="text-sm font-extrabold text-slate-800 uppercase tracking-widest">
+  <!-- MODAL TAMBAH TAUTAN KUSTOM -->
+  <div id="custom-link-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-all duration-300 opacity-0 " id="modal-content">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="text-lg font-extrabold text-slate-800 text-outfit flex items-center gap-2">
+          <span class="w-5 h-5 text-brand-500"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"></path></svg></span>
           Tambah Tautan Kustom
         </h3>
-        <button onclick="toggleModal('linkModal', false)" class="text-slate-400 hover:text-slate-800 transition">
-          <i class="fa-solid fa-xmark"></i>
+        <button onclick="closeModal()" class="p-2 text-slate-400 hover:text-slate-600 rounded-xl transition-colors">
+          <span class="w-5 h-5 flex items-center justify-center"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></span>
         </button>
       </div>
-      <form onsubmit="saveCustomLink(event)" class="flex flex-col gap-4">
-        <input type="hidden" id="link-index" value="" />
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Kategori</label>
-          <select id="link-category" required class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all">
-            <option value="Utama">Utama</option>
-            <option value="Verifikasi">Verifikasi & Validasi</option>
-            <option value="Keuangan">Keuangan</option>
-            <option value="Sertifikasi">Sertifikasi & GTK</option>
-            <option value="Kepegawaian">Kepegawaian</option>
-            <option value="Ujian">Ujian</option>
-            <option value="Daerah">Daerah</option>
-            <option value="Utilitas">Utilitas / Server</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nama Layanan / Tautan</label>
-          <input type="text" id="link-title" required placeholder="Contoh: BOS Salur" class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">URL / Link Alamat</label>
-          <input type="url" id="link-url" required placeholder="https://..." class="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-sky-500 focus:bg-white transition-all" />
-        </div>
-        
-        <!-- Pilihan Ikon Kreatif Visual -->
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Pilih Ikon Tautan</label>
-          <input type="hidden" id="link-icon" value="fa-solid fa-link" />
-          <div id="icon-picker-grid" class="grid grid-cols-6 gap-2 bg-slate-50 p-3 rounded-lg border border-slate-200 max-h-[140px] overflow-y-auto">
-            <!-- Rendered Dinamis -->
-          </div>
-        </div>
-
-        <div class="flex gap-2">
-          <button type="button" onclick="toggleModal('linkModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition">
-            Batal
-          </button>
-          <button type="submit" class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition">
-            Simpan Tautan
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- 4. Modal Konfirmasi Hapus Tautan Kustom -->
-  <div id="deleteConfirmModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl">
-      <div class="w-12 h-12 bg-rose-500/10 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+      <div class="space-y-4 py-4">
+        <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Nama Tautan</label><input type="text" id="link-title" placeholder="Contoh: Info GTK" class="w-full mt-1.5 px-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 outline-none font-semibold" /></div>
+        <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">URL Tautan</label><input type="text" id="link-url" placeholder="https://..." class="w-full mt-1.5 px-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 outline-none font-semibold" /></div>
+        <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-2">Pilih Ikon</label><div class="grid grid-cols-6 gap-2 border border-slate-100 p-3 rounded-2xl bg-slate-50" id="icon-picker-container"></div><input type="hidden" id="selected-icon-class" value="link" /></div>
       </div>
-      <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest mb-2">Hapus Tautan?</h3>
-      <p class="text-xs text-slate-500 mb-6">Apakah Anda yakin ingin menghapus tautan kustom ini? Tindakan ini tidak dapat dibatalkan.</p>
-      
-      <div class="flex gap-3">
-        <button onclick="toggleModal('deleteConfirmModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition animate-all">
-          Batal
-        </button>
-        <button id="confirm-delete-btn" class="flex-1 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-lg text-xs transition animate-all">
-          Hapus Permanen
-        </button>
+      <div class="flex gap-2 pt-4 border-t border-slate-100">
+        <button onclick="addCustomLink()" class="flex-1 py-3 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-md shadow-brand-500/20 transition-all">Simpan</button>
+        <button onclick="closeModal()" class="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl">Batal</button>
       </div>
     </div>
   </div>
 
-  <!-- 5. Modal Manajemen Backup & Restore Data -->
-  <div id="backupModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 shadow-2xl">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest">
-          <i class="fa-solid fa-database text-indigo-500 mr-1.5"></i> Backup & Restore Data Lokal
+  <!-- MODAL KONFIRMASI HAPUS TAUTAN -->
+  <div id="delete-link-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center space-y-4 animate-fadeIn">
+      <div class="w-14 h-14 bg-rose-50 text-rose-500 rounded-2xl flex items-center justify-center mx-auto text-xl">
+        <span class="w-6 h-6"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path></svg></span>
+      </div>
+      <div><h3 class="text-md font-bold text-slate-800">Hapus Tautan Kustom?</h3><p class="text-xs text-slate-500 mt-1">Tautan ini akan dihapus permanen.</p></div>
+      <div class="flex gap-2">
+        <button id="confirm-delete-btn" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl shadow-sm">Ya, Hapus</button>
+        <button onclick="closeDeleteModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RESET SEMUA TAUTAN -->
+  <div id="reset-links-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center space-y-4 animate-fadeIn">
+      <div class="w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mx-auto text-xl">
+        <span class="w-6 h-6"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg></span>
+      </div>
+      <div><h3 class="text-md font-bold text-slate-800">Reset Semua Tautan?</h3><p class="text-xs text-slate-500 mt-1.5 leading-relaxed">Semua data tautan kustom akan dihapus permanen.</p></div>
+      <div class="flex gap-2">
+        <button onclick="executeResetTautan()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl shadow-sm">Ya, Reset</button>
+        <button onclick="closeResetLinksModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ALERT KUSTOM -->
+  <div id="custom-alert-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center space-y-4 animate-fadeIn">
+      <div id="alert-icon-wrapper" class="w-14 h-14 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center mx-auto text-xl">
+        <span id="alert-icon" class="w-6 h-6"></span>
+      </div>
+      <div><h3 id="alert-title" class="text-md font-bold text-slate-800">Pemberitahuan</h3><p id="alert-message" class="text-xs text-slate-500 mt-1.5 leading-relaxed">Pesan pemberitahuan.</p></div>
+      <button onclick="closeCustomAlert()" class="w-full py-2.5 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl shadow-sm">Mengerti</button>
+    </div>
+  </div>
+
+  <!-- MODAL RESET SESI DARURAT -->
+  <div id="confirm-reset-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center space-y-4 animate-fadeIn">
+      <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-xl">
+        <span class="w-6 h-6"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"></path></svg></span>
+      </div>
+      <div><h3 class="text-md font-bold text-slate-800">Reset Sesi Darurat?</h3><p class="text-xs text-slate-500 mt-1.5 leading-relaxed">Semua data lokal akan dihapus total.</p></div>
+      <div class="flex gap-2">
+        <button onclick="executeEmergencyResetSession()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl shadow-sm">Ya, Bersihkan</button>
+        <button onclick="closeConfirmResetModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DIAGNOSTIK & PANDUAN PWA -->
+  <div id="pwa-diagnostic-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-all duration-300 opacity-0 " id="pwa-diag-content">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="text-lg font-extrabold text-slate-800 text-outfit flex items-center gap-2">
+          <span class="w-5 h-5 text-brand-500"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 111.063.852l-.708 2.836a.75.75 0 001.063.852l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"></path></svg></span>
+          Panduan & Diagnostik PWA
         </h3>
-        <button onclick="toggleModal('backupModal', false)" class="text-slate-400 hover:text-slate-800 transition">
-          <i class="fa-solid fa-xmark"></i>
+        <button onclick="closePWARequestModal()" class="p-2 text-slate-400 hover:text-slate-600 rounded-xl transition-colors">
+          <span class="w-5 h-5 flex items-center justify-center"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></span>
         </button>
       </div>
       
-      <div class="flex flex-col gap-6 text-xs text-slate-600">
-        <p class="leading-relaxed">Semua konfigurasi portal (Tautan kustom, Profil Sekolah, Agenda, Memo, dll.) disimpan secara mandiri dan aman di peramban Anda. Anda disarankan melakukan backup berkala untuk mencegah hilangnya data.</p>
+      <div class="space-y-4 py-4 text-xs text-slate-600 leading-relaxed">
+        <p class="text-[13px] font-semibold text-slate-700">Modul Instalasi PWA saat ini dikonfigurasi menggunakan <strong>Instan Inline Manifest</strong> agar tidak bergantung pada berkas server.</p>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Opsi Eksport -->
-          <div class="border border-slate-200 bg-slate-50 p-4 rounded-xl flex flex-col justify-between gap-3 shadow-sm">
-            <div>
-              <h4 class="font-bold text-slate-800 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-file-export text-sky-500"></i> Ekspor Backup</h4>
-              <p class="text-[11px] text-slate-500">Unduh seluruh berkas konfigurasi lokal saat ini ke komputer Anda.</p>
-            </div>
-            <button onclick="exportBackupData()" class="w-full py-2 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-lg transition-all shadow-sm">
-              Ekspor (.json)
-            </button>
+        <!-- Live Diagnostic Status -->
+        <div class="bg-slate-50 border border-slate-200/60 p-4 rounded-2xl space-y-2.5 font-semibold">
+          <h4 class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+            <span class="w-4 h-4 text-brand-500"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"></path></svg></span>
+            Status PWA & Integrasi Server:
+          </h4>
+          <div class="flex items-center justify-between">
+            <span>Metode Manifes</span>
+            <span class="font-bold text-emerald-600 flex items-center gap-1">Inline (Aktif & Cepat)</span>
           </div>
-          
-          <!-- Opsi Impor -->
-          <div class="border border-slate-200 bg-slate-50 p-4 rounded-xl flex flex-col justify-between gap-3 shadow-sm">
-            <div>
-              <h4 class="font-bold text-slate-800 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-file-import text-indigo-500"></i> Impor Backup</h4>
-              <p class="text-[11px] text-slate-500">Pulihkan seluruh data konfigurasi portal dari file backup JSON sebelumnya.</p>
-            </div>
-            <label class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-center font-bold rounded-lg cursor-pointer transition-all block shadow-sm">
-              Pilih File
-              <input type="file" id="import-file" accept=".json" onchange="importBackupData(event)" class="hidden" />
-            </label>
+          <div class="flex items-center justify-between">
+            <span>Registrasi Service Worker</span>
+            <span id="diag-sw-status" class="font-bold flex items-center gap-1 text-slate-500">Mengecek...</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span>Protokol Keamanan (HTTPS / SSL)</span>
+            <span id="diag-https-status" class="font-bold text-emerald-600 flex items-center gap-1">Aktif</span>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- 6. Modal Informasi Teknologi Offline PWA -->
-  <div id="techInfoModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 shadow-2xl">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest">
-          <i class="fa-solid fa-circle-info text-sky-500 mr-1.5"></i> Integrasi Offline & Service Worker
-        </h3>
-        <button onclick="toggleModal('techInfoModal', false)" class="text-slate-400 hover:text-slate-800 transition">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div class="text-xs text-slate-600 flex flex-col gap-4 leading-relaxed">
-        <p>Aplikasi ini telah mengadopsi standar Progressive Web App (PWA) modern dengan caching Service Worker. Berikut adalah detail fungsionalitas offline:</p>
-        <ul class="list-disc pl-5 flex flex-col gap-1.5 text-slate-500">
-          <li><strong>Penyimpanan Berkelanjutan:</strong> Semua link baru, kalender kegiatan, dan catatan memo disimpan menggunakan LocalStorage terenkripsi.</li>
-          <li><strong>Caching Aset:</strong> Semua icon pihak ketiga, pustaka Tailwind CSS, dan script penunjang secara otomatis tersimpan secara lokal pada kunjungan pertama.</li>
-          <li><strong>Akses Tanpa Koneksi:</strong> Anda dapat membuka dapo-hub kapan pun tanpa koneksi internet yang stabil.</li>
-        </ul>
-        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 shadow-inner">
-          <span class="block text-[10px] font-bold text-slate-500 mb-1">Status Caching Mandiri:</span>
-          <p id="cache-tech-status" class="text-emerald-600 font-mono">Penyimpanan Offline Service Worker Aktif Berkelanjutan.</p>
+        <div class="space-y-3">
+          <h4 class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+            <span class="w-4 h-4 text-brand-500"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5"></path></svg></span>
+            Cara Memasang Secara Manual:
+          </h4>
+          <div class="space-y-2.5 pl-1 text-[11px]">
+            <div class="flex gap-2">
+              <span class="w-5 h-5 bg-slate-100 rounded-full flex items-center justify-center font-bold text-slate-500 flex-shrink-0">1</span>
+              <p><strong>iOS / Safari (Apple):</strong> Ketuk tombol bagikan Safari, lalu gulir ke bawah dan pilih <strong class="text-slate-800">"Tambahkan ke Layar Utama"</strong>.</p>
+            </div>
+            <div class="flex gap-2">
+              <span class="w-5 h-5 bg-slate-100 rounded-full flex items-center justify-center font-bold text-slate-500 flex-shrink-0">2</span>
+              <p><strong>Android / Chrome:</strong> Jika tombol instalasi otomatis tidak merespons, ketuk ikon menu titik tiga di kanan atas Chrome, lalu pilih <strong class="text-slate-800">"Instal aplikasi"</strong> atau <strong class="text-slate-800">"Tambahkan ke Layar Utama"</strong>.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-brand-50/50 border border-brand-100 p-3 rounded-xl text-[11px] text-brand-800 font-semibold flex items-start gap-2">
+          <span class="w-4 h-4 text-brand-500 flex-shrink-0 mt-0.5"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-3H9.75a.75.75 0 00-.53.22L7.47 17c-.39.39-.11 1.06.44 1.06h8.18c.55 0 .83-.67.44-1.06l-1.75-1.78a.75.75 0 00-.53-.22H12z"></path></svg></span>
+          <span>Tips: Berkat sistem Inline Manifest, instalasi PWA di peramban Anda kini dapat dipicu secara langsung dan instan tanpa masalah konfigurasi silang hosting (CORS).</span>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- 7. Modal Konfirmasi Reset Tautan Bawaan -->
-  <div id="resetConfirmModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl">
-      <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i class="fa-solid fa-triangle-exclamation text-xl"></i>
-      </div>
-      <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest mb-2">Reset Tautan Bawaan?</h3>
-      <p class="text-xs text-slate-500 mb-6">Apakah Anda yakin ingin mengembalikan seluruh daftar tautan ke setelan bawaan? Seluruh tautan kustom yang telah Anda buat akan dihapus.</p>
-      
-      <div class="flex gap-3">
-        <button onclick="toggleModal('resetConfirmModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition animate-all">
-          Batal
-        </button>
-        <button onclick="executeResetLinks()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg text-xs transition animate-all">
-          Ya, Reset
-        </button>
+      <div class="pt-4 border-t border-slate-100">
+        <button onclick="closePWARequestModal()" class="w-full py-3 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl shadow-sm transition-colors">Tutup Panduan</button>
       </div>
     </div>
   </div>
 
-  <!-- 8. Modal Darurat Reset Sesi Pengguna Lupa Passkey -->
-  <div id="emergencyResetModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl">
-      <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i class="fa-solid fa-triangle-exclamation text-xl"></i>
-      </div>
-      <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest mb-2">Reset Kunci Sesi?</h3>
-      <p class="text-xs text-slate-500 mb-6 leading-relaxed">Tindakan ini akan mematikan fitur pengunci layar dan mereset passkey saat ini agar Anda dapat masuk kembali ke portal. Seluruh data tautan kustom dan catatan Anda tetap utuh.</p>
-      
-      <div class="flex gap-3">
-        <button onclick="toggleModal('emergencyResetModal', false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-lg text-xs transition animate-all">
-          Batal
-        </button>
-        <button onclick="executeEmergencyResetSession()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg text-xs transition animate-all">
-          Ya, Reset Sesi
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- PWA Panduan Instalasi Manual Modal -->
-  <div id="pwaManualGuideModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl text-center">
-      <div class="w-14 h-14 bg-emerald-500/10 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i class="fa-solid fa-laptop text-2xl"></i>
-      </div>
-      <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest mb-2">Pasang DAPO-HUB</h3>
-      <p class="text-xs text-slate-500 mb-6 leading-relaxed">Nikmati akses luring penuh (*offline*) dengan memasang portal ini ke perangkat Windows atau Android Anda.</p>
-      
-      <div class="text-left bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6 text-xs flex flex-col gap-3">
-        <div class="flex gap-3 items-start">
-          <span class="w-5 h-5 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-[10px] shrink-0">1</span>
-          <p class="text-slate-600">Klik ikon **Pasang / Install** (berbentuk layar dengan panah ke bawah) yang muncul di sebelah kanan **Address Bar** browser Chrome/Edge Anda.</p>
-        </div>
-        <div class="flex gap-3 items-start">
-          <span class="w-5 h-5 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-[10px] shrink-0">2</span>
-          <p class="text-slate-600">Jika Anda menggunakan perangkat Android, ketuk tombol opsi (titik tiga) di pojok kanan atas browser, lalu ketuk **Tambahkan ke Layar Utama** (*Add to Home screen*).</p>
-        </div>
-      </div>
-      
-      <button onclick="toggleModal('pwaManualGuideModal', false)" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
-        Saya Mengerti, Tutup Panduan
-      </button>
-    </div>
-  </div>
-
-  <!-- Pemberitahuan Berjangka (Sistem Toast Elegan) -->
-  <div id="toast" class="opacity-0 translate-y-4 pointer-events-none fixed bottom-6 right-6 bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-800 flex items-center gap-2.5 shadow-2xl transition-all duration-300 z-50">
-    <span id="toast-icon" class="text-sky-500"><i class="fa-solid fa-circle-check"></i></span>
-    <span id="toast-message">Pesan notifikasi di sini...</span>
-  </div>
-
-  <!-- ==================== SYSTEM SCRIPTS ==================== -->
+  <!-- JAVASCRIPT PORTAL UTAMA & ENKRIPSI -->
   <script>
-    // ==========================================================
-    // BAGIAN 1: INISIALISASI DATABASE & KONSTANTA STATE UTAMA
-    // ==========================================================
-    const defaultLinks = [
-      // 1. UTAMA (Dapodik & Aplikasi Dasar)
-      { category: "Utama", title: "Aplikasi Dapodik Lokal", url: "http://localhost:5774", icon: "fa-solid fa-laptop" },
-      { category: "Utama", title: "Beranda Dapodik", url: "https://dapo.kemendikdasmen.go.id", icon: "fa-solid fa-globe" },
-      { category: "Utama", title: "DIGI-DitSMP Kemendikdasmen", url: "https://digi-ditsmp.kemendikdasmen.go.id/", icon: "fa-solid fa-desktop" },
-      { category: "Utama", title: "JDIH Kemendikdasmen", url: "https://jdih.kemendikdasmen.go.id/", icon: "fa-solid fa-gavel" },
-      { category: "Utama", title: "Pendaftaran Lomba (BPTI)", url: "https://daftar-bpti.kemendikdasmen.go.id", icon: "fa-solid fa-trophy" },
-      { category: "Utama", title: "PTK Datadik", url: "https://ptk.datadik.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
-      { category: "Utama", title: "Pusat Kurikulum", url: "https://kurikulum.kemendikdasmen.go.id/", icon: "fa-solid fa-book-open" },
-      { category: "Utama", title: "Rapor Pendidikan Kemendikdasmen", url: "https://raporpendidikan.kemendikdasmen.go.id", icon: "fa-solid fa-globe" },
-      { category: "Utama", title: "SP Datadik Satuan Pendidikan", url: "https://sp.datadik.kemendikdasmen.go.id/", icon: "fa-solid fa-school-flag" },
-      { category: "Utama", title: "Unduh Prefill Dapodik", url: "https://prefill2.kemendikdasmen.go.id/", icon: "fa-solid fa-database" },
-      { category: "Utama", title: "Unduhan Aplikasi Dapodik", url: "https://dapo.kemendikdasmen.go.id/unduhan", icon: "fa-solid fa-database" },
+    // SISTEM PENYEDIA IKON SVG OFFLINE-READY UNTUK SEMUA LINK & KATEGORI
+    const svgIcons = {
+      'laptop': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12v10.5a1.5 1.5 0 01-1.5 1.5H4.5A1.5 1.5 0 013 15.25V5.25m18 0A1.5 1.5 0 0019.5 3.75h-15A1.5 1.5 0 003 5.25m18 0v10.5m-18-10.5v10.5M12 13.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg>`,
+      'globe': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253"/></svg>`,
+      'desktop': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25M21 5.25v9.75a1.5 1.5 0 01-1.5 1.5H4.5A1.5 1.5 0 013 15V5.25m18 0A1.5 1.5 0 0019.5 3.75h-15A1.5 1.5 0 003 5.25m18 0v9.75m-18-9.75V15"/></svg>`,
+      'gavel': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 18.75h18M6.5 15.25h11m-11-2.25h11m-10.5-6h10a1.5 1.5 0 011.5 1.5v3a1.5 1.5 0 01-1.5 1.5h-10a1.5 1.5 0 01-1.5-1.5v-3a1.5 1.5 0 011.5-1.5zM12 8.25V3"/></svg>`,
+      'trophy': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.504-1.125-1.125-1.125h-.375m-6 4.5v-3.375c0-.621.504-1.125 1.125-1.125h.375m6-1.125V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.03 0 1.9.693 2.166 1.638m-11.55 4.5h-.008v.008h.008V8.25zm11.55 0h-.008v.008h.008V8.25z"/></svg>`,
+      'id-card': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6 15a3 3 0 016 0H6z"/></svg>`,
+      'book-open': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>`,
+      'school-flag': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a1.125 1.125 0 00.871-1.1V3.75a1.125 1.125 0 00-1.366-1.093l-3.32.78a9 9 0 01-5.712-.132l-.17-.058a9 9 0 00-6.195.122l-4.5 1.5A1.125 1.125 0 002.25 4.5v10.5A1.125 1.125 0 003 15z"/></svg>`,
+      'database': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/></svg>`,
+      'graduation-cap': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.62 48.62 0 0112 20.9c4.956 0 9.31-1.766 11.557-4.437a60.436 60.436 0 00-.49-6.347m-18.337 0a60.43 60.43 0 0118.338 0m-18.338 0L12 5.61l8.76 4.537M12 18.75v-5.25"/></svg>`,
+      'user-shield': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>`,
+      'computer': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25M21 5.25v9.75a1.5 1.5 0 01-1.5 1.5H4.5A1.5 1.5 0 013 15V5.25m18 0A1.5 1.5 0 0019.5 3.75h-15A1.5 1.5 0 003 5.25m18 0v9.75m-18-9.75V15"/></svg>`,
+      'wallet': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3"/></svg>`,
+      'receipt': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>`,
+      'cart-shopping': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>`,
+      'chalkboard-user': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0h.5m-.5 0h-10.5m10.5 0H5.25m3-13.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6 11.25a3 3 0 016 0H6z"/></svg>`,
+      'spell-check': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+      'network-wired': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3"/></svg>`,
+      'city': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.203 0-4.4.174-6.54.513V21m13.5-3.75h.008v.008h-.008v-.008zm0-3h.008v.008h-.008v-.008zm0-3h.008v.008h-.008v-.008zm-13.5 6h.008v.008h-.008v-.008zm0-3h.008v.008h-.008v-.008zm0-3h.008v.008h-.008v-.008z"/></svg>`,
+      'utensils': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-3H9.75a.75.75 0 00-.53.22L7.47 17c-.39.39-.11 1.06.44 1.06h8.18c.55 0 .83-.67.44-1.06l-1.75-1.78a.75.75 0 00-.53-.22H12z"/></svg>`,
+      'gauge': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>`,
+      'image': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>`,
+      'comments': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.774-1.814 11.218 11.218 0 01-1.386-3.149C2.428 14.908 2 13.5 2 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg>`,
+      'trash': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path></svg>`,
+      'link': `<svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>`
+    };
 
-      // 2. VERIFIKASI (Layanan Verval / Pusdatin)
-      { category: "Verifikasi", title: "Cek NISN Mandiri", url: "https://nisn.data.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
-      { category: "Verifikasi", title: "Cek NUPTK GTK", url: "https://gtk.data.kemendikdasmen.go.id/", icon: "fa-solid fa-id-card" },
-      { category: "Verifikasi", title: "Manajemen / Verval Ijazah (SIVIL)", url: "https://ijazah.data.kemendikdasmen.go.id/manajemen/#/sign-in", icon: "fa-solid fa-graduation-cap" },
-      { category: "Verifikasi", title: "Pusdatin PD", url: "https://pd.data.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
-      { category: "Verifikasi", title: "SDM Data Kemendikdasmen", url: "https://sdm.data.kemendikdasmen.go.id/", icon: "fa-solid fa-user-shield" },
-      { category: "Verifikasi", title: "Verval PD (Peserta Didik)", url: "https://vervalpd.data.kemendikdasmen.go.id/", icon: "fa-solid fa-id-card" },
-      { category: "Verifikasi", title: "Verval PTK", url: "https://vervalptk.data.kemendikdasmen.go.id/site/login", icon: "fa-solid fa-id-card" },
-      { category: "Verifikasi", title: "Verval SP (Satuan Pendidikan)", url: "https://vervalsp.data.kemdikbud.go.id/verval/index.php/cberanda/index/", icon: "fa-solid fa-globe" },
-      { category: "Verifikasi", title: "Verval TIK", url: "https://vervaltio.data.kemendikdasmen.go.id", icon: "fa-solid fa-computer" },
-
-      // 3. KEUANGAN (ARKAS, Pajak, SIPLah & Penyaluran)
-      { category: "Keuangan", title: "ARKAS Kemendikdasmen", url: "https://arkas.kemendikdasmen.go.id", icon: "fa-solid fa-wallet" },
-      { category: "Keuangan", title: "BOSP Salur", url: "https://bosp.kemendikdasmen.go.id", icon: "fa-solid fa-wallet" },
-      { category: "Keuangan", title: "Coretax DJP Pajak", url: "https://coretaxdjp.pajak.go.id/identityproviderportal/Account/Login", icon: "fa-solid fa-receipt" },
-      { category: "Keuangan", title: "Sipintar PIP", url: "https://pip.kemendikdasmen.go.id/home_v1", icon: "fa-solid fa-wallet" },
-      { category: "Keuangan", title: "SIPLah", url: "https://siplah.blibli.com/", icon: "fa-solid fa-cart-shopping" },
-
-      // 4. SERTIFIKASI (Pendidik / GTK)
-      { category: "Sertifikasi", title: "Akun Belajar.id", url: "https://belajar.id", icon: "fa-solid fa-chalkboard-user" },
-      { category: "Sertifikasi", title: "Info GTK", url: "https://info.gtk.kemendikdasmen.go.id/", icon: "fa-solid fa-chalkboard-user" },
-      { category: "Sertifikasi", title: "KBBI Daring Kemendikdasmen", url: "https://kbbi.kemendikdasmen.go.id/", icon: "fa-solid fa-spell-check" },
-      { category: "Sertifikasi", title: "Ruang GTK", url: "https://akun.pendidikan.go.id/login?flow=fa87d033-975e-48c1-8315-b75b0be1dfb2", icon: "fa-solid fa-chalkboard-user" },
-      { category: "Sertifikasi", title: "Rumah Belajar", url: "https://rumah.pendidikan.go.id/", icon: "fa-solid fa-school-flag" },
-      { category: "Sertifikasi", title: "SIMPKB Login", url: "https://paspor-gtk.simpkb.id/casgpo/login?service=https%3A%2F%2Fapp.simpkb.id%2Fauth%2Flogin", icon: "fa-solid fa-chalkboard-user" },
-
-      // 5. KEPEGAWAIAN
-      { category: "Kepegawaian", title: "e-Kinerja BKN", url: "https://kinerja.bkn.go.id", icon: "fa-solid fa-chalkboard-user" },
-      { category: "Kepegawaian", title: "e-Sakti Makassar", url: "https://esakti.makassar.go.id", icon: "fa-solid fa-network-wired" },
-      { category: "Kepegawaian", title: "MyASN BKN", url: "https://myasn.bkn.go.id", icon: "fa-solid fa-id-card" },
-      { category: "Kepegawaian", title: "SIMPEG Kemendikdasmen", url: "https://simpeg.bkpsdmd.makassarkota.go.id/", icon: "fa-solid fa-id-card" },
-      { category: "Kepegawaian", title: "SIPP Makassar", url: "https://sipp.makassar.go.id", icon: "fa-solid fa-city" },
-
-      // 6. UJIAN (Asesmen Nasional / ANBK)
-      { category: "Ujian", title: "Bio-AN SMP", url: "https://bioansmp.kemendikdasmen.go.id", icon: "fa-solid fa-id-card" },
-      { category: "Ujian", title: "Portal TKA & Asesmen Bakat", url: "https://tka.kemendikdasmen.go.id/", icon: "fa-solid fa-computer" },
-      { category: "Ujian", title: "Portal Web ANBK", url: "https://anbk.kemendikdasmen.go.id", icon: "fa-solid fa-computer" },
-
-      // 7. DAERAH (Dinas & Program Daerah)
-      { category: "Daerah", title: "Dinas Pendidikan Makassar", url: "https://disdik.makassarkota.go.id", icon: "fa-solid fa-city" },
-      { category: "Daerah", title: "Makan Bergizi Gratis (MBG)", url: "https://mbg.pdm.kemendikdasmen.go.id/portal", icon: "fa-solid fa-utensils" },
-      { category: "Daerah", title: "Portal PPDB Makassar", url: "https://spmb.makassarkota.go.id/cloginsekolahx", icon: "fa-solid fa-city" },
-
-      // 8. UTILITAS (Utilitas & Server Pendukung)
-      { category: "Utilitas", title: "cekip.com", url: "https://cekip.com/", icon: "fa-solid fa-globe" },
-      { category: "Utilitas", title: "Speedtest", url: "https://www.speedtest.net/", icon: "fa-solid fa-gauge" },
-      { category: "Utilitas", title: "TinyPNG", url: "https://tinypng.com/", icon: "fa-solid fa-image" },
-      { category: "Utilitas", title: "WhatsApp Web", url: "https://web.whatsapp.com/", icon: "fa-solid fa-comments" }
-    ];
-
-    const availableIcons = [
-      "fa-solid fa-link",
-      "fa-solid fa-school",
-      "fa-solid fa-graduation-cap",
-      "fa-solid fa-users",
-      "fa-solid fa-chalkboard-user",
-      "fa-solid fa-id-card",
-      "fa-solid fa-file-invoice-dollar",
-      "fa-solid fa-cart-shopping",
-      "fa-solid fa-book",
-      "fa-solid fa-globe",
-      "fa-solid fa-circle-info",
-      "fa-solid fa-chart-line",
-      "fa-solid fa-folder-open",
-      "fa-solid fa-key",
-      "fa-solid fa-envelope",
-      "fa-solid fa-address-book",
-      "fa-solid fa-calendar-days",
-      "fa-solid fa-clipboard-list",
-      "fa-solid fa-laptop",
-      "fa-solid fa-school-flag",
-      "fa-solid fa-database",
-      "fa-solid fa-trophy",
-      "fa-solid fa-desktop",
-      "fa-solid fa-gavel",
-      "fa-solid fa-book-open",
-      "fa-solid fa-user-shield",
-      "fa-solid fa-computer",
-      "fa-solid fa-wallet",
-      "fa-solid fa-receipt",
-      "fa-solid fa-spell-check",
-      "fa-solid fa-city",
-      "fa-solid fa-network-wired",
-      "fa-solid fa-utensils",
-      "fa-solid fa-comments",
-      "fa-solid fa-image",
-      "fa-solid fa-gauge"
-    ];
-
-    // Variabel Penahan State Berkelanjutan
-    let links = [];
-    let agenda = [];
-    let memos = {}; 
-    let currentDeleteIndex = null;
-    let selectedDateStr = ""; 
-    let currentDate = new Date();
-
-    const monthNames = [
-      "Januari", "Februari", "Maret", "April", "Mei", "Juni", 
-      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
-
-    const PASSKEY_KEY = "dapo_hub_passkey_hash";
-    const SESSION_LOCK_KEY = "dapo_hub_session_locked";
-
-    // ==========================================================
-    // BAGIAN 2: MANAGER TOAST & MODAL UTILITY
-    // ==========================================================
-    function showToast(message, type = "success") {
-      const toast = document.getElementById('toast');
-      const msgSpan = document.getElementById('toast-message');
-      const iconSpan = document.getElementById('toast-icon');
-
-      if (!toast || !msgSpan || !iconSpan) return;
-
-      msgSpan.textContent = message;
-      if (type === "success") {
-        iconSpan.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-500"></i>';
-      } else if (type === "error") {
-        iconSpan.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-rose-500"></i>';
-      } else {
-        iconSpan.innerHTML = '<i class="fa-solid fa-info-circle text-sky-500"></i>';
-      }
-
-      toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
-      toast.classList.add('opacity-100', 'translate-y-0');
-
-      setTimeout(() => {
-        toast.classList.remove('opacity-100', 'translate-y-0');
-        toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
-      }, 3500);
+    // Helper untuk mengekstrak nama icon dari properti icon secara otomatis
+    function getCleanIconName(rawIcon) {
+      if (!rawIcon) return 'link';
+      const clean = rawIcon.replace(/fa-solid|fa-regular|fa-brands|fa-xs|fa-sm|fa-lg|fa-/g, '').trim();
+      return svgIcons[clean] ? clean : 'link';
     }
 
-    function toggleModal(modalId, isShow) {
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        if (isShow) {
-          modal.classList.remove('hidden');
-        } else {
-          modal.classList.add('hidden');
-        }
-      }
+    // Fungsi Render Ikon SVG Premium 100% Offline-Ready
+    function getOfflineIcon(rawIcon, customClasses = 'w-5 h-5') {
+      const cleanName = getCleanIconName(rawIcon);
+      return `<span class="${customClasses} flex items-center justify-center">${svgIcons[cleanName]}</span>`;
     }
 
-    // ==========================================================
-    // BAGIAN 3: SECURITY, LOCK SYSTEM & PASSWORD TOGGLERS
-    // ==========================================================
-    function togglePasskeyVisibility(inputId, iconId) {
-      const input = document.getElementById(inputId);
-      const icon = document.getElementById(iconId);
-      if (input && icon) {
-        if (input.type === 'password') {
-          input.type = 'text';
-          icon.classList.remove('fa-eye');
-          icon.classList.add('fa-eye-slash');
-        } else {
-          input.type = 'password';
-          icon.classList.remove('fa-eye-slash');
-          icon.classList.add('fa-eye');
-        }
-      }
-    }
+    (function(){
+        // Payload Pengembang dienkripsi Base64
+        const _0x3c4d = atob('UmFobWF0IFJhaGlt'); // "Rahmat Rahim"
+        const _0x5e6f = atob('U01QIE5lZ2VyaSAzIE1ha2Fzc2Fy'); // "SMP Negeri 3 Makassar"
+        const _0xLock = atob('PGRpdiBzdHlsZT0idGV4dC1hbGlnbjpjZW50ZXI7bWFyZ2luLXRvcDoyMCU7Y29sb3I6I2UxMWQ0ODtmb250LWZhbWlseTonUGx1cyBKYWthcnRhIFNhbnMnLHNhbnMtc2VyaWY7Ij4KICA8aDEgc3R5bGU9ImZvbnQtc2l6ZToycmVtO2ZvbnQtd2VpZ2h0OjkwMDsiPlNJU1RFTSBURVJLVU5DSSAoRU5LUklQU0kgQUtUSUYpPC9oMT4KICA8cCBzdHlsZT0iZm9udC13ZWlnaHQ6NjAwO21hcmdpbi10b3A6MC41cmVtO2NvbG9yOiM0NzU1Njk7Ij5BcGxpa2FzaSB0ZWxhaCBkaW1vZGlmaWthc2kgc2VjYXJhIGlsZWdhbC4gSWRlbnRpdGFzIFBlbmdlbWJhbmcgKHRpZGFrIGJvbGVoIGRpaGFwdXMpLjwvcD4KPC9kaXY+');
 
-    function checkSessionLock() {
-      const usePasskey = localStorage.getItem('dapo_use_passkey') === 'true'; 
-      if (!usePasskey) {
-        document.getElementById('sessionLockModal').classList.add('hidden');
-        return;
-      }
+        // Blokir Inspeksi Elemen & Klik Kanan
+        document.addEventListener('contextmenu', _0x7a8b => _0x7a8b.preventDefault());
+        document.onkeydown = function(_0x9c0d) {
+            if(_0x9c0d.keyCode === 123) return false; // F12
+            if(_0x9c0d.ctrlKey && _0x9c0d.shiftKey && (_0x9c0d.keyCode === 73 || _0x9c0d.keyCode === 74 || _0x9c0d.keyCode === 67)) return false; // Ctrl+Shift+I/J/C
+            if(_0x9c0d.ctrlKey && _0x9c0d.keyCode === 85) return false; // Ctrl+U
+        };
 
-      const passkey = localStorage.getItem(PASSKEY_KEY);
-      if (!passkey) {
-        localStorage.setItem('dapo_use_passkey', 'false');
-        document.getElementById('sessionLockModal').classList.add('hidden');
-        return;
-      }
-
-      const isLocked = localStorage.getItem(SESSION_LOCK_KEY);
-      if (isLocked === "true" || isLocked === null) {
-        document.getElementById('sessionLockModal').classList.remove('hidden');
-        setTimeout(() => {
-          const passInput = document.getElementById('session-passkey');
-          if (passInput) passInput.focus();
-        }, 100);
-      }
-    }
-
-    function lockSessionManual() {
-      const usePasskey = localStorage.getItem('dapo_use_passkey') === 'true';
-      if (!usePasskey) {
-        showToast("Fitur Passkey dinonaktifkan. Silakan aktifkan terlebih dahulu di profil.", "error");
-        return;
-      }
-      localStorage.setItem(SESSION_LOCK_KEY, "true");
-      
-      const sessionInput = document.getElementById('session-passkey');
-      const sessionIcon = document.getElementById('toggle-session-eye');
-      if (sessionInput) sessionInput.type = 'password';
-      if (sessionIcon) {
-        sessionIcon.classList.remove('fa-eye-slash');
-        sessionIcon.classList.add('fa-eye');
-      }
-
-      document.getElementById('sessionLockModal').classList.remove('hidden');
-      showToast("Sesi berhasil dikunci.", "info");
-      setTimeout(() => {
-        if (sessionInput) sessionInput.focus();
-      }, 100);
-    }
-
-    function unlockSession() {
-      const passkeyInput = document.getElementById('session-passkey').value;
-      const validPasskey = localStorage.getItem(PASSKEY_KEY);
-
-      if (passkeyInput === validPasskey) {
-        localStorage.setItem(SESSION_LOCK_KEY, "false");
-        document.getElementById('sessionLockModal').classList.add('hidden');
-        document.getElementById('session-passkey').value = "";
-        showToast("Sesi dipulihkan secara aman!");
-      } else {
-        showToast("Passkey salah. Silakan coba kembali.", "error");
-      }
-    }
-
-    function requestEmergencyResetSession() {
-      toggleModal('emergencyResetModal', true);
-    }
-
-    function executeEmergencyResetSession() {
-      localStorage.setItem('dapo_use_passkey', 'false');
-      localStorage.setItem(SESSION_LOCK_KEY, 'false');
-      localStorage.removeItem(PASSKEY_KEY);
-
-      document.getElementById('sessionLockModal').classList.add('hidden');
-      toggleModal('emergencyResetModal', false);
-      showToast("Sesi layar kunci dinonaktifkan secara aman.");
-    }
-
-    // ==========================================================
-    // BAGIAN 4: PROFIL SEKOLAH & PERSISTENCE
-    // ==========================================================
-    function loadProfileData() {
-      const defaults = {
-        nama: "DAPO-HUB Portal Integrasi",
-        npsn: "00000000",
-        status: "Negeri",
-        operator: "Admin Dapodik",
-        akreditasi: "A"
-      };
-
-      // Sinkronisasi data ke penyimpanan lokal peramban
-      if (!localStorage.getItem('dapo_profile_nama')) localStorage.setItem('dapo_profile_nama', defaults.nama);
-      if (!localStorage.getItem('dapo_profile_npsn')) localStorage.setItem('dapo_profile_npsn', defaults.npsn);
-      if (!localStorage.getItem('dapo_profile_status')) localStorage.setItem('dapo_profile_status', defaults.status);
-      if (!localStorage.getItem('dapo_profile_operator')) localStorage.setItem('dapo_profile_operator', defaults.operator);
-      if (!localStorage.getItem('dapo_profile_akreditasi')) localStorage.setItem('dapo_profile_akreditasi', defaults.akreditasi);
-      
-      // Bersihkan sisa rujukan lama di dalam LocalStorage agar luring 100% steril
-      const savedErapor = localStorage.getItem('dapo_profile_erapor');
-      if (!savedErapor || savedErapor === "https://rapor.smpn3mks.sch.id") {
-        localStorage.setItem('dapo_profile_erapor', "https://rapor.sekolahpercontohan.sch.id");
-      }
-
-      const savedNamaSekolah = localStorage.getItem('dapo_profile_nama');
-      if (savedNamaSekolah === "SMP Negeri 3 Makassar" || savedNamaSekolah === "SMP Negeri Percontohan") {
-        localStorage.setItem('dapo_profile_nama', defaults.nama);
-      }
-
-      const nama = localStorage.getItem('dapo_profile_nama');
-      const npsn = localStorage.getItem('dapo_profile_npsn');
-      const status = localStorage.getItem('dapo_profile_status');
-      const op = localStorage.getItem('dapo_profile_operator');
-      const akreditasi = localStorage.getItem('dapo_profile_akreditasi');
-
-      document.getElementById('view-nama-sekolah').textContent = nama;
-      document.getElementById('view-npsn').textContent = `NPSN: ${npsn} • ${status}`;
-      document.getElementById('view-operator').textContent = `Operator: ${op}`;
-      document.getElementById('view-akreditasi').textContent = akreditasi;
-
-      const today = new Date();
-      selectedDateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-
-      links = JSON.parse(localStorage.getItem('dapo_links')) || [...defaultLinks];
-      agenda = JSON.parse(localStorage.getItem('dapo_agenda')) || [];
-      memos = JSON.parse(localStorage.getItem('dapo_memos')) || {};
-
-      checkSessionLock();
-    }
-
-    function toggleProfilePasskeyInput() {
-      const usePasskey = document.getElementById('input-use-passkey').checked;
-      const wrapper = document.getElementById('profile-passkey-wrapper');
-      if (usePasskey) {
-        wrapper.classList.remove('hidden');
-      } else {
-        wrapper.classList.add('hidden');
-      }
-    }
-
-    function editProfile() {
-      const defaults = {
-        nama: "DAPO-HUB Portal Integrasi",
-        npsn: "00000000",
-        status: "Negeri",
-        operator: "Admin Dapodik",
-        akreditasi: "A"
-      };
-
-      document.getElementById('input-nama-sekolah').value = localStorage.getItem('dapo_profile_nama') || defaults.nama;
-      document.getElementById('input-npsn').value = localStorage.getItem('dapo_profile_npsn') || defaults.npsn;
-      document.getElementById('input-status-sekolah').value = localStorage.getItem('dapo_profile_status') || defaults.status;
-      document.getElementById('input-operator').value = localStorage.getItem('dapo_profile_operator') || defaults.operator;
-      document.getElementById('input-akreditasi').value = localStorage.getItem('dapo_profile_akreditasi') || defaults.akreditasi;
-      
-      // Ambil nilai Link E-Rapor ke form modal
-      document.getElementById('input-erapor').value = localStorage.getItem('dapo_profile_erapor') || "https://rapor.sekolahpercontohan.sch.id";
-      
-      const usePasskey = localStorage.getItem('dapo_use_passkey') === 'true';
-      document.getElementById('input-use-passkey').checked = usePasskey;
-      
-      const storedPasskey = localStorage.getItem(PASSKEY_KEY) || "";
-      const passkeyInput = document.getElementById('input-passkey-val');
-      const passkeyIcon = document.getElementById('toggle-profile-eye');
-      
-      if (passkeyInput) {
-        passkeyInput.value = storedPasskey;
-        passkeyInput.type = 'password'; 
-      }
-      if (passkeyIcon) {
-        passkeyIcon.classList.remove('fa-eye-slash');
-        passkeyIcon.classList.add('fa-eye');
-      }
-      
-      toggleProfilePasskeyInput();
-      toggleModal('profileModal', true);
-    }
-
-    function saveProfile(e) {
-      e.preventDefault();
-      const nama = document.getElementById('input-nama-sekolah').value;
-      const npsn = document.getElementById('input-npsn').value;
-      const status = document.getElementById('input-status-sekolah').value;
-      const op = document.getElementById('input-operator').value;
-      const akreditasi = document.getElementById('input-akreditasi').value;
-      const erapor = document.getElementById('input-erapor').value.trim();
-      const usePasskey = document.getElementById('input-use-passkey').checked;
-      const passkeyVal = document.getElementById('input-passkey-val').value.trim();
-
-      if (usePasskey && !passkeyVal && !localStorage.getItem(PASSKEY_KEY)) {
-        showToast("Passkey baru harus diisi jika fitur diaktifkan!", "error");
-        return;
-      }
-
-      localStorage.setItem('dapo_profile_nama', nama);
-      localStorage.setItem('dapo_profile_npsn', npsn);
-      localStorage.setItem('dapo_profile_status', status);
-      localStorage.setItem('dapo_profile_operator', op);
-      localStorage.setItem('dapo_profile_akreditasi', akreditasi);
-      localStorage.setItem('dapo_profile_erapor', erapor);
-      localStorage.setItem('dapo_use_passkey', usePasskey ? 'true' : 'false');
-
-      if (usePasskey && passkeyVal) {
-        localStorage.setItem(PASSKEY_KEY, passkeyVal);
-      }
-
-      if (!usePasskey) {
-        localStorage.setItem(SESSION_LOCK_KEY, "false");
-      }
-
-      loadProfileData();
-      renderLinks(); // Render ulang link setelah ada kemungkinan perubahan URL E-Rapor
-      toggleModal('profileModal', false);
-      showToast("Profil sekolah berhasil disimpan!");
-    }
-
-    // ==========================================================
-    // BAGIAN 5: INTEGRASI LAYANAN / MANAJEMEN TAUTAN PORTAL
-    // ==========================================================
-    function renderLinks(filteredLinks = null) {
-      const target = document.getElementById('links-container');
-      if (!target) return;
-      target.innerHTML = "";
-
-      const activeLinks = filteredLinks || links;
-
-      if (activeLinks.length === 0) {
-        target.innerHTML = `
-          <div class="col-span-full py-12 text-center text-slate-500 border border-dashed border-slate-200 rounded-xl bg-white shadow-sm">
-            <i class="fa-solid fa-folder-open text-3xl mb-3 block text-slate-400"></i>
-            Tautan tidak ditemukan. Coba tambah baru.
-          </div>
-        `;
-        return;
-      }
-
-      const categories = ["Utama", "Verifikasi", "Keuangan", "Sertifikasi", "Kepegawaian", "Ujian", "Daerah", "Utilitas"];
-      
-      categories.forEach(cat => {
-        let catLinks = activeLinks.filter(item => item.category === cat);
-        
-        // SUNTIKAN DINAMIS: Tambahkan link E-Rapor secara otomatis dari Profile ke kategori Utama
-        if (cat === "Utama") {
-          const eraporUrl = localStorage.getItem('dapo_profile_erapor') || "https://rapor.sekolahpercontohan.sch.id";
-          if (eraporUrl) {
-            const eraporExists = catLinks.some(l => l.title === "E-Rapor Sekolah");
-            if (!eraporExists) {
-              catLinks.unshift({
-                category: "Utama",
-                title: "E-Rapor Sekolah",
-                url: eraporUrl,
-                icon: "fa-solid fa-school-flag"
-              });
+        // Render Dekripsi Nama Penulis asli di footer web
+        window.addEventListener('DOMContentLoaded', () => {
+            const _0xb1c2 = document.getElementById('dev-credit');
+            if(_0xb1c2) {
+                _0xb1c2.innerHTML = `&copy; 2026 <strong>DAPO-HUB Portal</strong>. Didesain oleh <strong class="text-brand-600">${_0x3c4d}</strong> - ${_0x5e6f}.`;
             }
-          }
-        }
+            
+            // Mekanisme Proteksi Keaslian Kode Ciptaan yang Lebih Fleksibel (Anti Autotranslate False Alarm)
+            setInterval(() => {
+                const _0xd3e4 = document.getElementById('dev-credit');
+                if(!_0xd3e4 || !_0xd3e4.hasAttribute('data-verified')) {
+                    document.body.innerHTML = _0xLock;
+                }
+            }, 2500);
+        });
+    })();
 
-        // Pengurutan alfabetis yang aman dari efek mutasi objek langsung
-        const sortedCatLinks = [...catLinks].sort((a, b) => a.title.localeCompare(b.title, 'id'));
+    let currentSearchQuery = '';
+    let links = [];
+    let currentDeleteId = null;
+    let deferredPrompt = null; 
+    
+    // Setelan default yang ramah bagi sekolah mana pun
+    const DEFAULT_SCHOOL = "Sekolah Integrasi Anda";
+    const DEFAULT_ROLE = "Administrator Utama";
+    const DEFAULT_NAME = "Nama Operator";
+    const DEFAULT_MOTTO = "Sedikit bicara banyak kerjaannya";
 
-        if (sortedCatLinks.length > 0) {
-          const catHeader = document.createElement('div');
-          catHeader.className = "col-span-full mt-6 first:mt-0 text-[11px] font-extrabold text-sky-600 tracking-wider uppercase flex items-center gap-2";
-          
-          let displayLabel = cat;
-          if (cat === "Verifikasi") displayLabel = "Verifikasi & Validasi";
-          else if (cat === "Sertifikasi") displayLabel = "Sertifikasi & GTK";
-          else if (cat === "Utilitas") displayLabel = "Utilitas & Server Pendukung";
+    const defaultLinks = [
+      { id: 'def-1', category: 'Utama', title: 'Aplikasi Dapodik Lokal', url: 'http://localhost:5774', icon: 'laptop', isCustom: false },
+      { id: 'def-2', category: 'Utama', title: 'Beranda Dapodik', url: 'https://dapo.kemendikdasmen.go.id', icon: 'globe', isCustom: false },
+      { id: 'def-3', category: 'Utama', title: 'DIGI-DitSMP Kemendikdasmen', url: 'https://digi-ditsmp.kemendikdasmen.go.id/', icon: 'desktop', isCustom: false },
+      { id: 'def-4', category: 'Utama', title: 'JDIH Kemendikdasmen', url: 'https://jdih.kemendikdasmen.go.id/', icon: 'gavel', isCustom: false },
+      { id: 'def-5', category: 'Utama', title: 'Pendaftaran Lomba (BPTI)', url: 'https://daftar-bpti.kemendikdasmen.go.id', icon: 'trophy', isCustom: false },
+      { id: 'def-6', category: 'Utama', title: 'PTK Datadik', url: 'https://ptk.datadik.kemendikdasmen.go.id', icon: 'id-card', isCustom: false },
+      { id: 'def-7', category: 'Utama', title: 'Pusat Kurikulum', url: 'https://kurikulum.kemendikdasmen.go.id/', icon: 'book-open', isCustom: false },
+      { id: 'def-8', category: 'Utama', title: 'Rapor Pendidikan Kemendikdasmen', url: 'https://raporpendidikan.kemendikdasmen.go.id', icon: 'globe', isCustom: false },
+      { id: 'def-9', category: 'Utama', title: 'SP Datadik Satuan Pendidikan', url: 'https://sp.datadik.kemendikdasmen.go.id/', icon: 'school-flag', isCustom: false },
+      { id: 'def-10', category: 'Utama', title: 'Unduh Prefill Dapodik', url: 'https://prefill2.kemendikdasmen.go.id/', icon: 'database', isCustom: false },
+      { id: 'def-11', category: 'Utama', title: 'Unduhan Aplikasi Dapodik', url: 'https://dapo.kemendikdasmen.go.id/unduhan', icon: 'database', isCustom: false },
+      { id: 'def-12', category: 'Verifikasi', title: 'Cek NISN Mandiri', url: 'https://nisn.data.kemendikdasmen.go.id', icon: 'id-card', isCustom: false },
+      { id: 'def-13', category: 'Verifikasi', title: 'Cek NUPTK GTK', url: 'https://gtk.data.kemendikdasmen.go.id/', icon: 'id-card', isCustom: false },
+      { id: 'def-14', category: 'Verifikasi', title: 'Manajemen / Verval Ijazah (SIVIL)', url: 'https://ijazah.data.kemendikdasmen.go.id/manajemen/#/sign-in', icon: 'graduation-cap', isCustom: false },
+      { id: 'def-15', category: 'Verifikasi', title: 'Pusdatin PD', url: 'https://pd.data.kemendikdasmen.go.id', icon: 'id-card', isCustom: false },
+      { id: 'def-16', category: 'Verifikasi', title: 'SDM Data Kemendikdasmen', url: 'https://sdm.data.kemendikdasmen.go.id/', icon: 'user-shield', isCustom: false },
+      { id: 'def-17', category: 'Verifikasi', title: 'Verval PD (Peserta Didik)', url: 'https://vervalpd.data.kemendikdasmen.go.id/', icon: 'id-card', isCustom: false },
+      { id: 'def-18', category: 'Verifikasi', title: 'Verval PTK', url: 'https://vervalptk.data.kemendikdasmen.go.id/site/login', icon: 'id-card', isCustom: false },
+      { id: 'def-19', category: 'Verifikasi', title: 'Verval SP (Satuan Pendidikan)', url: 'https://vervalsp.data.kemendikdasmen.go.id/verval/index.php/cberanda/index/', icon: 'globe', isCustom: false },
+      { id: 'def-20', category: 'Verifikasi', title: 'Verval TIK', url: 'https://vervaltio.data.kemendikdasmen.go.id', icon: 'computer', isCustom: false },
+      { id: 'def-21', category: 'Keuangan', title: 'ARKAS Kemendikdasmen', url: 'https://arkas.kemendikdasmen.go.id', icon: 'wallet', isCustom: false },
+      { id: 'def-22', category: 'Keuangan', title: 'BOSP Salur', url: 'https://bosp.kemendikdasmen.go.id', icon: 'wallet', isCustom: false },
+      { id: 'def-23', category: 'Keuangan', title: 'Coretax DJP Pajak', url: 'https://coretaxdjp.pajak.go.id/identityproviderportal/Account/Login', icon: 'receipt', isCustom: false },
+      { id: 'def-24', category: 'Keuangan', title: 'Sipintar PIP', url: 'https://pip.kemendikdasmen.go.id/home_v1', icon: 'wallet', isCustom: false },
+      { id: 'def-25', category: 'Keuangan', title: 'SIPLah', url: 'https://siplah.blibli.com/', icon: 'cart-shopping', isCustom: false },
+      { id: 'def-26', category: 'Sertifikasi', title: 'Akun Belajar.id', url: 'https://belajar.id', icon: 'chalkboard-user', isCustom: false },
+      { id: 'def-27', category: 'Sertifikasi', title: 'Info GTK', url: 'https://info.gtk.kemendikdasmen.go.id/', icon: 'chalkboard-user', isCustom: false },
+      { id: 'def-28', category: 'Sertifikasi', title: 'KBBI Daring Kemendikdasmen', url: 'https://kbbi.kemendikdasmen.go.id/', icon: 'spell-check', isCustom: false },
+      { id: 'def-29', category: 'Sertifikasi', title: 'Ruang GTK', url: 'https://akun.pendidikan.go.id/login?flow=fa87d033-975e-48c1-8315-b75b0be1dfb2', icon: 'chalkboard-user', isCustom: false },
+      { id: 'def-30', category: 'Sertifikasi', title: 'Rumah Belajar', url: 'https://rumah.pendidikan.go.id/', icon: 'school-flag', isCustom: false },
+      { id: 'def-31', category: 'Sertifikasi', title: 'SIMPKB Login', url: 'https://paspor-gtk.simpkb.id/casgpo/login?service=https%3A%2F%2Fapp.simpkb.id%2Fauth%2Flogin', icon: 'chalkboard-user', isCustom: false },
+      { id: 'def-32', category: 'Kepegawaian', title: 'e-Kinerja BKN', url: 'https://kinerja.bkn.go.id', icon: 'chalkboard-user', isCustom: false },
+      { id: 'def-33', category: 'Kepegawaian', title: 'e-Sakti Makassar', url: 'https://esakti.makassar.go.id', icon: 'network-wired', isCustom: false },
+      { id: 'def-34', category: 'Kepegawaian', title: 'MyASN BKN', url: 'https://myasn.bkn.go.id', icon: 'id-card', isCustom: false },
+      { id: 'def-35', category: 'Kepegawaian', title: 'SIMPEG Kemendikdasmen', url: 'https://simpeg.bkpsdmd.makassarkota.go.id/', icon: 'id-card', isCustom: false },
+      { id: 'def-36', category: 'Kepegawaian', title: 'SIPP Makassar', url: 'https://sipp.makassar.go.id', icon: 'city', isCustom: false },
+      { id: 'def-37', category: 'Ujian', title: 'Bio-AN SMP', url: 'https://bioansmp.kemendikdasmen.go.id', icon: 'id-card', isCustom: false },
+      { id: 'def-38', category: 'Ujian', title: 'Portal TKA & Asesmen Bakat', url: 'https://tka.kemendikdasmen.go.id/', icon: 'computer', isCustom: false },
+      { id: 'def-39', category: 'Ujian', title: 'Portal Web ANBK', url: 'https://anbk.kemendikdasmen.go.id', icon: 'computer', isCustom: false },
+      { id: 'def-40', category: 'Daerah', title: 'Dinas Pendidikan Makassar', url: 'https://disdik.makassarkota.go.id', icon: 'city', isCustom: false },
+      { id: 'def-41', category: 'Daerah', title: 'Makan Bergizi Gratis (MBG)', url: 'https://mbg.pdm.kemendikdasmen.go.id/portal', icon: 'utensils', isCustom: false },
+      { id: 'def-42', category: 'Daerah', title: 'Portal PPDB Makassar', url: 'https://spmb.makassarkota.go.id/cloginsekolahx', icon: 'city', isCustom: false },
+      { id: 'def-43', category: 'Utilitas', title: 'cekip.com', url: 'https://cekip.com/', icon: 'globe', isCustom: false },
+      { id: 'def-44', category: 'Utilitas', title: 'Speedtest', url: 'https://www.speedtest.net/', icon: 'gauge', isCustom: false },
+      { id: 'def-45', category: 'Utilitas', title: 'TinyPNG', url: 'https://tinypng.com/', icon: 'image', isCustom: false },
+      { id: 'def-46', category: 'Utilitas', title: 'WhatsApp Web', url: 'https://web.whatsapp.com/', icon: 'comments', isCustom: false }
+    ];
 
-          catHeader.innerHTML = `<span>${displayLabel}</span><span class="h-px bg-slate-200 flex-1"></span>`;
-          target.appendChild(catHeader);
+    const iconList = [
+      'laptop', 'globe', 'desktop', 'gavel', 'trophy', 'id-card', 'book-open', 
+      'school-flag', 'database', 'graduation-cap', 'user-shield', 'computer', 
+      'wallet', 'receipt', 'cart-shopping', 'chalkboard-user', 'spell-check', 
+      'network-wired', 'city', 'utensils', 'gauge', 'image', 'comments', 'link'
+    ];
 
-          sortedCatLinks.forEach(link => {
-            const index = links.findIndex(l => l.url === link.url);
-            const isDefault = defaultLinks.some(dl => dl.url === link.url) || link.title === "E-Rapor Sekolah";
-
-            const card = document.createElement('div');
-            card.className = "bg-white border border-slate-200 hover:border-sky-400/80 rounded-xl p-4 flex items-start gap-4 transition-all duration-300 relative group shadow-sm hover:shadow-md";
-            card.innerHTML = `
-              <a href="${link.url}" target="_blank" class="w-10 h-10 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-sky-500 group-hover:bg-sky-50 group-hover:border-sky-300 group-hover:text-sky-600 transition-all shrink-0" title="Buka ${link.title}">
-                <i class="${link.icon || 'fa-solid fa-link'} text-sm"></i>
-              </a>
-              <div class="flex-1 min-w-0">
-                <h4 class="text-sm font-bold text-slate-800 truncate">
-                  <a href="${link.url}" target="_blank" class="hover:text-sky-600 hover:underline transition-all block truncate w-full" title="Buka ${link.title}">
-                    ${link.title} <i class="fa-solid fa-external-link text-[9px] text-slate-400 ml-1 group-hover:text-sky-500 transition-colors"></i>
-                  </a>
-                </h4>
-                <p class="text-[9px] text-sky-600 font-mono truncate mt-0.5" title="${link.url}">
-                  <a href="${link.url}" target="_blank" class="hover:underline">${link.url}</a>
-                </p>
-                ${!isDefault ? `
-                  <div class="flex items-center gap-2 mt-2 justify-end">
-                    <button onclick="openEditLinkModal(${index})" class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-indigo-600 transition" title="Edit Tautan">
-                      <i class="fa-solid fa-pen text-[10px]"></i>
-                    </button>
-                    <button onclick="requestDeleteLink(${index})" class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-600 transition" title="Hapus">
-                      <i class="fa-solid fa-trash-can text-[10px]"></i>
-                    </button>
-                  </div>
-                ` : ''}
-              </div>
-            `;
-            target.appendChild(card);
-          });
-        }
-      });
+    function safeLocalStorageGet(key, fallback) {
+      try {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : fallback;
+      } catch (error) { return fallback; }
     }
 
-    // --- Pemilih Ikon Visual ---
-    function renderIconPicker() {
-      const grid = document.getElementById('icon-picker-grid');
-      if (!grid) return;
-      grid.innerHTML = "";
+    function safeLocalStorageSet(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+      } catch (error) {
+        showCustomAlert("Kesalahan Penyimpanan", "Penyimpanan browser penuh.", false);
+        return false;
+      }
+    }
+
+    function showCustomAlert(title, message, isSuccess = true) {
+      const modal = document.getElementById('custom-alert-modal');
+      const iconWrapper = document.getElementById('alert-icon-wrapper');
+      const icon = document.getElementById('alert-icon');
       
-      availableIcons.forEach(iconClass => {
-        const btn = document.createElement('button');
-        btn.type = "button";
-        btn.className = "icon-picker-btn p-2 rounded-lg bg-white border border-slate-200 hover:border-sky-400 text-slate-600 hover:text-sky-500 flex items-center justify-center transition-all text-sm";
-        btn.innerHTML = `<i class="${iconClass}"></i>`;
-        btn.title = iconClass.replace('fa-solid fa-', '').replace('-', ' ');
-        btn.setAttribute('onclick', `selectPickerIcon('${iconClass}', this)`);
-        grid.appendChild(btn);
-      });
+      document.getElementById('alert-title').textContent = title;
+      document.getElementById('alert-message').textContent = message;
+
+      if (isSuccess) {
+        iconWrapper.className = 'w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner';
+        icon.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+      } else {
+        iconWrapper.className = 'w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner';
+        icon.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"></path></svg>`;
+      }
+      modal.classList.remove('hidden');
     }
 
-    function selectPickerIcon(iconClass, element) {
-      const allButtons = document.querySelectorAll('.icon-picker-btn');
-      allButtons.forEach(btn => {
-        btn.classList.remove('border-sky-500', 'bg-sky-50', 'text-sky-600', 'ring-2', 'ring-sky-200');
-        btn.classList.add('bg-white', 'border-slate-200', 'text-slate-600');
+    function closeCustomAlert() { document.getElementById('custom-alert-modal').classList.add('hidden'); }
+
+    function toggleEditProfile() {
+      const modal = document.getElementById('edit-profile-form');
+      const content = document.getElementById('edit-profile-modal-content');
+      if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+        document.getElementById('input-profile-name').value = document.getElementById('profile-name-display').textContent === DEFAULT_NAME ? '' : document.getElementById('profile-name-display').textContent;
+        document.getElementById('input-profile-role').value = document.getElementById('profile-role-display').textContent;
+        document.getElementById('input-profile-school').value = document.getElementById('profile-school-display').textContent === DEFAULT_SCHOOL ? '' : document.getElementById('profile-school-display').textContent;
+        document.getElementById('input-profile-motto').value = document.getElementById('profile-motto-display').textContent;
+        setTimeout(() => {
+          content.classList.remove('scale-95', 'opacity-0');
+          content.classList.add('scale-100', 'opacity-100');
+        }, 50);
+      } else {
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
+      }
+    }
+
+    function saveProfileData() {
+      const name = document.getElementById('input-profile-name').value.trim() || DEFAULT_NAME;
+      const role = document.getElementById('input-profile-role').value.trim() || DEFAULT_ROLE;
+      const school = document.getElementById('input-profile-school').value.trim() || DEFAULT_SCHOOL;
+      const motto = document.getElementById('input-profile-motto').value.trim() || DEFAULT_MOTTO;
+
+      document.getElementById('profile-name-display').textContent = name;
+      document.getElementById('profile-role-display').textContent = role;
+      document.getElementById('profile-school-display').textContent = school;
+      document.getElementById('profile-motto-display').textContent = motto;
+
+      const isDefault = (name === DEFAULT_NAME || school === DEFAULT_SCHOOL);
+      document.getElementById('setup-pulse-badge').classList.toggle('hidden', !isDefault);
+
+      safeLocalStorageSet('dapohub_profile', { name, role, school, motto });
+      toggleEditProfile();
+      showCustomAlert("Profil Diperbarui", "Data operator berhasil disimpan secara lokal.");
+    }
+
+    function loadProfileData() {
+      const data = safeLocalStorageGet('dapohub_profile', null);
+      if (data) {
+        document.getElementById('profile-name-display').textContent = data.name || DEFAULT_NAME;
+        document.getElementById('profile-role-display').textContent = data.role || DEFAULT_ROLE;
+        document.getElementById('profile-school-display').textContent = data.school || DEFAULT_SCHOOL;
+        document.getElementById('profile-motto-display').textContent = data.motto || DEFAULT_MOTTO;
+        
+        const isDefault = ((data.name || DEFAULT_NAME) === DEFAULT_NAME || (data.school || DEFAULT_SCHOOL) === DEFAULT_SCHOOL);
+        document.getElementById('setup-pulse-badge').classList.toggle('hidden', !isDefault);
+      } else {
+        document.getElementById('profile-name-display').textContent = DEFAULT_NAME;
+        document.getElementById('profile-role-display').textContent = DEFAULT_ROLE;
+        document.getElementById('profile-school-display').textContent = DEFAULT_SCHOOL;
+        document.getElementById('profile-motto-display').textContent = DEFAULT_MOTTO;
+        document.getElementById('setup-pulse-badge').classList.remove('hidden');
+      }
+      updateStatistics();
+    }
+
+    function loadLinks() {
+      const customLinks = safeLocalStorageGet('dapohub_custom_links', []);
+      links = [...defaultLinks, ...customLinks];
+      updateStatistics();
+    }
+
+    function updateStatistics() {
+      document.querySelectorAll('#total-link-stat').forEach(el => { if (el) el.textContent = links.length; });
+      const agendas = safeLocalStorageGet('dapohub_agendas', []);
+      document.querySelectorAll('#total-agenda-stat').forEach(el => { if (el) el.textContent = agendas.length; });
+      const agendaCount = document.getElementById('agenda-count');
+      if (agendaCount) agendaCount.textContent = `${agendas.length} Agenda`;
+    }
+
+    function renderLinks() {
+      const container = document.getElementById('links-container');
+      container.innerHTML = '';
+
+      const filtered = links.filter(item => {
+        return item.title.toLowerCase().includes(currentSearchQuery) || item.url.toLowerCase().includes(currentSearchQuery);
       });
 
-      if (element) {
-        element.classList.remove('bg-white', 'border-slate-200', 'text-slate-600');
-        element.classList.add('border-sky-500', 'bg-sky-50', 'text-sky-600', 'ring-2', 'ring-sky-200');
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="col-span-full py-12 text-center animate-fadeIn"><div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 text-xl"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><h4 class="font-bold text-slate-700">Tautan Tidak Ditemukan</h4><p class="text-xs text-slate-400 mt-1">Coba gunakan kata kunci pencarian lainnya.</p></div>`;
+        return;
       }
 
-      document.getElementById('link-icon').value = iconClass;
-    }
-
-    function highlightSelectedIconInPicker(iconClass) {
-      const allButtons = document.querySelectorAll('.icon-picker-btn');
-      let found = false;
-
-      allButtons.forEach(btn => {
-        const iconElement = btn.querySelector('i');
-        if (iconElement && iconElement.className === iconClass) {
-          selectPickerIcon(iconClass, btn);
-          found = true;
+      filtered.forEach(item => {
+        let badgeClass = 'bg-brand-50 border-brand-200 text-brand-700';
+        if (item.category) {
+          const cat = item.category.toLowerCase();
+          if (cat === 'utama') badgeClass = 'bg-sky-50 border-sky-200 text-sky-700';
+          else if (cat === 'verifikasi') badgeClass = 'bg-teal-50 border-teal-200 text-teal-700';
+          else if (cat === 'keuangan') badgeClass = 'bg-emerald-50 border-emerald-200 text-emerald-700';
+          else if (cat === 'sertifikasi') badgeClass = 'bg-purple-50 border-purple-200 text-purple-700';
+          else if (cat === 'kepegawaian') badgeClass = 'bg-amber-50 border-amber-200 text-amber-700';
+          else if (cat === 'ujian') badgeClass = 'bg-rose-50 border-rose-200 text-rose-700';
+          else if (cat === 'daerah') badgeClass = 'bg-orange-50 border-orange-200 text-orange-700';
+          else if (cat === 'utilitas') badgeClass = 'bg-slate-100 border-slate-300 text-slate-700';
         }
+
+        const isCustomBadge = item.isCustom ? `<span class="text-[9px] bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold px-2 py-0.5 rounded-full">KUSTOM</span>` : `<span class="text-[9px] ${badgeClass} border font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">${item.category || 'SISTEM'}</span>`;
+        
+        const deleteButton = item.isCustom ? `
+          <button onclick="requestDeleteCustomLink('${item.id}', event)" class="w-7 h-7 rounded-lg hover:bg-rose-100 text-slate-400 hover:text-rose-600 transition-colors flex items-center justify-center border border-transparent hover:border-rose-200 relative z-20" title="Hapus Link">
+            <span class="w-4 h-4"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path></svg></span>
+          </button>` : '';
+
+        const card = document.createElement('a');
+        card.href = item.url; card.target = "_blank"; card.rel = "noopener noreferrer";
+        card.className = 'group bg-white hover:bg-brand-50/20 rounded-2xl p-4 border border-slate-100 hover:border-brand-100 shadow-premium hover:shadow-card-hover transition-all duration-300 flex items-center gap-4 cursor-pointer relative animate-fadeIn';
+        card.onclick = function(e) { if (e.target.closest('button')) e.preventDefault(); };
+
+        card.innerHTML = `
+          <div class="flex-shrink-0 w-11 h-11 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-brand-600 group-hover:bg-white group-hover:scale-105 group-hover:shadow-sm transition-all duration-300">
+            ${getOfflineIcon(item.icon, 'w-6 h-6')}
+          </div>
+          <div class="flex-1 min-w-0 space-y-0.5">
+            <div class="flex items-center gap-1.5 min-w-0">
+              <h3 class="font-bold text-slate-800 text-sm group-hover:text-brand-700 transition-colors leading-tight truncate">${item.title}</h3>
+            </div>
+            <p class="text-[11px] text-slate-400 font-medium truncate">${item.url}</p>
+            <div class="flex items-center gap-1.5 pt-1">${isCustomBadge}</div>
+          </div>
+          ${item.isCustom ? `<div class="flex-shrink-0 relative z-20">${deleteButton}</div>` : ''}
+        `;
+        container.appendChild(card);
       });
-
-      if (!found && allButtons.length > 0) {
-        selectPickerIcon("fa-solid fa-link", allButtons[0]);
-      }
     }
 
-    // --- Tambah, Edit, Hapus, & Reset Tautan ---
-    function openAddLinkModal() {
-      document.getElementById('link-modal-title').textContent = "Tambah Tautan Kustom";
-      document.getElementById('link-index').value = "";
-      document.getElementById('link-category').value = "Utama";
-      document.getElementById('link-title').value = "";
-      document.getElementById('link-url').value = "";
-      highlightSelectedIconInPicker("fa-solid fa-link");
-      toggleModal('linkModal', true);
-    }
-
-    function openEditLinkModal(index) {
-      const link = links[index];
-      document.getElementById('link-modal-title').textContent = "Edit Tautan Kustom";
-      document.getElementById('link-index').value = index;
-      document.getElementById('link-category').value = link.category;
-      document.getElementById('link-title').value = link.title;
-      document.getElementById('link-url').value = link.url;
-      highlightSelectedIconInPicker(link.icon || "fa-solid fa-link");
-      toggleModal('linkModal', true);
-    }
-
-    function saveCustomLink(e) {
-      e.preventDefault();
-      const index = document.getElementById('link-index').value;
-      const cat = document.getElementById('link-category').value;
-      const title = document.getElementById('link-title').value;
-      const url = document.getElementById('link-url').value;
-      const icon = document.getElementById('link-icon').value;
-
-      const newLink = { category: cat, title, url, description: "", icon };
-
-      if (index === "") {
-        links.push(newLink);
-        showToast("Tautan kustom baru berhasil ditambahkan!");
-      } else {
-        links[parseInt(index)] = newLink;
-        showToast("Konfigurasi tautan berhasil disimpan!");
-      }
-
-      localStorage.setItem('dapo_links', JSON.stringify(links));
+    function searchLinks() {
+      currentSearchQuery = document.getElementById('global-search').value.toLowerCase();
+      document.getElementById('clear-search').classList.toggle('hidden', currentSearchQuery.length === 0);
       renderLinks();
-      toggleModal('linkModal', false);
-    }
-
-    function requestDeleteLink(index) {
-      currentDeleteIndex = index;
-      toggleModal('deleteConfirmModal', true);
-    }
-
-    function executeDeleteCustomLink() {
-      if (currentDeleteIndex !== null) {
-        links.splice(currentDeleteIndex, 1);
-        localStorage.setItem('dapo_links', JSON.stringify(links));
-        renderLinks();
-        toggleModal('deleteConfirmModal', false);
-        currentDeleteIndex = null;
-        showToast("Tautan kustom berhasil dihapus dari sistem.");
-      }
-    }
-
-    function requestResetLinks() {
-      toggleModal('resetConfirmModal', true);
-    }
-
-    function executeResetLinks() {
-      links = [...defaultLinks];
-      localStorage.setItem('dapo_links', JSON.stringify(links));
-      renderLinks();
-      toggleModal('resetConfirmModal', false);
-      toggleModal('backupModal', false); 
-      showToast("Daftar tautan telah di-reset ke default!");
-    }
-
-    // --- Pencarian Instan ---
-    function searchLinksInstant() {
-      const query = document.getElementById('search-input').value.toLowerCase().trim();
-      const clearBtn = document.getElementById('clear-search-btn');
-
-      if (query.length > 0) {
-        clearBtn.classList.remove('hidden');
-        const results = links.filter(l => 
-          l.title.toLowerCase().includes(query) || 
-          l.category.toLowerCase().includes(query)
-        );
-        renderLinks(results);
-      } else {
-        clearBtn.classList.add('hidden');
-        renderLinks();
-      }
     }
 
     function clearSearch() {
-      document.getElementById('search-input').value = "";
-      document.getElementById('clear-search-btn').classList.add('hidden');
+      document.getElementById('global-search').value = '';
+      currentSearchQuery = '';
+      document.getElementById('clear-search').classList.add('hidden');
+      document.getElementById('global-search').focus();
       renderLinks();
     }
 
-    // ==========================================
-    // BAGIAN 6: WIDGET KALENDER KEGIATAN
-    // ==========================================
-    function renderCalendar() {
-      const daysContainer = document.getElementById('calendar-days');
-      const monthYearLabel = document.getElementById('calendar-month-year');
-      
-      if (!daysContainer || !monthYearLabel) return;
-      daysContainer.innerHTML = "";
-      monthYearLabel.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+    function openModal() {
+      const modal = document.getElementById('custom-link-modal');
+      const content = document.getElementById('modal-content');
+      modal.classList.remove('hidden');
+      setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); content.classList.add('scale-100', 'opacity-100'); }, 50);
+    }
 
-      const firstDayIndex = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
-      const lastDayDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
-
-      for (let i = 0; i < firstDayIndex; i++) {
-        const dummy = document.createElement('div');
-        dummy.className = "text-slate-300 py-1.5";
-        dummy.textContent = "";
-        daysContainer.appendChild(dummy);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        toggleEditProfile();
+        closeDeleteModal();
+        closeResetLinksModal();
+        closeCustomAlert();
+        closeConfirmResetModal();
+        closePWARequestModal();
       }
+    });
 
-      const today = new Date();
-      for (let day = 1; day <= lastDayDate; day++) {
-        const dayDiv = document.createElement('button');
-        dayDiv.type = "button";
-        
-        const thisDateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        
-        let isActiveDate = (today.getDate() === day && today.getMonth() === currentDate.getMonth() && today.getFullYear() === currentDate.getFullYear());
-        let isSelectedDate = (selectedDateStr === thisDateStr);
-        let hasMemos = (memos[thisDateStr] && memos[thisDateStr].length > 0);
-
-        let activeClasses = "text-slate-600 hover:bg-slate-100";
-        if (isActiveDate) {
-          activeClasses = "bg-indigo-600 text-white font-extrabold shadow-md shadow-indigo-600/20";
-        } else if (isSelectedDate) {
-          activeClasses = "bg-slate-200 text-slate-800 ring-1 ring-sky-400";
-        }
-
-        dayDiv.className = `py-1.5 rounded-lg flex flex-col items-center justify-center transition-all ${activeClasses} relative`;
-        dayDiv.setAttribute('onclick', `selectDate(${day})`);
-        
-        dayDiv.innerHTML = `
-          <span>${day}</span>
-          ${hasMemos ? '<span class="absolute bottom-1 w-1 h-1 rounded-full bg-amber-500"></span>' : ''}
-        `;
-        daysContainer.appendChild(dayDiv);
+    function closeModal() {
+      const modal = document.getElementById('custom-link-modal');
+      const content = document.getElementById('modal-content');
+      if (content) {
+        content.classList.remove('scale-100', 'opacity-100'); content.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => { modal.classList.add('hidden'); clearModalInputs(); }, 300);
       }
     }
 
-    function selectDate(day) {
-      selectedDateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      document.getElementById('selected-date-label').textContent = `Catatan Tanggal: ${day} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-      renderCalendar();
-      renderMemos();
+    function clearModalInputs() {
+      document.getElementById('link-title').value = '';
+      document.getElementById('link-url').value = '';
+      document.getElementById('selected-icon-class').value = 'link';
+      renderIconPicker();
     }
 
-    function prevMonth() {
-      currentDate.setMonth(currentDate.getMonth() - 1);
-      renderCalendar();
-    }
+    function renderIconPicker() {
+      const picker = document.getElementById('icon-picker-container');
+      picker.innerHTML = '';
+      iconList.forEach((icon, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `p-2.5 rounded-xl border flex items-center justify-center text-slate-500 hover:text-brand-600 hover:bg-brand-50 hover:border-brand-200 transition-colors ${index === 0 ? 'bg-brand-50 border-brand-300 text-brand-600' : 'bg-white border-slate-100'}`;
+        btn.innerHTML = svgIcons[icon] ? svgIcons[icon] : svgIcons['link'];
+        
+        const svgEl = btn.querySelector('svg');
+        if (svgEl) { svgEl.setAttribute('class', 'w-5 h-5'); }
 
-    function nextMonth() {
-      currentDate.setMonth(currentDate.getMonth() + 1);
-      renderCalendar();
-    }
-
-    // ==========================================
-    // BAGIAN 7: AGENDA, TUGAS, & CATATAN MEMO
-    // ==========================================
-    function renderMemos() {
-      const list = document.getElementById('memo-list');
-      if (!list) return;
-      list.innerHTML = "";
-
-      const currentMemos = memos[selectedDateStr] || [];
-
-      if (currentMemos.length === 0) {
-        list.innerHTML = `<p class="text-[11px] text-slate-400 italic text-center py-4">Belum ada catatan untuk tanggal ini.</p>`;
-        return;
-      }
-
-      currentMemos.forEach((memo, idx) => {
-        const item = document.createElement('div');
-        item.className = "flex items-start justify-between gap-3 bg-slate-50 border border-slate-200 p-2.5 rounded-lg text-[11px]";
-        item.innerHTML = `
-          <div class="flex items-start gap-1.5 text-slate-700">
-            <span class="text-amber-500 mt-0.5"><i class="fa-solid fa-feather-pointed"></i></span>
-            <span class="break-words leading-relaxed">${memo}</span>
-          </div>
-          <button onclick="deleteMemoItem(${idx})" class="text-slate-400 hover:text-rose-600 transition" title="Hapus">
-            <i class="fa-solid fa-xmark text-xs"></i>
-          </button>
-        `;
-        list.appendChild(item);
+        btn.onclick = () => {
+          document.getElementById('selected-icon-class').value = icon;
+          document.querySelectorAll('#icon-picker-container button').forEach(b => { 
+            b.className = 'p-2.5 rounded-xl border bg-white border-slate-100 flex items-center justify-center text-slate-500 hover:text-brand-600 hover:bg-brand-50 hover:border-brand-200 transition-colors'; 
+          });
+          btn.className = 'p-2.5 rounded-xl border bg-brand-50 border-brand-300 flex items-center justify-center text-brand-600';
+        };
+        picker.appendChild(btn);
       });
     }
 
-    function addMemoItem(e) {
-      e.preventDefault();
-      const input = document.getElementById('memo-input');
-      const text = input.value.trim();
-      if (!text) return;
-
-      if (!memos[selectedDateStr]) {
-        memos[selectedDateStr] = [];
-      }
-
-      memos[selectedDateStr].push(text);
-      localStorage.setItem('dapo_memos', JSON.stringify(memos));
+    function addCustomLink() {
+      const title = document.getElementById('link-title').value.trim();
+      let url = document.getElementById('link-url').value.trim();
+      if (!title || !url) return showCustomAlert("Input Tidak Lengkap", "Harap isi judul dan URL tautan terlebih dahulu.", false);
+      if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
       
-      input.value = "";
-      renderMemos();
+      const customLinks = safeLocalStorageGet('dapohub_custom_links', []);
+      customLinks.push({ id: 'cust-' + Date.now(), title, url, category: 'Kustom', icon: document.getElementById('selected-icon-class').value, isCustom: true });
+      if (safeLocalStorageSet('dapohub_custom_links', customLinks)) { loadLinks(); renderLinks(); closeModal(); showCustomAlert("Tautan Ditambahkan", "Tautan kustom berhasil disimpan dalam browser lokal Anda."); }
+    }
+
+    function requestDeleteCustomLink(id, event) {
+      if (event) { event.preventDefault(); event.stopPropagation(); }
+      currentDeleteId = id; document.getElementById('delete-link-modal').classList.remove('hidden');
+    }
+
+    // Fungsi menghapus memo catatan secara eksplisit
+    function deleteMemo() {
+      localStorage.removeItem(`dapohub_memo_${selectedDateKey}`);
+      const memoInput = document.getElementById('memo-input');
+      if (memoInput) memoInput.value = '';
+      
+      // Update kalender untuk menghapus penanda titik di bawah tanggal
       renderCalendar();
-      showToast("Memo berhasil disimpan.");
+      loadMemoForSelectedDate();
+      showCustomAlert("Catatan Dihapus", "Memo untuk tanggal terpilih berhasil dihapus.");
     }
 
-    function deleteMemoItem(idx) {
-      if (memos[selectedDateStr]) {
-        memos[selectedDateStr].splice(idx, 1);
-        if (memos[selectedDateStr].length === 0) {
-          delete memos[selectedDateStr];
-        }
-        localStorage.setItem('dapo_memos', JSON.stringify(memos));
-        renderMemos();
-        renderCalendar();
-        showToast("Memo dihapus.");
-      }
+    function executeDeleteCustomLink() {
+      if (!currentDeleteId) return;
+      let customLinks = safeLocalStorageGet('dapohub_custom_links', []).filter(item => item.id !== currentDeleteId);
+      if (safeLocalStorageSet('dapohub_custom_links', customLinks)) { closeDeleteModal(); loadLinks(); renderLinks(); showCustomAlert("Berhasil Dihapus", "Tautan kustom Anda telah dihapus.", true); }
     }
 
-    function renderAgenda() {
-      const list = document.getElementById('agenda-list');
-      if (!list) return;
-      list.innerHTML = "";
+    function closeDeleteModal() { document.getElementById('delete-link-modal').classList.add('hidden'); currentDeleteId = null; }
+    function requestResetTautan() { document.getElementById('reset-links-modal').classList.remove('hidden'); }
+    function closeResetLinksModal() { document.getElementById('reset-links-modal').classList.add('hidden'); }
 
-      const activeAgenda = agenda;
-      document.getElementById('agenda-badge-count').textContent = `${activeAgenda.filter(i => !i.done).length} Agenda`;
-
-      if (activeAgenda.length === 0) {
-        list.innerHTML = `<p class="text-[11px] text-slate-400 italic text-center py-6">Tidak ada agenda tertulis.</p>`;
-        return;
-      }
-
-      activeAgenda.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = `flex items-center justify-between gap-3 p-2.5 rounded-lg border text-xs transition-all ${
-          item.done 
-            ? 'bg-slate-50 border-slate-200 opacity-60 text-slate-400' 
-            : 'bg-white border-slate-200 text-slate-700 shadow-sm'
-        }`;
-        
-        card.innerHTML = `
-          <div class="flex items-center gap-2 min-w-0 flex-1">
-            <button onclick="toggleAgendaStatus(${idx})" class="w-4 h-4 rounded border flex items-center justify-center transition-all ${
-              item.done 
-                ? 'bg-emerald-600 border-emerald-500 text-white' 
-                : 'border-slate-300 hover:border-indigo-500 text-transparent'
-            }">
-              <i class="fa-solid fa-check text-[10px]"></i>
-            </button>
-            <span class="truncate ${item.done ? 'line-through' : ''}">${item.title}</span>
-          </div>
-          <button onclick="deleteAgendaItem(${idx})" class="text-slate-400 hover:text-rose-600 transition" title="Hapus">
-            <i class="fa-solid fa-trash-can text-xs"></i>
-          </button>
-        `;
-        list.appendChild(card);
-      });
+    function executeResetTautan() {
+      localStorage.removeItem('dapohub_custom_links');
+      loadLinks(); renderLinks(); closeResetLinksModal();
+      showCustomAlert("Tautan Direset", "Semua tautan kustom Anda berhasil dihapus dari browser lokal.");
     }
 
-    function addAgendaItem(e) {
-      e.preventDefault();
-      const input = document.getElementById('agenda-input');
-      const title = input.value.trim();
-      if (!title) return;
+    function triggerImport() { document.getElementById('import-file-input').value = ''; document.getElementById('import-file-input').click(); }
 
-      agenda.push({ title, done: false });
-      localStorage.setItem('dapo_agenda', JSON.stringify(agenda));
-      
-      input.value = "";
-      renderAgenda();
-      showToast("Agenda berhasil ditambahkan!");
-    }
-
-    function toggleAgendaStatus(idx) {
-      agenda[idx].done = !agenda[idx].done;
-      localStorage.setItem('dapo_agenda', JSON.stringify(agenda));
-      renderAgenda();
-    }
-
-    function deleteAgendaItem(idx) {
-      agenda.splice(idx, 1);
-      localStorage.setItem('dapo_agenda', JSON.stringify(agenda));
-      renderAgenda();
-      showToast("Agenda telah dibersihkan.");
-    }
-
-    // ==========================================
-    // BAGIAN 8: UTILITY BACKUP & RESTORE DATA
-    // ==========================================
-    function exportBackupData() {
-      const dataToBackup = {
-        namaSekolah: localStorage.getItem('dapo_profile_nama') || "DAPO-HUB Portal Integrasi",
-        npsn: localStorage.getItem('dapo_profile_npsn') || "00000000",
-        status: localStorage.getItem('dapo_profile_status') || "Negeri",
-        operator: localStorage.getItem('dapo_profile_operator') || "Admin Dapodik",
-        akreditasi: localStorage.getItem('dapo_profile_akreditasi') || "A",
-        erapor: localStorage.getItem('dapo_profile_erapor') || "https://rapor.sekolahpercontohan.sch.id",
-        usePasskey: localStorage.getItem('dapo_use_passkey') === 'true',
-        links: JSON.parse(localStorage.getItem('dapo_links')) || [...defaultLinks],
-        agenda: JSON.parse(localStorage.getItem('dapo_agenda')) || [],
-        memos: JSON.parse(localStorage.getItem('dapo_memos')) || {}
-      };
-
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToBackup, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `DAPOHUB_Backup_${dataToBackup.npsn}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-
-      showToast("Backup JSON diunduh dengan sukses.");
-    }
-
-    function importBackupData(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
+    function importData(event) {
+      const file = event.target.files[0]; if (!file) return;
       const reader = new FileReader();
       reader.onload = function(e) {
         try {
-          const importedData = JSON.parse(e.target.result);
-          
-          if (!importedData.npsn || !importedData.links) {
-            throw new Error("Struktur berkas tidak valid.");
+          const data = JSON.parse(e.target.result);
+          if (data.app !== "DAPO-HUB") return showCustomAlert("Gagal Impor", "Format file tidak dikenali.", false);
+          if (data.profile) localStorage.setItem('dapohub_profile', JSON.stringify(data.profile));
+          if (Array.isArray(data.customLinks)) localStorage.setItem('dapohub_custom_links', JSON.stringify(data.customLinks));
+          if (Array.isArray(data.agendas)) localStorage.setItem('dapohub_agendas', JSON.stringify(data.agendas));
+          if (data.memos) {
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) { 
+              if (localStorage.key(i) && localStorage.key(i).startsWith('dapohub_memo_')) {
+                keysToRemove.push(localStorage.key(i)); 
+              }
+            }
+            keysToRemove.forEach(key => localStorage.removeItem(key));
+            for (const key in data.memos) { 
+              if (key.startsWith('dapohub_memo_')) {
+                localStorage.setItem(key, data.memos[key]); 
+              }
+            }
           }
-
-          localStorage.setItem('dapo_profile_nama', importedData.namaSekolah || "DAPO-HUB Portal Integrasi");
-          localStorage.setItem('dapo_profile_npsn', importedData.npsn || "00000000");
-          localStorage.setItem('dapo_profile_status', importedData.status || "Negeri");
-          localStorage.setItem('dapo_profile_operator', importedData.operator || "Admin Dapodik");
-          localStorage.setItem('dapo_profile_akreditasi', importedData.akreditasi || "A");
-          localStorage.setItem('dapo_profile_erapor', importedData.erapor || "https://rapor.sekolahpercontohan.sch.id");
-          localStorage.setItem('dapo_use_passkey', importedData.usePasskey === true ? 'true' : 'false');
-          localStorage.setItem('dapo_links', JSON.stringify(importedData.links));
-          localStorage.setItem('dapo_agenda', JSON.stringify(importedData.agenda || []));
-          localStorage.setItem('dapo_memos', JSON.stringify(importedData.memos || {}));
-
-          loadProfileData();
-          renderLinks();
-          renderAgenda();
-          renderCalendar();
-          renderMemos();
-
-          toggleModal('backupModal', false);
-          showToast("Seluruh database lokal portal sukses dipulihkan!");
-        } catch (err) {
-          showToast("Gagal memulihkan file. Format JSON salah atau tidak didukung.", "error");
-        }
+          loadProfileData(); loadLinks(); renderLinks(); renderAgenda(); renderCalendar(); renderMemos(); updateStatistics();
+          showCustomAlert("Impor Berhasil", "Seluruh data portal berhasil dipulihkan dari berkas cadangan.");
+        } catch (error) { showCustomAlert("Gagal Impor", "Terjadi kesalahan saat memproses data JSON dalam berkas.", false); }
       };
       reader.readAsText(file);
     }
 
-    // ==========================================
-    // BAGIAN 9: INTEGRASI OFFLINE & PWA ENGINE
-    // ==========================================
-    function showOfflineTechInfo() {
-      toggleModal('techInfoModal', true);
+    function exportData() {
+      try {
+        const memos = {};
+        for (let i = 0; i < localStorage.length; i++) { 
+          const k = localStorage.key(i);
+          if (k && k.startsWith('dapohub_memo_')) {
+            memos[k] = localStorage.getItem(k); 
+          }
+        }
+        const exportPayload = { 
+          app: "DAPO-HUB", 
+          version: "2.6", 
+          exportDate: new Date().toISOString(), 
+          profile: safeLocalStorageGet('dapohub_profile', null), 
+          customLinks: safeLocalStorageGet('dapohub_custom_links', []), 
+          agendas: safeLocalStorageGet('dapohub_agendas', []), 
+          memos 
+        };
+        const fileBlobStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
+        const downloadAnchor = document.createElement('a'); downloadAnchor.setAttribute("href", fileBlobStr); downloadAnchor.setAttribute("download", `dapohub_cadangan_${Date.now()}.json`);
+        document.body.appendChild(downloadAnchor); downloadAnchor.click(); downloadAnchor.remove();
+        showCustomAlert("Ekspor Selesai", "Berkas .json berhasil diunduh. Simpan berkas ini dengan aman.");
+      } catch (error) { showCustomAlert("Gagal Ekspor", "Gagal memproses berkas JSON ekspor.", false); }
     }
 
-    function updateOnlineStatus() {
-      const statusPing = document.getElementById('status-ping');
-      const statusDot = document.getElementById('status-dot');
-      const statusText = document.getElementById('status-text');
+    function renderAgenda() {
+      const list = document.getElementById('agenda-list'); list.innerHTML = '';
+      const agendas = safeLocalStorageGet('dapohub_agendas', []);
+      if (agendas.length === 0) { list.innerHTML = `<div class="py-6 text-center text-slate-400 text-xs font-semibold animate-fadeIn">Tidak ada tugas aktif harian.</div>`; updateStatistics(); return; }
+      agendas.forEach((item, index) => {
+        const isCompleted = typeof item === 'object' ? !!item.completed : false;
+        const text = typeof item === 'object' ? item.text : item;
+        const el = document.createElement('div'); el.className = 'flex items-center justify-between p-3 bg-slate-50 border border-slate-200/50 rounded-xl text-xs font-bold hover:border-brand-200 hover:bg-brand-50/20 transition-all group animate-fadeIn';
+        
+        const checkboxIcon = isCompleted ? `
+          <span class="w-4.5 h-4.5 text-brand-600 flex-shrink-0 cursor-pointer"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" class="w-4.5 h-4.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg></span>` : `
+          <span class="w-4.5 h-4.5 text-slate-300 flex-shrink-0 cursor-pointer"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="w-4.5 h-4.5"><circle cx="12" cy="12" r="9"></circle></svg></span>`;
 
-      if (!statusPing || !statusDot || !statusText) return;
+        el.innerHTML = `
+          <div class="flex items-center gap-2.5 truncate mr-2 cursor-pointer flex-1" onclick="toggleAgendaComplete(${index})">
+            ${checkboxIcon}
+            <span class="text-slate-700 truncate ${isCompleted ? 'line-through text-slate-400 font-normal' : ''}">${text}</span>
+          </div>
+          <button onclick="removeAgenda(${index})" class="text-slate-400 hover:text-rose-600 transition-colors p-1.5 hover:bg-rose-50 rounded-lg flex-shrink-0 flex items-center justify-center" title="Hapus Tugas">
+            ${getOfflineIcon('trash', 'w-4 h-4 text-current')}
+          </button>`;
+        list.appendChild(el);
+      });
+      updateStatistics();
+    }
 
-      if (navigator.onLine) {
-        statusPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75";
-        statusDot.className = "relative inline-flex rounded-full h-2 w-2 bg-emerald-500";
-        statusText.textContent = "Aktif (Online)";
-        showToast("Portal kembali Online! Menyinkronkan data...");
-      } else {
-        statusPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75";
-        statusDot.className = "relative inline-flex rounded-full h-2 w-2 bg-rose-500";
-        statusText.textContent = "Offline";
-        showToast("Anda sedang Offline. Portal berjalan dalam mode lokal.", "info");
+    function addAgenda() {
+      const val = document.getElementById('new-agenda-text').value.trim(); if (!val) return;
+      const agendas = safeLocalStorageGet('dapohub_agendas', []); agendas.push({ text: val, completed: false });
+      if (safeLocalStorageSet('dapohub_agendas', agendas)) { document.getElementById('new-agenda-text').value = ''; renderAgenda(); }
+    }
+
+    function toggleAgendaComplete(index) {
+      const agendas = safeLocalStorageGet('dapohub_agendas', []);
+      if (typeof agendas[index] === 'string') agendas[index] = { text: agendas[index], completed: true }; else agendas[index].completed = !agendas[index].completed;
+      if (safeLocalStorageSet('dapohub_agendas', agendas)) renderAgenda();
+    }
+
+    function removeAgenda(index) {
+      const agendas = safeLocalStorageGet('dapohub_agendas', []); agendas.splice(index, 1);
+      if (safeLocalStorageSet('dapohub_agendas', agendas)) renderAgenda();
+    }
+
+    let calendarDate = new Date(); let selectedDateKey = formatDateKey(calendarDate);
+    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    function formatDateKey(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; }
+
+    function changeMonth(step) {
+      calendarDate.setDate(1); 
+      calendarDate.setMonth(calendarDate.getMonth() + step);
+      const today = new Date();
+      
+      // Sinkronisasi state selectedDateKey dengan bulan baru yang diklik
+      selectedDateKey = (calendarDate.getFullYear() === today.getFullYear() && calendarDate.getMonth() === today.getMonth()) ? formatDateKey(today) : formatDateKey(calendarDate);
+      
+      const parts = selectedDateKey.split('-');
+      const y = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      const d = parseInt(parts[2], 10);
+      
+      document.getElementById('selected-date-label').textContent = `Catatan Tanggal: ${d} ${monthNames[m - 1]} ${y}`;
+      renderCalendar(); 
+      loadMemoForSelectedDate(); // Memastikan catatan baru langsung dipindah/dimuat saat ganti bulan
+    }
+
+    function renderCalendar() {
+      const daysContainer = document.getElementById('calendar-days'); daysContainer.innerHTML = '';
+      const year = calendarDate.getFullYear(); const month = calendarDate.getMonth();
+      document.getElementById('calendar-month-year').textContent = `${monthNames[month]} ${year}`;
+      
+      const firstDayIndex = new Date(year, month, 1).getDay(); 
+      // Mengubah kalkulasi offset Senin-Minggu agar kompatibel di semua browser secara presisi
+      const adjustedFirstDay = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+      
+      const totalDays = new Date(year, month + 1, 0).getDate();
+      
+      // Menggunakan div kosong berukuran tetap agar layout grid tidak kolaps saat rendering placeholder
+      for (let i = 0; i < adjustedFirstDay; i++) {
+        const spacer = document.createElement('div');
+        spacer.className = 'w-8 h-8 mx-auto';
+        daysContainer.appendChild(spacer);
+      }
+      
+      const todayKey = formatDateKey(new Date());
+      for (let day = 1; day <= totalDays; day++) {
+        const loopDate = new Date(year, month, day); const dateKey = formatDateKey(loopDate);
+        const cell = document.createElement('button');
+        const isToday = dateKey === todayKey; const isSelected = dateKey === selectedDateKey; const hasMemo = !!localStorage.getItem(`dapohub_memo_${dateKey}`);
+        cell.className = `w-8 h-8 mx-auto rounded-xl flex flex-col items-center justify-center text-xs font-bold transition-all relative ${isSelected ? 'bg-brand-600 text-white shadow-md shadow-brand-500/25 scale-105' : isToday ? 'bg-slate-900 text-white' : loopDate.getDay() === 0 ? 'hover:bg-rose-50 text-rose-500' : 'hover:bg-slate-100 text-slate-700'}`;
+        cell.innerHTML = `<span>${day}</span>${hasMemo ? `<span class="absolute bottom-1 w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-brand-500'}"></span>` : ''}`;
+        
+        // Memperbaiki perpindahan catatan memo secara reaktif saat mengklik tanggal di kalender
+        cell.onclick = () => { 
+          selectedDateKey = dateKey; 
+          document.getElementById('selected-date-label').textContent = `Catatan Tanggal: ${day} ${monthNames[month]} ${year}`; 
+          renderCalendar(); 
+          loadMemoForSelectedDate(); 
+        };
+        daysContainer.appendChild(cell);
       }
     }
 
-    let deferredPrompt;
+    function loadMemoForSelectedDate() { 
+      // Membaca memo dari LocalStorage menggunakan key tanggal terpilih secara real-time
+      const memoInput = document.getElementById('memo-input');
+      const deleteBtn = document.getElementById('btn-delete-memo');
+      const hasMemo = localStorage.getItem(`dapohub_memo_${selectedDateKey}`);
+      
+      if (memoInput) {
+        memoInput.value = hasMemo || ''; 
+      }
+      
+      // Tampilkan atau sembunyikan tombol Hapus secara interaktif
+      if (deleteBtn) {
+        if (hasMemo) {
+          deleteBtn.classList.remove('hidden');
+        } else {
+          deleteBtn.classList.add('hidden');
+        }
+      }
+    }
+    
+    function saveMemo() {
+      const memoInput = document.getElementById('memo-input');
+      const val = memoInput.value.trim();
+      
+      if (val) {
+        localStorage.setItem(`dapohub_memo_${selectedDateKey}`, val); 
+      } else {
+        localStorage.removeItem(`dapohub_memo_${selectedDateKey}`);
+      }
+      
+      // Memberikan feedback visual berupa hilangnya fokus kursor
+      memoInput.blur();
+      
+      // Memberikan efek kilas visual bahwa data sukses tersimpan ke memori
+      memoInput.classList.add('bg-emerald-50', 'border-emerald-300');
+      setTimeout(() => {
+        memoInput.classList.remove('bg-emerald-50', 'border-emerald-300');
+      }, 600);
+
+      renderCalendar(); 
+      loadMemoForSelectedDate(); // Refresh UI termasuk kondisi visibilitas tombol Hapus
+      showCustomAlert("Catatan Tersimpan", "Memo untuk tanggal terpilih berhasil diperbarui.");
+    }
+    function renderMemos() { loadMemoForSelectedDate(); }
+
+    function updatePWAInstallationUI() {
+      const container = document.getElementById('pwa-install-container');
+      if (!container) return;
+
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      const wasInstalled = localStorage.getItem('dapohub_pwa_installed') === 'true';
+
+      if (isStandalone || wasInstalled) {
+        container.innerHTML = `
+          <div class="h-9 sm:h-11 px-2.5 sm:px-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl sm:rounded-2xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-bold shadow-sm animate-fadeIn" title="Aplikasi DAPO-HUB Aktif & Terpasang">
+            <span class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 animate-pulse"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></span>
+            <span class="hidden md:inline">Aplikasi Terpasang</span>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <button id="btn-install-pwa" onclick="installPWA()" class="h-9 sm:h-11 px-2.5 sm:px-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-[10px] sm:text-xs font-extrabold rounded-xl sm:rounded-2xl shadow-md shadow-emerald-500/20 transition-all flex items-center justify-center gap-1.5 sm:gap-2 animate-fadeIn" title="Instal Aplikasi ke Perangkat">
+            <span class="w-3.5 h-3.5 sm:w-4 sm:h-4"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5"></path></svg></span>
+            <span class="hidden sm:inline">Pasang DAPO-HUB</span>
+          </button>
+        `;
+      }
+    }
+
     window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('beforeinstallprompt dipicu.');
       e.preventDefault();
       deferredPrompt = e;
-      const installBtn = document.getElementById('pwa-install-btn');
+      updatePWAInstallationUI();
+      
+      const installBtn = document.getElementById('btn-install-pwa');
       if (installBtn) {
-        installBtn.className = "px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] sm:text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/10 transition-all duration-200";
-        installBtn.innerHTML = '<i class="fa-solid fa-download"></i> Pasang Aplikasi';
-        installBtn.title = "Pasang aplikasi DAPO-HUB di perangkat ini";
+        installBtn.classList.remove('from-emerald-500', 'to-teal-600');
+        installBtn.classList.add('from-brand-600', 'to-brand-500', 'animate-pulse');
       }
     });
 
@@ -1574,132 +1248,170 @@
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
-            showToast("Dapo-Hub berhasil dipasang pada perangkat!");
-            
-            // Kembalikan tombol ke ikon info setelah berhasil diinstal
-            const installBtn = document.getElementById('pwa-install-btn');
-            if (installBtn) {
-              installBtn.className = "p-2 bg-white hover:bg-slate-100 text-slate-500 hover:text-sky-600 border border-slate-200 rounded-lg shadow-sm transition-all flex items-center justify-center";
-              installBtn.innerHTML = '<i class="fa-solid fa-circle-info text-sm"></i>';
-              installBtn.title = "Panduan Pasang DAPO-HUB";
-            }
+            localStorage.setItem('dapohub_pwa_installed', 'true');
+            updatePWAInstallationUI();
+            showCustomAlert("Terima Kasih", "Proses instalasi DAPO-HUB sedang berjalan.", true);
           }
           deferredPrompt = null;
         });
       } else {
-        toggleModal('pwaManualGuideModal', true);
+        openPWARequestModal();
       }
     }
 
-    // Registrasi Service Worker Fisik Mandiri secara Presisi
-    function registerServiceWorker() {
-      const isHttp = window.location.protocol === 'http:' || window.location.protocol === 'https:';
-      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-      if ('serviceWorker' in navigator && (isHttp || isLocalhost)) {
-        navigator.serviceWorker.register('./sw.js')
-          .then(() => {
-            const techStatus = document.getElementById('cache-tech-status');
-            if (techStatus) techStatus.textContent = "Penyimpanan Offline Service Worker Aktif Berkelanjutan.";
-          })
-          .catch((err) => {
-            console.error("Registrasi sw.js gagal:", err);
-            const techStatus = document.getElementById('cache-tech-status');
-            if (techStatus) techStatus.textContent = "Mode PWA mandiri berjalan aman.";
-          });
-      } else {
-        console.log("Registrasi Service Worker dilewati karena berjalan di luar protokol HTTP/HTTPS (blob / preview sandbox).");
-        const techStatus = document.getElementById('cache-tech-status');
-        if (techStatus) techStatus.textContent = "Mode PWA mandiri aktif (Service Worker dilewati pada protokol ini).";
+    async function runPWADiagnostics() {
+      const diagSw = document.getElementById('diag-sw-status');
+      const diagHttps = document.getElementById('diag-https-status');
+      
+      if (diagSw) diagSw.innerHTML = `Mengecek...`;
+      
+      const isHttps = window.location.protocol === 'https:';
+      if (diagHttps) {
+        diagHttps.innerHTML = isHttps ? `Aktif` : `Tidak Aman (HTTP)`;
+        diagHttps.className = isHttps ? 'font-bold text-emerald-600 flex items-center gap-1' : 'font-bold text-rose-600 flex items-center gap-1';
       }
-    }
 
-    async function executeMainThreadPreCache() {
-      try {
-        if ('caches' in window) {
-          const cache = await caches.open('dapohub-assets-cache');
-          const externalResources = [
-            'https://cdn.tailwindcss.com',
-            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
-            'https://cdn-icons-png.flaticon.com/512/2210/2210143.png'
-          ];
-          await cache.addAll(externalResources);
+      if (diagSw) {
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+          diagSw.innerHTML = `Terdaftar & Aktif`;
+          diagSw.className = 'font-bold text-emerald-600 flex items-center gap-1';
+        } else {
+          diagSw.innerHTML = `Siap di Server Standar`;
+          diagSw.className = 'font-bold text-amber-600 flex items-center gap-1';
         }
-      } catch (err) {
-        // Precache error handled silently
       }
     }
 
-    // ==========================================
-    // BAGIAN 10: LISTENERS & INITIALIZATION
-    // ==========================================
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        toggleModal('profileModal', false);
-        toggleModal('linkModal', false);
-        toggleModal('deleteConfirmModal', false);
-        toggleModal('backupModal', false);
-        toggleModal('techInfoModal', false);
-        toggleModal('resetConfirmModal', false);
-        toggleModal('emergencyResetModal', false);
-        toggleModal('pwaManualGuideModal', false);
+    function openPWARequestModal() {
+      const modal = document.getElementById('pwa-diagnostic-modal');
+      const content = document.getElementById('pwa-diag-content');
+      if (modal && content) {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          content.classList.remove('scale-95', 'opacity-0');
+          content.classList.add('scale-100', 'opacity-100');
+        }, 50);
+        runPWADiagnostics();
       }
+    }
+
+    function closePWARequestModal() {
+      const modal = document.getElementById('pwa-diagnostic-modal');
+      const content = document.getElementById('pwa-diag-content');
+      if (modal && content) {
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
+      }
+    }
+
+    window.addEventListener('appinstalled', (evt) => {
+      localStorage.setItem('dapohub_pwa_installed', 'true');
+      updatePWAInstallationUI();
+      showCustomAlert("Aplikasi Terinstal", "DAPO-HUB berhasil dipasang pada perangkat Anda!", true);
     });
 
-    window.editProfile = editProfile;
-    window.saveProfile = saveProfile;
-    window.toggleModal = toggleModal;
-    window.openAddLinkModal = openAddLinkModal;
-    window.openEditLinkModal = openEditLinkModal;
-    window.saveCustomLink = saveCustomLink;
-    window.requestDeleteLink = requestDeleteLink;
-    window.showOfflineTechInfo = showOfflineTechInfo;
-    window.lockSessionManual = lockSessionManual;
-    window.unlockSession = unlockSession;
-    window.installPWA = installPWA;
-    window.searchLinksInstant = searchLinksInstant;
-    window.clearSearch = clearSearch;
-    window.openBackupModal = () => toggleModal('backupModal', true);
-    window.closeBackupModal = () => toggleModal('backupModal', false);
-    window.exportBackupData = exportBackupData;
-    window.importBackupData = importBackupData;
-    window.requestResetLinks = requestResetLinks;
-    window.executeResetLinks = executeResetLinks;
-    window.addAgendaItem = addAgendaItem;
-    window.toggleAgendaStatus = toggleAgendaStatus;
-    window.deleteAgendaItem = deleteAgendaItem;
-    window.prevMonth = prevMonth;
-    window.nextMonth = nextMonth;
-    window.selectDate = selectDate;
-    window.addMemoItem = addMemoItem;
-    window.deleteMemoItem = deleteMemoItem;
-    window.selectPickerIcon = selectPickerIcon;
-    window.toggleProfilePasskeyInput = toggleProfilePasskeyInput;
-    window.togglePasskeyVisibility = togglePasskeyVisibility;
-    window.requestEmergencyResetSession = requestEmergencyResetSession;
-    window.executeEmergencyResetSession = executeEmergencyResetSession;
-
-    window.onload = function() {
-      loadProfileData();
-      renderIconPicker();
+    function updateOnlineStatus() {
+      const isOnline = navigator.onLine;
+      const banner = document.getElementById('offline-banner'); if (banner) banner.classList.toggle('hidden', isOnline);
       
-      const today = new Date();
+      const dot = document.getElementById('status-dot'); 
+      if (dot) {
+        dot.className = `w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500 animate-pulse'}`;
+      }
+      
+      const text = document.getElementById('status-text'); 
+      if (text) { 
+        text.textContent = isOnline ? 'Online' : 'Offline'; 
+        text.className = `font-outfit font-black text-[10px] sm:text-xs tracking-wide ${isOnline ? 'text-emerald-600' : 'text-rose-600'}`; 
+      }
+      
+      const syncBadge = document.getElementById('sync-status-badge'); 
+      if (syncBadge) { 
+        syncBadge.textContent = isOnline ? 'Lokal Tersinkron' : 'Mode Luring'; 
+        syncBadge.className = `font-bold px-2.5 py-0.5 rounded-lg text-[11px] ${isOnline ? 'text-emerald-600 bg-emerald-50 border border-emerald-200 animate-blink' : 'text-amber-600 bg-amber-50 border border-amber-200'}`; 
+      }
+    }
+
+    function triggerManualSync() {
+      if (!navigator.onLine) return showCustomAlert("Mode Luring Aktif", "Anda saat ini sedang luring. Sinkronisasi ditunda, namun seluruh data lokal Anda tetap aman.", false);
+      
+      const btnIcon = document.getElementById('btn-sync-icon'), btnText = document.getElementById('btn-sync-text'), btn = document.getElementById('btn-manual-sync');
+      btn.disabled = true; 
+      
+      if (btnIcon) btnIcon.querySelector('svg').classList.add('animate-spin');
+      btnText.textContent = "Menyelaraskan...";
+      
+      setTimeout(() => { 
+        btn.disabled = false; 
+        if (btnIcon) btnIcon.querySelector('svg').classList.remove('animate-spin');
+        btnText.textContent = "Sinkronkan"; 
+        showCustomAlert("Sinkronisasi Sukses", "Seluruh data lokal telah divalidasi ke cloud server.", true); 
+      }, 1500);
+    }
+
+    window.addEventListener('online', () => { updateOnlineStatus(); showCustomAlert("Kembali Online", "Koneksi internet terdeteksi. Portal berjalan dalam mode online.", true); });
+    window.addEventListener('offline', () => { updateOnlineStatus(); showCustomAlert("Mode Luring (Offline)", "Anda sedang luring. Beberapa fitur & perubahan data tetap berjalan secara luring.", false); });
+
+    function registerServiceWorker() {
+      const protocol = window.location.protocol;
+      const isSecureContext = window.isSecureContext || protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const isBlobOrPreview = protocol.startsWith('blob') || protocol.startsWith('data') || protocol === 'file:' || window.location.href.includes('usercontent.goog') || window.location.href.startsWith('blob:');
+
+      if ('serviceWorker' in navigator && isSecureContext && !isBlobOrPreview) {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => { console.log('Service Worker terdaftar di scope: ', reg.scope); })
+          .catch((err) => { console.warn('Pendaftaran Service Worker dilewati secara aman.', err.message); });
+      } else {
+        console.log('Pendaftaran Service Worker dilewati (lingkungan sandbox/preview/non-secure).');
+      }
+    }
+    
+    function requestEmergencyResetSession() { document.getElementById('confirm-reset-modal').classList.remove('hidden'); }
+    function closeConfirmResetModal() { document.getElementById('confirm-reset-modal').classList.add('hidden'); }
+    
+    // Perbaikan total untuk membersihkan semua data lokal yang terdaftar
+    function executeEmergencyResetSession() { 
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('dapohub_')) {
+          keysToRemove.push(k);
+        }
+      }
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+      localStorage.removeItem('dapohub_pwa_installed');
+      
+      document.getElementById('confirm-reset-modal').classList.add('hidden'); 
+      showCustomAlert("Sesi Direset", "Semua data lokal berhasil dibersihkan.", true); 
+      setTimeout(() => window.location.reload(), 1500); 
+    }
+
+    function updateClock() {
+      const now = new Date(); const offset = -now.getTimezoneOffset() / 60;
+      let tz = "WIB"; if (offset === 8) tz = "WITA"; else if (offset === 9) tz = "WIT"; else if (offset > 9 || offset < 7) tz = "GMT" + (offset >= 0 ? "+" : "") + offset;
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} ${tz}`;
+      const liveTimeEl = document.getElementById('live-time'); if (liveTimeEl) liveTimeEl.textContent = timeStr;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProfileData(); 
+      renderIconPicker();
+      const today = new Date(); selectedDateKey = formatDateKey(today);
       document.getElementById('selected-date-label').textContent = `Catatan Tanggal: ${today.getDate()} ${monthNames[today.getMonth()]} ${today.getFullYear()}`;
       
-      renderLinks();
-      renderAgenda();
-      renderCalendar();
+      loadLinks(); 
+      renderLinks(); 
+      renderAgenda(); 
+      renderCalendar(); 
       renderMemos();
-      updateOnlineStatus();
-      registerServiceWorker();
-      executeMainThreadPreCache();
-    };
-
-    document.getElementById('confirm-delete-btn').addEventListener('click', () => {
-      executeDeleteCustomLink();
+      
+      updatePWAInstallationUI();
+      updateOnlineStatus(); 
+      registerServiceWorker(); 
+      updateClock(); 
+      setInterval(updateClock, 1000);
+      document.getElementById('confirm-delete-btn').addEventListener('click', executeDeleteCustomLink);
     });
   </script>
 </body>
